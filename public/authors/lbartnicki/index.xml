@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>lbartnicki on IT Knowledge Pill</title>
+    <link>http://lbartnicki92.github.io/authors/lbartnicki/</link>
+    <description>Recent content in lbartnicki on IT Knowledge Pill</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sat, 01 Feb 2020 22:11:42 +0100</lastBuildDate>
+    
+	<atom:link href="http://lbartnicki92.github.io/authors/lbartnicki/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Test Posta</title>
+      <link>http://lbartnicki92.github.io/posts/test-posta/</link>
+      <pubDate>Sat, 01 Feb 2020 22:11:42 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/posts/test-posta/</guid>
+      <description>hahahha</description>
+    </item>
+    
+  </channel>
+</rss>
