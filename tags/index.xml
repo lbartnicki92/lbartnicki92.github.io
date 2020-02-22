@@ -5,37 +5,9 @@
     <link>http://lbartnicki92.github.io/tags/</link>
     <description>Recent content in Tags on IT Knowledge Pill</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 22 Feb 2020 10:00:00 +0100</lastBuildDate>
     
 	<atom:link href="http://lbartnicki92.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>docker build</title>
-      <link>http://lbartnicki92.github.io/tags/docker-build/</link>
-      <pubDate>Sat, 22 Feb 2020 10:00:00 +0100</pubDate>
-      
-      <guid>http://lbartnicki92.github.io/tags/docker-build/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>docker tag</title>
-      <link>http://lbartnicki92.github.io/tags/docker-tag/</link>
-      <pubDate>Sat, 22 Feb 2020 10:00:00 +0100</pubDate>
-      
-      <guid>http://lbartnicki92.github.io/tags/docker-tag/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>dockerfile</title>
-      <link>http://lbartnicki92.github.io/tags/dockerfile/</link>
-      <pubDate>Sat, 22 Feb 2020 10:00:00 +0100</pubDate>
-      
-      <guid>http://lbartnicki92.github.io/tags/dockerfile/</guid>
-      <description></description>
-    </item>
     
   </channel>
 </rss>
