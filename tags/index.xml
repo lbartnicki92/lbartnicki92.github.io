@@ -5,26 +5,34 @@
     <link>http://lbartnicki92.github.io/tags/</link>
     <description>Recent content in Tags on IT Knowledge Pill</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 01 Feb 2020 22:11:42 +0100</lastBuildDate>
     
 	<atom:link href="http://lbartnicki92.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>backup</title>
-      <link>http://lbartnicki92.github.io/tags/backup/</link>
-      <pubDate>Sat, 01 Feb 2020 22:11:42 +0100</pubDate>
+      <title>docker build</title>
+      <link>http://lbartnicki92.github.io/tags/docker-build/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://lbartnicki92.github.io/tags/backup/</guid>
+      <guid>http://lbartnicki92.github.io/tags/docker-build/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>RMAN</title>
-      <link>http://lbartnicki92.github.io/tags/rman/</link>
-      <pubDate>Sat, 01 Feb 2020 22:11:42 +0100</pubDate>
+      <title>docker tag</title>
+      <link>http://lbartnicki92.github.io/tags/docker-tag/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://lbartnicki92.github.io/tags/rman/</guid>
+      <guid>http://lbartnicki92.github.io/tags/docker-tag/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>dockerfile</title>
+      <link>http://lbartnicki92.github.io/tags/dockerfile/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/dockerfile/</guid>
       <description></description>
     </item>
     
