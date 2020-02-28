@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>IT Knowledge Pill</title>
-    <link>http://lbartnicki92.github.io/</link>
-    <description>Recent content on IT Knowledge Pill</description>
+    <title>lbartnicki on IT Knowledge Pill</title>
+    <link>http://lbartnicki92.github.io/authors/lbartnicki/</link>
+    <description>Recent content in lbartnicki on IT Knowledge Pill</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Fri, 28 Feb 2020 17:00:00 +0100</lastBuildDate>
     
-	<atom:link href="http://lbartnicki92.github.io/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://lbartnicki92.github.io/authors/lbartnicki/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -20,15 +20,6 @@
 What&amp;rsquo;s an image? Image is a collection of read only layers with everything we need to run application. Commonly in image we have base layout of operating system we had choose and some necessary binaries to start our application.
 For exaple, for PostgreSQL container image could contain CentOS base filesystem template, PostgreSQL binaries and some configuration files.
 How we build image? We build image by issuing command docker build, but before we use it we need to create a Docker file.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>http://lbartnicki92.github.io/search/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://lbartnicki92.github.io/search/</guid>
-      <description>What are you looking for?</description>
     </item>
     
   </channel>

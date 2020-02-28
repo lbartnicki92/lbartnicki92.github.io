@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang='en'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='All docker containers are started from an image.
+What&rsquo;s an image? Image is a collection of read only layers with everything we need to run application. Commonly in image we have base layout of operating system we had choose and some necessary binaries to start our application.
+For exaple, for PostgreSQL container image could contain CentOS base filesystem template, PostgreSQL binaries and some configuration files.
+How we build image? We build image by issuing command docker build, but before we use it we need to create a Docker file.'>
+<meta name='theme-color' content='#2ab55a'>
+
+<meta property='og:title' content='Docker build from dockerfile - compendium • Łukasz Bartnicki'>
+<meta property='og:description' content='All docker containers are started from an image.
+What&rsquo;s an image? Image is a collection of read only layers with everything we need to run application. Commonly in image we have base layout of operating system we had choose and some necessary binaries to start our application.
+For exaple, for PostgreSQL container image could contain CentOS base filesystem template, PostgreSQL binaries and some configuration files.
+How we build image? We build image by issuing command docker build, but before we use it we need to create a Docker file.'>
+<meta property='og:url' content='http://lbartnicki92.github.io/posts/docker_build_from_dockerfile/'>
+<meta property='og:site_name' content='IT Knowledge Pill'>
+<meta property='og:type' content='article'><meta property='og:image' content='http://lbartnicki92.github.io/images/IMG_0526.jpeg'><meta property='article:section' content='posts'><meta property='article:tag' content='docker build'><meta property='article:tag' content='dockerfile'><meta property='article:tag' content='docker tag'><meta property='article:tag' content='postgresql'><meta property='article:published_time' content='2020-02-28T17:00:00&#43;01:00'/><meta property='article:modified_time' content='2020-02-28T17:00:00&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta property='twitter:image' content='http://lbartnicki92.github.io/images/IMG_0526.jpeg'>
+
+<meta name="generator" content="Hugo 0.63.2" />
+
+  <title>Docker build from dockerfile - compendium • Łukasz Bartnicki</title>
+  <link rel='canonical' href='http://lbartnicki92.github.io/posts/docker_build_from_dockerfile/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.css'><style>
+:root{--color-accent:#2ab55a;}
+</style>
+
+  
+
+</head>
+<body class='page type-posts has-cover has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/images/logo.png'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      IT Knowledge Pill
+      </a>
+    </h2>
+    <div class='desc'>
+    Clear, practical and simple about IT technologies for DBA and DevOps
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><header>
+    <h4 class='title widget-title'>Menu</h4>
+  </header><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/categories/ansible'>Ansible</a></li><li class='item'>
+  <a href='/categories/docker'>Docker</a></li><li class='item'>
+  <a href='/categories/kubernetes'>Kubernetes</a></li><li class='item'>
+  <a href='/categories/oracle'>Oracle</a></li><li class='item'>
+  <a href='/categories/postgresql'>PostgreSQL</a></li><li class='item'>
+  <a href='/posts'>All posts</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-search sep-after'>
+  <header>
+    <h4 class='title widget-title'>Search</h4>
+  </header>
+
+  <form action='/search' id='search-form' class='search-form'>
+    <label>
+      <span class='screen-reader-text'>Search</span>
+      <input id='search-term' class='search-term' type='search' name='q' placeholder='Search&hellip;'>
+    </label></form>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/docker-build/' style='font-size:1em'>docker build</a>
+      </li><li>
+        <a href='/tags/docker-tag/' style='font-size:1em'>docker tag</a>
+      </li><li>
+        <a href='/tags/dockerfile/' style='font-size:1em'>dockerfile</a>
+      </li><li>
+        <a href='/tags/postgresql/' style='font-size:1em'>postgresql</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button><div class='header-widgets'>
+        <div class='container'>
+    
+    <style>.widget-breadcrumbs li:after{content:'\2f '}</style>
+  <section class='widget widget-breadcrumbs sep-after'>
+    <nav id='breadcrumbs'>
+      <ol><li><a href='/'>IT Knowledge Pill</a></li><li><a href='/posts/'>Posts</a></li><li><span>Docker build from dockerfile - compendium</span></li></ol>
+    </nav>
+  </section></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>IT Knowledge Pill</p><p class='desc site-desc'>Clear, practical and simple about IT technologies for DBA and DevOps</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Docker build from dockerfile - compendium</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2020-02-28T17:00:00&#43;01:00'>28 Feb 2020</time>
+</span>
+
+  <span class='byline'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M21,21V20c0-2.76-4-5-9-5s-9,2.24-9,5v1"/>
+  <path d="M16,6.37A4,4,0,1,1,12.63,3,4,4,0,0,1,16,6.37Z"/>
+  
+</svg>
+<span class='screen-reader-text'> by </span><a href='/authors/lbartnicki'>Łukasz Bartnicki</a></span>
+  
+<span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/>
+  
+</svg>
+8 mins read
+</span>
+
+
+</div>
+
+
+  </div>
+</header>
+
+  <div class='entry-cover'>
+  <figure class='container cover-normal'>
+    <img src='/images/IMG_0526.jpeg'/>
+    
+      
+    
+  </figure>
+</div>
+  
+
+  <div class='container entry-content'>
+  <p>All docker containers are started from an image.</p>
+<h3 id="whats-an-image">What&rsquo;s an image?</h3>
+<p>Image is a collection of read only layers with everything we need to run application. Commonly in image we have base layout of operating system we had choose and some necessary binaries to start our application.</p>
+<p>For exaple, for PostgreSQL container image could contain CentOS base filesystem template, PostgreSQL binaries and some configuration files.</p>
+<h3 id="how-we-build-image">How we build image?</h3>
+<p>We build image by issuing command <code>docker build</code>, but before we use it we need to create a Docker
+file.</p>
+<p>Simplest-minimal command to build image:</p>
+<p><code>docker build -t postgresql-server:11.6 .</code></p>
+<p>We just use <code>-t</code> for setting image name and tag.<br>
+Dot at the end means that for build context we choose current dir - we could specify here full path to build context directory, which should provide Dockerfile and other files that we want to copy into our image at building process.</p>
+<p>Another important <code>docker build</code> parameters are:</p>
+<ul>
+<li><code>--pull</code> - Always pull a newer version of the image from which we build</li>
+<li><code>--no-cache</code> - disable layer build cache</li>
+<li><code>--build-arg</code> - send to docker daemon values for parameters from Dockerfile</li>
+<li><code>--file</code> - choose custom Dockerfile location(out of build context directory)</li>
+</ul>
+<p>For complete list check <code>docker build -h</code></p>
+<p>Before we use below command first we have to prepair Dockerfile.</p>
+<h3 id="what-is-a-dockerfile">What is a Dockerfile?</h3>
+<p>Dockerfile is text file with all commands needed to create environment for our application. We can easly define what files we want to include in our image, what binaries will run in container or what ports we want to expose from it. Using Dockerfile gives us possibility to fast create multiple enviroments just by modifying file and reissuing <code>docker build</code>.</p>
+<p>Assume that we have our java application in 0.1 version currently running - we get from dev team 0.2. Only thing we have to do is to change in Dockerfile path to jar file(or if we put app version in variable use parameter <code>--build-arg</code> - later about it in sample) and issue <code>docker build</code> - of course we should provide proper name for new image which will reflect app version. After image build we can start container with new application.</p>
+<h3 id="sample-dockerfile">Sample Dockerfile</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> centos:7</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">LABEL</span> maintainer<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;lukas@mail.com&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ARG</span> PG_MAJOR<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ARG</span> PG_MINOR<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> PG_MAJOR<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>PG_MAJOR<span style="color:#66d9ef">:-</span>11<span style="color:#e6db74">}</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> PG_MINOR<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>PG_MINOR<span style="color:#66d9ef">:-</span>5<span style="color:#e6db74">}</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> PG_PORT <span style="color:#ae81ff">5432</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> PG_USER_ID <span style="color:#ae81ff">2201</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> PG_USER_GID <span style="color:#ae81ff">2201</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> PG_ENCODING UTF8<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> PG_LOCALE en_US.UTF8<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> PG_AUTH md5<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> PG_AUTH_HOST md5<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> PG_AUTH_LOCAL md5<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> groupadd -g <span style="color:#e6db74">${</span>PG_USER_GID<span style="color:#e6db74">}</span> postgres; useradd -g <span style="color:#e6db74">${</span>PG_USER_GID<span style="color:#e6db74">}</span> -u <span style="color:#e6db74">${</span>PG_USER_ID<span style="color:#e6db74">}</span> postgres<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> my-yum-repo.repo /etc/yum.repos.d/<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> yum update -y; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    yum -y install <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    postgresql11-server-<span style="color:#e6db74">${</span>PG_MAJOR<span style="color:#e6db74">}</span>.<span style="color:#e6db74">${</span>PG_MINOR<span style="color:#e6db74">}</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    postgresql11-<span style="color:#e6db74">${</span>PG_MAJOR<span style="color:#e6db74">}</span>.<span style="color:#e6db74">${</span>PG_MINOR<span style="color:#e6db74">}</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    postgresql11-contrib-<span style="color:#e6db74">${</span>PG_MAJOR<span style="color:#e6db74">}</span>.<span style="color:#e6db74">${</span>PG_MINOR<span style="color:#e6db74">}</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    postgresql11-libs-<span style="color:#e6db74">${</span>PG_MAJOR<span style="color:#e6db74">}</span>.<span style="color:#e6db74">${</span>PG_MINOR<span style="color:#e6db74">}</span>; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    yum clean all;<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> PATH $PATH:/usr/pgsql-<span style="color:#e6db74">${</span>PG_MAJOR<span style="color:#e6db74">}</span>/bin<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> PG_DIR /postgresql<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> PG_DATA <span style="color:#e6db74">${</span>PG_DIR<span style="color:#e6db74">}</span>/data/pg<span style="color:#e6db74">${</span>PG_MAJOR<span style="color:#e6db74">}</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> WAL_DATA <span style="color:#e6db74">${</span>PG_DIR<span style="color:#e6db74">}</span>/wal<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> set -ex; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    mkdir -p <span style="color:#e6db74">${</span>PG_DIR<span style="color:#e6db74">}</span>; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    mkdir -p <span style="color:#e6db74">${</span>PG_DATA<span style="color:#e6db74">}</span>; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    mkdir -p <span style="color:#e6db74">${</span>WAL_DATA<span style="color:#e6db74">}</span>; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    mkdir -p <span style="color:#e6db74">${</span>PG_DIR<span style="color:#e6db74">}</span>/archive; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    mkdir -p <span style="color:#e6db74">${</span>PG_DIR<span style="color:#e6db74">}</span>/backup; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    mkdir -p <span style="color:#e6db74">${</span>PG_DIR<span style="color:#e6db74">}</span>/log; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    mkdir -p <span style="color:#e6db74">${</span>PG_DIR<span style="color:#e6db74">}</span>/pgsql; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    mkdir -p <span style="color:#e6db74">${</span>PG_DIR<span style="color:#e6db74">}</span>/tmp; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    chown -R postgres:postgres <span style="color:#e6db74">${</span>PG_DIR<span style="color:#e6db74">}</span>; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    chmod <span style="color:#ae81ff">750</span> -R <span style="color:#e6db74">${</span>PG_DIR<span style="color:#e6db74">}</span>;<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">VOLUME</span><span style="color:#e6db74"> ${PG_DIR}</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">VOLUME</span><span style="color:#e6db74"> ${WAL_DATA}</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> docker-entrypoint.sh /usr/local/bin<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> chmod u+x /usr/local/bin/docker-entrypoint.sh<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;/usr/local/bin/docker-entrypoint.sh&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">EXPOSE</span><span style="color:#e6db74"> 5432</span><span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><h3 id="what-commands-in-dockerfile-we-have">What commands in Dockerfile we have?</h3>
+<h4 id="from">FROM</h4>
+<p><code>FROM [--platform=&lt;platform&gt;] &lt;image&gt;[:&lt;tag&gt;] [AS &lt;name&gt;]</code></p>
+<p><code>FROM centos7</code></p>
+<p><code>FROM</code> tells Docker Engine which image it has to use as base image for current build.</p>
+<p><code>[--platform=&lt;platform&gt;]</code> flag can be used to specify the platform of the image when we are building multi-platform image. For example, <code>linux/amd64</code>. By default image is build with platform on which build is triggered.</p>
+<p><code>[AS &lt;name&gt;]</code> clause is used for creating multi stage builds. I will cover this topic in another post.</p>
+<p>In example we use CentOS operating system, we didn&rsquo;t specified any tag because we want newest CentOS image for version 7.</p>
+<p>Every command under <code>FROM</code> directive will be run on base image. It&rsquo;s important to notice that we don&rsquo;t have to use as base images OS image. We can use any correctly build image, and build on top of it.</p>
+<p>It is possible to parametrize image version specified in <code>FROM</code> clause with <code>ARG</code> and <code>--build-arg</code>.</p>
+<h4 id="arg">ARG</h4>
+<p><code>ARG &lt;name&gt;[=&lt;default value&gt;]</code></p>
+<p><code>ARG PG_MAJOR</code><br>
+<code>ARG PG_MINOR</code></p>
+<p><code>ARG</code> clause define build time variable.<br>
+We can pass parameters for it with <code>--build-arg</code> for <code>docker build</code> also we can specify default value for it in case of omitting in <code>--build-arg</code> by doing like <code>ARG PG_MINOR=11</code>.</p>
+<p>This variables are available only at build time!</p>
+<p>In our example we user <code>ARG</code> for PostgreSQL version. By doing so, we can build from one Dockerfile multiple images with different PostgreSQL engines. We can use <code>ARG</code> before <code>FROM</code> for parametrizing version of base image.</p>
+<h4 id="env">ENV</h4>
+<p><code>ENV &lt;key&gt; &lt;value&gt;</code></p>
+<p><code>ENV PG_PORT 5432</code></p>
+<p><code>ENV</code> clause define runtime variable.<br>
+In form without <code>=</code> sign - all characters after name of variable are treat as one string including whitespaces.
+The <code>ENV</code> variables will persist when a container is run. We can change them using <code>docker run --env &lt;key&gt;=&lt;value&gt;</code> on next container start.</p>
+<h3 id="argenv-trick">ARG/ENV trick</h3>
+<p><code>ARG PG_MAJOR</code><br>
+<code>ARG PG_MINOR</code></p>
+<p><code>ENV PG_MAJOR=${PG_MAJOR:-11}</code><br>
+<code>ENV PG_MINOR=${PG_MINOR:-5}</code></p>
+<p>Why we do something like this?</p>
+<p>As mentioned, <code>ENV</code> - runtime variable, <code>ARG</code> build variable which can&rsquo;t be accessed at container runtime.<br>
+In our example, we want to modify version of PostgreSQL which we will use at build time, but what if after build we need this variable values for some operations which can happen in some scripts in our container?</p>
+<p>To persist this variables and make them available in running container we make <code>ARG</code> variables without default.
+Later we use them to set <code>ENV</code>'s. Also we move default values set to ENV(shell syntax for setting default value).</p>
+<p>Now we can manipulate values with <code>docker build --build-arg</code>, but we also have them available after build at running container.</p>
+<h4 id="label">LABEL</h4>
+<p><code>LABEL &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt;</code></p>
+<p><code>LABEL maintainer=&quot;lukas@mail.com&quot;</code></p>
+<p><code>LABEL</code> is used for adding some metadata to image which we will be visible in <code>docker inspect</code> output.<br>
+In example we add info about image building person.<br>
+We can specify multiple labels - in multiple or one line.</p>
+<h4 id="run">RUN</h4>
+<p><code>RUN &lt;command&gt;</code><br>
+<code>RUN [&quot;exec&quot;, &quot;param1&quot;, &quot;param2&quot;]</code></p>
+<p><code>RUN chmod u+x /usr/local/bin/docker-entrypoint.sh</code></p>
+<p><code>RUN</code> execute command on operating system of container.<br>
+If you just give command after <code>RUN</code> it will be execute in shell - for Linux it will be probably <code>bash</code>.
+If you use <code>[]</code>(JSON form) it will execute command in raw mode - without shell characteristic behaviours. You should remember to use &quot;&rdquo; around each part of command.</p>
+<p>Each <code>RUN</code> command creates new layer in image. Lesser layers, the better. Always try to merge multiple commands making some logical unit of work into one <code>RUN</code> statement.<br>
+For example, appending to file, moving it and changing permissions.<br>
+Use for it shell syntax like <code>RUN &lt;command&gt;; &lt;command2&gt;; &lt;command3&gt;</code> in Linux.</p>
+<h4 id="copy--add">COPY &amp; ADD</h4>
+<p><code>ADD [--chown=&lt;user&gt;:&lt;group&gt;] &lt;src&gt;... &lt;dest&gt;</code><br>
+<code>COPY [--chown=&lt;user&gt;:&lt;group&gt;] &lt;src&gt;... &lt;dest&gt;</code></p>
+<p><code>COPY my-yum-repo.repo /etc/yum.repos.d/</code></p>
+<p><code>ADD</code> and <code>COPY</code> command will move files or directories from src to dest.
+In most cases <code>COPY</code> is command you need.
+<code>ADD</code> will be used only when you want to copy from URL - that is main difference between them, <code>COPY</code> don&rsquo;t work over network - just local files.</p>
+<p>In both cases build context is your &ldquo;root&rdquo; path from which you can use relative paths like <code>somefolder/somefolder2/somefile</code></p>
+<p>In both cases you can use wildcards like <code>*</code> or <code>?</code>.</p>
+<p>In both cases you can use <code>[--chown=&lt;user&gt;:&lt;group&gt;]</code> parameter to set owner and group for things that you place into image.</p>
+<h4 id="volume">VOLUME</h4>
+<p><code>VOLUME [&quot;&lt;path&gt;&quot;]</code></p>
+<p><code>VOLUME ${PG_DIR}</code></p>
+<p><code>VOLUME</code> creates mount point in filesystem of container for external volumes.</p>
+<h4 id="entrypoint--command">ENTRYPOINT &amp; COMMAND</h4>
+<p><code>ENTRYPOINT [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]</code></p>
+<p><code>ENTRYPOINT [&quot;/usr/local/bin/docker-entrypoint.sh&quot;]</code></p>
+<p><code>ENTRYPOINT</code> defines binary or shell script which will start immediately after starting container.<br>
+In our example we have <code>docker-entrypoint.sh</code> script which can contain logic like: if <code>$PG_DATA</code> empty initialize new postgresql cluster with <code>initdb</code>, if not empty - start postgresql with <code>/usr/bin/postgres -D $PG_DATA</code>.<br>
+We can pass arguments to <code>ENTRYPOINT</code> by adding it to <code>docker run</code> after image name.</p>
+<p><code>COMMAND</code> clause will be support command for <code>ENTRYPOINT</code> - it will hold default parameters for binary started in <code>ENTRYPOINT</code> in case when they are must exists and we do not pass anything to <code>docker run</code>.
+In our example there isn&rsquo;t need for using <code>COMMAND</code>.</p>
+<p>It is possible to override <code>ENTRYPOINT</code> when starting container with <code>docker run --entrypoint</code> parameter.</p>
+<h4 id="expose">EXPOSE</h4>
+<p><code>EXPOSE &lt;port&gt; [&lt;port&gt;/&lt;protocol&gt;]</code></p>
+<p><code>EXPOSE 5432</code></p>
+<p><code>EXPOSE</code> is documentation command that shows at which ports services in container will listen.</p>
+<h4 id="user">USER</h4>
+<p><code>USER &lt;user&gt;[:&lt;group&gt;]</code></p>
+<p><code>USER</code> instruction will set user from which all <code>RUN</code>, <code>CMD</code> and <code>ENTRYPOINT</code> commands will run.</p>
+<h4 id="workdir">WORKDIR</h4>
+<p><code>WORKDIR &lt;path&gt;</code></p>
+<p><code>WORKDIR</code> will set current working directory for all <code>RUN</code>, <code>CMD</code>, <code>ENTRYPOINT</code>, <code>COPY</code> and <code>ADD</code> commands.</p>
+<h4 id="onbuild">ONBUILD</h4>
+<p><code>ONBUILD &lt;dockerfile_command&gt;</code></p>
+<p><code>ONBUILD</code> will trigger only if current image will be used as base image to build a new one. After <code>ONBUILD</code> we can specify any of the instructions explained below.</p>
+<h3 id="example-build-process-for-our-dockerfile">Example Build process for our Dockerfile</h3>
+<p>With file described below and other needed file in build context directory:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>node1<span style="color:#f92672">]</span> <span style="color:#f92672">(</span>local<span style="color:#f92672">)</span> root@192.168.0.18 ~/postgres-build-dir
+$ ls -lah
+total 12K    
+drwxr-xr-x    <span style="color:#ae81ff">2</span> root     root          <span style="color:#ae81ff">76</span> Feb <span style="color:#ae81ff">28</span> 16:14 .
+drwx------    <span style="color:#ae81ff">1</span> root     root          <span style="color:#ae81ff">48</span> Feb <span style="color:#ae81ff">28</span> 16:14 ..
+-rw-r--r--    <span style="color:#ae81ff">1</span> root     root        1.3K Feb <span style="color:#ae81ff">28</span> 16:14 Dockerfile
+-rw-r--r--    <span style="color:#ae81ff">1</span> root     root          <span style="color:#ae81ff">99</span> Feb <span style="color:#ae81ff">28</span> 16:15 docker-entrypoint.sh
+-rw-r--r--    <span style="color:#ae81ff">1</span> root     root          <span style="color:#ae81ff">40</span> Feb <span style="color:#ae81ff">28</span> 16:15 my-yum-repo.repo
+</code></pre></div><p>Always have in context directory only necessary files for build process!<br>
+All this files will be transferred to docker daemon and could make your new image huge!</p>
+<p>We can build postgresql image - notice that we are using <code>--build-arg</code> to overwrite default 11.5 version specified in dockerfile - let&rsquo;s say that we need 11.6:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>node1<span style="color:#f92672">]</span> <span style="color:#f92672">(</span>local<span style="color:#f92672">)</span> root@192.168.0.18 ~/postgres-build-dir
+$ docker build -t postgresql-server:11.6 --build-arg PG_MINOR<span style="color:#f92672">=</span><span style="color:#ae81ff">6</span> .
+Sending build context to Docker daemon   5.12kB
+Step 1/28 : FROM centos:7
+7: Pulling from library/centos
+ab5ef0e58194: Extracting  75.78MB/75.78MB
+<span style="color:#f92672">[</span>..<span style="color:#f92672">]</span>
+</code></pre></div>
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='categories'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
+  
+</svg>
+<span class='screen-reader-text'>Categories: </span><a class='category' href='/categories/docker/'>docker</a></div>
+<div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/docker-build/'>docker build</a>, <a class='tag' href='/tags/dockerfile/'>dockerfile</a>, <a class='tag' href='/tags/docker-tag/'>docker tag</a>, <a class='tag' href='/tags/postgresql/'>postgresql</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='mailto:itknowledgepill@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='https://linkedin.com/in/lbartnicki92' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Open Linkedin account in new tab</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+  <rect x="2" y="9" width="4" height="12"/>
+  <circle cx="4" cy="4" r="2"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p> &copy; 2020 Łukasz Bartnicki </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script src='/js/custom.js'></script>
+
+</body>
+
+</html>
+
