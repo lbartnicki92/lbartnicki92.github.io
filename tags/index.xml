@@ -5,10 +5,19 @@
     <link>http://lbartnicki92.github.io/tags/</link>
     <description>Recent content in Tags on IT Knowledge Pill</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 12 Mar 2020 21:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 06 Apr 2020 19:00:00 +0100</lastBuildDate>
     
 	<atom:link href="http://lbartnicki92.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>docker image</title>
+      <link>http://lbartnicki92.github.io/tags/docker-image/</link>
+      <pubDate>Mon, 06 Apr 2020 19:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/docker-image/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>KUBECONFIG</title>
@@ -34,15 +43,6 @@
       <pubDate>Fri, 28 Feb 2020 17:00:00 +0100</pubDate>
       
       <guid>http://lbartnicki92.github.io/tags/docker-build/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>docker tag</title>
-      <link>http://lbartnicki92.github.io/tags/docker-tag/</link>
-      <pubDate>Fri, 28 Feb 2020 17:00:00 +0100</pubDate>
-      
-      <guid>http://lbartnicki92.github.io/tags/docker-tag/</guid>
       <description></description>
     </item>
     

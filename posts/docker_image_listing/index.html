@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang='en'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Docker has got couple commands that allows us to manage images. Mostly we are getting list of images.
+Basic listing Basic images listing with command: docker image ls.
+Size is cumulative value from all layers needed for image.
+Below images are local images without repository specified.
+[root@docker-host ~]# docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE postgres latest 9907cacf0c01 6 days ago 314MB alpine latest a187dde48cd2 2 weeks ago 5.'>
+<meta name='theme-color' content='#2ab55a'>
+
+<meta property='og:title' content='Docker image listing • Łukasz Bartnicki'>
+<meta property='og:description' content='Docker has got couple commands that allows us to manage images. Mostly we are getting list of images.
+Basic listing Basic images listing with command: docker image ls.
+Size is cumulative value from all layers needed for image.
+Below images are local images without repository specified.
+[root@docker-host ~]# docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE postgres latest 9907cacf0c01 6 days ago 314MB alpine latest a187dde48cd2 2 weeks ago 5.'>
+<meta property='og:url' content='http://lbartnicki92.github.io/posts/docker_image_listing/'>
+<meta property='og:site_name' content='IT Knowledge Pill'>
+<meta property='og:type' content='article'><meta property='og:image' content='http://lbartnicki92.github.io/images/IMG_1216.jpeg'><meta property='article:section' content='posts'><meta property='article:tag' content='docker image'><meta property='article:published_time' content='2020-04-06T19:00:00&#43;01:00'/><meta property='article:modified_time' content='2020-04-06T19:00:00&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta property='twitter:image' content='http://lbartnicki92.github.io/images/IMG_1216.jpeg'>
+
+<meta name="generator" content="Hugo 0.63.2" />
+
+  <title>Docker image listing • Łukasz Bartnicki</title>
+  <link rel='canonical' href='http://lbartnicki92.github.io/posts/docker_image_listing/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.css'><style>
+:root{--color-accent:#2ab55a;}
+</style>
+
+  
+
+</head>
+<body class='page type-posts has-cover has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/images/logo.png'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      IT Knowledge Pill
+      </a>
+    </h2>
+    <div class='desc'>
+    Clear, practical and simple about IT technologies for DBA and DevOps
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><header>
+    <h4 class='title widget-title'>Menu</h4>
+  </header><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/categories/ansible'>Ansible</a></li><li class='item'>
+  <a href='/categories/docker'>Docker</a></li><li class='item'>
+  <a href='/categories/kubernetes'>Kubernetes</a></li><li class='item'>
+  <a href='/categories/oracle'>Oracle</a></li><li class='item'>
+  <a href='/categories/postgresql'>PostgreSQL</a></li><li class='item'>
+  <a href='/posts'>All posts</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-search sep-after'>
+  <header>
+    <h4 class='title widget-title'>Search</h4>
+  </header>
+
+  <form action='/search' id='search-form' class='search-form'>
+    <label>
+      <span class='screen-reader-text'>Search</span>
+      <input id='search-term' class='search-term' type='search' name='q' placeholder='Search&hellip;'>
+    </label></form>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/docker-build/' style='font-size:1em'>docker build</a>
+      </li><li>
+        <a href='/tags/docker-image/' style='font-size:1em'>docker image</a>
+      </li><li>
+        <a href='/tags/dockerfile/' style='font-size:1em'>dockerfile</a>
+      </li><li>
+        <a href='/tags/kubeconfig/' style='font-size:1em'>KUBECONFIG</a>
+      </li><li>
+        <a href='/tags/kubectl/' style='font-size:1em'>kubectl</a>
+      </li><li>
+        <a href='/tags/postgresql/' style='font-size:1em'>postgresql</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button><div class='header-widgets'>
+        <div class='container'>
+    
+    <style>.widget-breadcrumbs li:after{content:'\2f '}</style>
+  <section class='widget widget-breadcrumbs sep-after'>
+    <nav id='breadcrumbs'>
+      <ol><li><a href='/'>IT Knowledge Pill</a></li><li><a href='/posts/'>Posts</a></li><li><span>Docker image listing</span></li></ol>
+    </nav>
+  </section></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>IT Knowledge Pill</p><p class='desc site-desc'>Clear, practical and simple about IT technologies for DBA and DevOps</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Docker image listing</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2020-04-06T19:00:00&#43;01:00'>06 Apr 2020</time>
+</span>
+
+  <span class='byline'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M21,21V20c0-2.76-4-5-9-5s-9,2.24-9,5v1"/>
+  <path d="M16,6.37A4,4,0,1,1,12.63,3,4,4,0,0,1,16,6.37Z"/>
+  
+</svg>
+<span class='screen-reader-text'> by </span><a href='/authors/lbartnicki'>Łukasz Bartnicki</a></span>
+  
+<span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/>
+  
+</svg>
+4 mins read
+</span>
+
+
+</div>
+
+
+  </div>
+</header>
+
+  <div class='entry-cover'>
+  <figure class='container cover-normal'>
+    <img src='/images/IMG_1216.jpeg'/>
+    
+      
+    
+  </figure>
+</div>
+  
+
+  <div class='container entry-content'>
+  <p>Docker has got couple commands that allows us to manage images. Mostly we are getting list of images.</p>
+<h3 id="basic-listing">Basic listing</h3>
+<p>Basic images listing with command: <code>docker image ls</code>.<br>
+Size is cumulative value from all layers needed for image.<br>
+Below images are local images without repository specified.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+postgres            latest              9907cacf0c01        <span style="color:#ae81ff">6</span> days ago          314MB
+alpine              latest              a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
+ubuntu              18.04               4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         64.2MB
+ubuntu              latest              4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         64.2MB
+ubuntu              19.04               c88ac1f841b7        <span style="color:#ae81ff">2</span> months ago        70MB
+</code></pre></div><p>Searching for specific image in local repo on host.<br>
+Works also with tag eg.: <code>docker image ls ubuntu:18.04</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls ubuntu</span>
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+ubuntu              latest              4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         64.2MB
+</code></pre></div><h3 id="without-truncating-output">Without truncating output:</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls --no-trunc</span>
+postgres            latest              sha256:9907cacf0c01916f9cd5fef24ae0daf564098afe0f7904962b9cb99758823461   <span style="color:#ae81ff">6</span> days ago          314MB
+alpine              latest              sha256:a187dde48cd289ac374ad8539930628314bc581a481cdb41409c9289419ddb72   <span style="color:#ae81ff">2</span> weeks ago         5.6MB
+ubuntu              18.04               sha256:4e5021d210f65ebe915670c7089120120bc0a303b90208592851708c1b8c04bd   <span style="color:#ae81ff">2</span> weeks ago         64.2MB
+ubuntu              latest              sha256:4e5021d210f65ebe915670c7089120120bc0a303b90208592851708c1b8c04bd   <span style="color:#ae81ff">2</span> weeks ago         64.2MB
+ubuntu              19.04               sha256:c88ac1f841b72add46f5a8b0e77c2ad6864d47e5603686ea64375acd55e27906   <span style="color:#ae81ff">2</span> months ago        70MB
+</code></pre></div><h3 id="quiet-mode">Quiet mode</h3>
+<p>Useful if we need only image ID for script or another command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls -q</span>
+9907cacf0c01
+a187dde48cd2
+4e5021d210f6
+4e5021d210f6
+c88ac1f841b7
+</code></pre></div><h3 id="listing-with-digest-hash">Listing with digest hash</h3>
+<p>Digest is sha256 hash. If two images has got same digest hash, they have got the same content.<br>
+Below we have three images of ubuntu. From digest we get information that latest image and 18.04 are the same.<br>
+So if you pull <code>ubuntu:latest</code>, you get <code>ubuntu:18.04</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls --digests</span>
+REPOSITORY          TAG                 DIGEST                                                                    IMAGE ID            CREATED             SIZE
+postgres            latest              sha256:d480b197ab8e01edced54cbbbba9707373473f42006468b60be04da07ce97823   9907cacf0c01        <span style="color:#ae81ff">6</span> days ago          314MB
+alpine              latest              sha256:b276d875eeed9c7d3f1cfa7edb06b22ed22b14219a7d67c52c56612330348239   a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
+ubuntu              18.04               sha256:bec5a2727be7fff3d308193cfde3491f8fba1a2ba392b7546b43a051853a341d   4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         64.2MB
+ubuntu              latest              sha256:bec5a2727be7fff3d308193cfde3491f8fba1a2ba392b7546b43a051853a341d   4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         64.2MB
+ubuntu              19.04               sha256:2adeae829bf27a3399a0e7db8ae38d5adb89bcaf1bbef378240bc0e6724e8344   c88ac1f841b7        <span style="color:#ae81ff">2</span> months ago        70MB
+</code></pre></div><h3 id="filtering-images">Filtering images</h3>
+<h5 id="get-images-without-tags">Get images without tags</h5>
+<p>Images without tags are called dandling.<br>
+This type of images is created when we build or tag image with <code>[REPOSITORY[:TAG]]</code> name of existing image.<br>
+New image gets <code>[REPOSITORY[:TAG]]</code>, old one get name: <code>[NONE[:NONE]]</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker images --filter &#34;dangling=true&#34;</span>
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+
+<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker images --filter &#34;dangling=false&#34;</span>
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+postgres            latest              9907cacf0c01        <span style="color:#ae81ff">6</span> days ago          314MB
+alpine              latest              a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
+ubuntu              18.04               4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         64.2MB
+ubuntu              latest              4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         64.2MB
+ubuntu              19.04               c88ac1f841b7        <span style="color:#ae81ff">2</span> months ago        70MB
+</code></pre></div><h5 id="get-images-by-labels">Get images by labels</h5>
+<p>In example, we search for every image with maintaner label set(I pulled this image additionally because none of official ubuntu and postgres images has got label added):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls --filter &#34;label=maintainer&#34;</span>
+REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
+schickling/postgres-backup-s3   latest              e8e41fa54edb        <span style="color:#ae81ff">21</span> months ago       117MB
+</code></pre></div><h5 id="get-images-created-before-another-image">Get images created before another image</h5>
+<p>We can insted of <code>before</code> use <code>since</code> for images created after given image.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls --filter &#34;before=ubuntu:19.04&#34;</span>
+REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
+schickling/postgres-backup-s3   latest              e8e41fa54edb        <span style="color:#ae81ff">21</span> months ago       117MB
+
+<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls --filter &#34;before=postgres:latest&#34;</span>
+REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
+alpine                          latest              a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
+ubuntu                          18.04               4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         64.2MB
+ubuntu                          latest              4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         64.2MB
+ubuntu                          19.04               c88ac1f841b7        <span style="color:#ae81ff">2</span> months ago        70MB
+schickling/postgres-backup-s3   latest              e8e41fa54edb        <span style="color:#ae81ff">21</span> months ago       117MB
+</code></pre></div><h5 id="wildcard-search">Wildcard search</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls --filter=reference=&#39;*:latest&#39;</span>
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+postgres            latest              9907cacf0c01        <span style="color:#ae81ff">6</span> days ago          314MB
+alpine              latest              a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
+ubuntu              latest              4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         64.2MB
+
+<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls --filter=reference=&#39;ubuntu:*.04&#39;</span>
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+ubuntu              18.04               4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         64.2MB
+ubuntu              19.04               c88ac1f841b7        <span style="color:#ae81ff">2</span> months ago        70MB
+</code></pre></div><h3 id="pretty-output-format">Pretty output format</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls  --format &#34;{{.ID}}&#34;</span>
+9907cacf0c01
+a187dde48cd2
+4e5021d210f6
+4e5021d210f6
+c88ac1f841b7
+e8e41fa54edb
+
+<span style="color:#f92672">[</span>root@k8s-master ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls  --format &#34;{{.ID}}:{{.Tag}}&#34;</span>
+9907cacf0c01:latest
+a187dde48cd2:latest
+4e5021d210f6:18.04
+4e5021d210f6:latest
+c88ac1f841b7:19.04
+e8e41fa54edb:latest
+
+<span style="color:#f92672">[</span>root@k8s-master ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls  --format &#34;Image {{.ID}} has got tag {{.Tag}}&#34;</span>
+Image 9907cacf0c01 has got tag latest
+Image a187dde48cd2 has got tag latest
+Image 4e5021d210f6 has got tag 18.04
+Image 4e5021d210f6 has got tag latest
+Image c88ac1f841b7 has got tag 19.04
+Image e8e41fa54edb has got tag latest
+</code></pre></div><h5 id="options-list">Options list</h5>
+<ul>
+<li><code>.ID</code>	- Image ID</li>
+<li><code>.Repository</code>	- Image repository</li>
+<li><code>.Tag</code>- Image tag</li>
+<li><code>.Digest</code> -	Image digest</li>
+<li><code>.CreatedSince</code> -	Elapsed time since the image was created</li>
+<li><code>.CreatedAt</code> - Time when the image was created</li>
+<li><code>.Size</code> -	Image disk size</li>
+</ul>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='categories'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
+  
+</svg>
+<span class='screen-reader-text'>Categories: </span><a class='category' href='/categories/docker/'>docker</a></div>
+<div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/docker-image/'>docker image</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/kubernetes_kubectl_client_config/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Kubectl - configuration</a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='mailto:itknowledgepill@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='https://linkedin.com/in/lbartnicki92' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Open Linkedin account in new tab</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+  <rect x="2" y="9" width="4" height="12"/>
+  <circle cx="4" cy="4" r="2"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p> &copy; 2020 Łukasz Bartnicki </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script src='/js/custom.js'></script>
+
+</body>
+
+</html>
+
