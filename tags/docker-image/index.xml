@@ -5,13 +5,25 @@
     <link>http://lbartnicki92.github.io/tags/docker-image/</link>
     <description>Recent content in docker image on IT Knowledge Pill</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 06 Apr 2020 19:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 08 Apr 2020 12:00:00 +0100</lastBuildDate>
     
 	<atom:link href="http://lbartnicki92.github.io/tags/docker-image/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Docker image listing</title>
+      <title>Docker image - commands</title>
+      <link>http://lbartnicki92.github.io/posts/docker_image_commands/</link>
+      <pubDate>Wed, 08 Apr 2020 12:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/posts/docker_image_commands/</guid>
+      <description>Docker has got couple commands that allows us to manage images.
+List images Usage of docker image ls is described in another post: Docker image - list
+Remove images Let&amp;rsquo;s check what images we have locally:
+[root@docker-host ~]# docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE postgres latest 9907cacf0c01 8 days ago 314MB alpine latest a187dde48cd2 2 weeks ago 5.6MB ubuntu 18.04 4e5021d210f6 2 weeks ago 64.2MB ubuntu latest 4e5021d210f6 2 weeks ago 64.</description>
+    </item>
+    
+    <item>
+      <title>Docker image - list</title>
       <link>http://lbartnicki92.github.io/posts/docker_image_listing/</link>
       <pubDate>Mon, 06 Apr 2020 19:00:00 +0100</pubDate>
       
