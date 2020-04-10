@@ -5,10 +5,23 @@
     <link>http://lbartnicki92.github.io/categories/docker/</link>
     <description>Recent content in docker on IT Knowledge Pill</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 08 Apr 2020 12:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 10 Apr 2020 12:00:00 +0100</lastBuildDate>
     
 	<atom:link href="http://lbartnicki92.github.io/categories/docker/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Docker container and image - export and save</title>
+      <link>http://lbartnicki92.github.io/posts/docker_save_load_export_import/</link>
+      <pubDate>Fri, 10 Apr 2020 12:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/posts/docker_save_load_export_import/</guid>
+      <description>From time to time we want export filesystem from container and make image from it.
+Also sometimes there is need for giving someone our container image in single file without repository usage - on for example pendrive.
+How to do this things?
+Export and import container filesystem Export To export container filesystem we use command docker export.
+This command will create output file with whole container filesystem - if we manually uncompress it - we will get directory structure like in / on Linux OS.</description>
+    </item>
     
     <item>
       <title>Docker image - commands</title>

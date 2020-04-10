@@ -5,10 +5,46 @@
     <link>http://lbartnicki92.github.io/tags/</link>
     <description>Recent content in Tags on IT Knowledge Pill</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 08 Apr 2020 12:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 10 Apr 2020 12:00:00 +0100</lastBuildDate>
     
 	<atom:link href="http://lbartnicki92.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>docker export</title>
+      <link>http://lbartnicki92.github.io/tags/docker-export/</link>
+      <pubDate>Fri, 10 Apr 2020 12:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/docker-export/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker import</title>
+      <link>http://lbartnicki92.github.io/tags/docker-import/</link>
+      <pubDate>Fri, 10 Apr 2020 12:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/docker-import/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker load</title>
+      <link>http://lbartnicki92.github.io/tags/docker-load/</link>
+      <pubDate>Fri, 10 Apr 2020 12:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/docker-load/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker save</title>
+      <link>http://lbartnicki92.github.io/tags/docker-save/</link>
+      <pubDate>Fri, 10 Apr 2020 12:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/docker-save/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>docker image</title>
