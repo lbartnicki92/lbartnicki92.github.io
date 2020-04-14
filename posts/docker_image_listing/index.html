@@ -6,7 +6,7 @@
 Basic listing Basic images listing with command: docker image ls.
 Size is cumulative value from all layers needed for image.
 Below images are local images without repository specified.
-[root@docker-host ~]# docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE postgres latest 9907cacf0c01 6 days ago 314MB alpine latest a187dde48cd2 2 weeks ago 5.'>
+[lukas@docker-host ~]# docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE postgres latest 9907cacf0c01 6 days ago 314MB alpine latest a187dde48cd2 2 weeks ago 5.'>
 <meta name='theme-color' content='#2ab55a'>
 
 <meta property='og:title' content='Docker image - list • Łukasz Bartnicki'>
@@ -14,7 +14,7 @@ Below images are local images without repository specified.
 Basic listing Basic images listing with command: docker image ls.
 Size is cumulative value from all layers needed for image.
 Below images are local images without repository specified.
-[root@docker-host ~]# docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE postgres latest 9907cacf0c01 6 days ago 314MB alpine latest a187dde48cd2 2 weeks ago 5.'>
+[lukas@docker-host ~]# docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE postgres latest 9907cacf0c01 6 days ago 314MB alpine latest a187dde48cd2 2 weeks ago 5.'>
 <meta property='og:url' content='http://lbartnicki92.github.io/posts/docker_image_listing/'>
 <meta property='og:site_name' content='IT Knowledge Pill'>
 <meta property='og:type' content='article'><meta property='og:image' content='http://lbartnicki92.github.io/images/IMG_1216.jpeg'><meta property='article:section' content='posts'><meta property='article:tag' content='docker image'><meta property='article:published_time' content='2020-04-06T19:00:00&#43;01:00'/><meta property='article:modified_time' content='2020-04-06T19:00:00&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta property='twitter:image' content='http://lbartnicki92.github.io/images/IMG_1216.jpeg'>
@@ -111,6 +111,10 @@ if (!doNotTrack) {
         <a href='/tags/docker-import/' style='font-size:1em'>docker import</a>
       </li><li>
         <a href='/tags/docker-load/' style='font-size:1em'>docker load</a>
+      </li><li>
+        <a href='/tags/docker-login/' style='font-size:1em'>docker login</a>
+      </li><li>
+        <a href='/tags/docker-registry/' style='font-size:1em'>docker registry</a>
       </li><li>
         <a href='/tags/docker-save/' style='font-size:1em'>docker save</a>
       </li><li>
@@ -230,7 +234,7 @@ if (!doNotTrack) {
 <p>Basic images listing with command: <code>docker image ls</code>.<br>
 Size is cumulative value from all layers needed for image.<br>
 Below images are local images without repository specified.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 postgres            latest              9907cacf0c01        <span style="color:#ae81ff">6</span> days ago          314MB
 alpine              latest              a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
@@ -239,11 +243,11 @@ ubuntu              latest              4e5021d210f6        <span style="color:#
 ubuntu              19.04               c88ac1f841b7        <span style="color:#ae81ff">2</span> months ago        70MB
 </code></pre></div><p>Searching for specific image in local repo on host.<br>
 Works also with tag eg.: <code>docker image ls ubuntu:18.04</code></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls ubuntu</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls ubuntu</span>
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 ubuntu              latest              4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         64.2MB
 </code></pre></div><h3 id="without-truncating-output">Without truncating output:</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls --no-trunc</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls --no-trunc</span>
 postgres            latest              sha256:9907cacf0c01916f9cd5fef24ae0daf564098afe0f7904962b9cb99758823461   <span style="color:#ae81ff">6</span> days ago          314MB
 alpine              latest              sha256:a187dde48cd289ac374ad8539930628314bc581a481cdb41409c9289419ddb72   <span style="color:#ae81ff">2</span> weeks ago         5.6MB
 ubuntu              18.04               sha256:4e5021d210f65ebe915670c7089120120bc0a303b90208592851708c1b8c04bd   <span style="color:#ae81ff">2</span> weeks ago         64.2MB
@@ -251,7 +255,7 @@ ubuntu              latest              sha256:4e5021d210f65ebe915670c7089120120
 ubuntu              19.04               sha256:c88ac1f841b72add46f5a8b0e77c2ad6864d47e5603686ea64375acd55e27906   <span style="color:#ae81ff">2</span> months ago        70MB
 </code></pre></div><h3 id="quiet-mode">Quiet mode</h3>
 <p>Useful if we need only image ID for script or another command:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls -q</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls -q</span>
 9907cacf0c01
 a187dde48cd2
 4e5021d210f6
@@ -261,7 +265,7 @@ c88ac1f841b7
 <p>Digest is sha256 hash. If two images has got same digest hash, they have got the same content.<br>
 Below we have three images of ubuntu. From digest we get information that latest image and 18.04 are the same.<br>
 So if you pull <code>ubuntu:latest</code>, you get <code>ubuntu:18.04</code></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls --digests</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls --digests</span>
 REPOSITORY          TAG                 DIGEST                                                                    IMAGE ID            CREATED             SIZE
 postgres            latest              sha256:d480b197ab8e01edced54cbbbba9707373473f42006468b60be04da07ce97823   9907cacf0c01        <span style="color:#ae81ff">6</span> days ago          314MB
 alpine              latest              sha256:b276d875eeed9c7d3f1cfa7edb06b22ed22b14219a7d67c52c56612330348239   a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
@@ -272,11 +276,11 @@ ubuntu              19.04               sha256:2adeae829bf27a3399a0e7db8ae38d5ad
 <h5 id="get-images-without-tags">Get images without tags</h5>
 <p>Images without tags are called dandling.<br>
 This type of images is created when we build or tag image with <code>[REPOSITORY[:TAG]]</code> name of existing image.<br>
-New image gets <code>[REPOSITORY[:TAG]]</code>, old one get name: <code>[NONE[:NONE]]</code></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker images --filter &#34;dangling=true&#34;</span>
+New image gets <code>[REPOSITORY[:TAG]]</code>, old one gets name: <code>[NONE[:NONE]]</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker images --filter &#34;dangling=true&#34;</span>
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 
-<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker images --filter &#34;dangling=false&#34;</span>
+<span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker images --filter &#34;dangling=false&#34;</span>
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 postgres            latest              9907cacf0c01        <span style="color:#ae81ff">6</span> days ago          314MB
 alpine              latest              a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
@@ -285,16 +289,16 @@ ubuntu              latest              4e5021d210f6        <span style="color:#
 ubuntu              19.04               c88ac1f841b7        <span style="color:#ae81ff">2</span> months ago        70MB
 </code></pre></div><h5 id="get-images-by-labels">Get images by labels</h5>
 <p>In example, we search for every image with maintaner label set(I pulled this image additionally because none of official ubuntu and postgres images has got label added):</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls --filter &#34;label=maintainer&#34;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls --filter &#34;label=maintainer&#34;</span>
 REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
 schickling/postgres-backup-s3   latest              e8e41fa54edb        <span style="color:#ae81ff">21</span> months ago       117MB
 </code></pre></div><h5 id="get-images-created-before-another-image">Get images created before another image</h5>
 <p>We can insted of <code>before</code> use <code>since</code> for images created after given image.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls --filter &#34;before=ubuntu:19.04&#34;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls --filter &#34;before=ubuntu:19.04&#34;</span>
 REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
 schickling/postgres-backup-s3   latest              e8e41fa54edb        <span style="color:#ae81ff">21</span> months ago       117MB
 
-<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls --filter &#34;before=postgres:latest&#34;</span>
+<span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls --filter &#34;before=postgres:latest&#34;</span>
 REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
 alpine                          latest              a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
 ubuntu                          18.04               4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         64.2MB
@@ -302,18 +306,18 @@ ubuntu                          latest              4e5021d210f6        <span st
 ubuntu                          19.04               c88ac1f841b7        <span style="color:#ae81ff">2</span> months ago        70MB
 schickling/postgres-backup-s3   latest              e8e41fa54edb        <span style="color:#ae81ff">21</span> months ago       117MB
 </code></pre></div><h5 id="wildcard-search">Wildcard search</h5>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls --filter=reference=&#39;*:latest&#39;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls --filter=reference=&#39;*:latest&#39;</span>
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 postgres            latest              9907cacf0c01        <span style="color:#ae81ff">6</span> days ago          314MB
 alpine              latest              a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
 ubuntu              latest              4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         64.2MB
 
-<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls --filter=reference=&#39;ubuntu:*.04&#39;</span>
+<span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls --filter=reference=&#39;ubuntu:*.04&#39;</span>
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 ubuntu              18.04               4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         64.2MB
 ubuntu              19.04               c88ac1f841b7        <span style="color:#ae81ff">2</span> months ago        70MB
 </code></pre></div><h3 id="pretty-output-format">Pretty output format</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls  --format &#34;{{.ID}}&#34;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls  --format &#34;{{.ID}}&#34;</span>
 9907cacf0c01
 a187dde48cd2
 4e5021d210f6
@@ -321,7 +325,7 @@ a187dde48cd2
 c88ac1f841b7
 e8e41fa54edb
 
-<span style="color:#f92672">[</span>root@k8s-master ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls  --format &#34;{{.ID}}:{{.Tag}}&#34;</span>
+<span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls  --format &#34;{{.ID}}:{{.Tag}}&#34;</span>
 9907cacf0c01:latest
 a187dde48cd2:latest
 4e5021d210f6:18.04
@@ -329,7 +333,7 @@ a187dde48cd2:latest
 c88ac1f841b7:19.04
 e8e41fa54edb:latest
 
-<span style="color:#f92672">[</span>root@k8s-master ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls  --format &#34;Image {{.ID}} has got tag {{.Tag}}&#34;</span>
+<span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls  --format &#34;Image {{.ID}} has got tag {{.Tag}}&#34;</span>
 Image 9907cacf0c01 has got tag latest
 Image a187dde48cd2 has got tag latest
 Image 4e5021d210f6 has got tag 18.04

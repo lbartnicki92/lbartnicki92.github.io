@@ -5,14 +5,14 @@
 <meta name='description' content='Docker has got couple commands that allows us to manage images.
 List images Usage of docker image ls is described in another post: Docker image - list
 Remove images Let&rsquo;s check what images we have locally:
-[root@docker-host ~]# docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE postgres latest 9907cacf0c01 8 days ago 314MB alpine latest a187dde48cd2 2 weeks ago 5.6MB ubuntu 18.04 4e5021d210f6 2 weeks ago 64.2MB ubuntu latest 4e5021d210f6 2 weeks ago 64.'>
+[lukas@docker-host ~]# docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE postgres latest 9907cacf0c01 8 days ago 314MB alpine latest a187dde48cd2 2 weeks ago 5.6MB ubuntu 18.04 4e5021d210f6 2 weeks ago 64.2MB ubuntu latest 4e5021d210f6 2 weeks ago 64.'>
 <meta name='theme-color' content='#2ab55a'>
 
 <meta property='og:title' content='Docker image - commands • Łukasz Bartnicki'>
 <meta property='og:description' content='Docker has got couple commands that allows us to manage images.
 List images Usage of docker image ls is described in another post: Docker image - list
 Remove images Let&rsquo;s check what images we have locally:
-[root@docker-host ~]# docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE postgres latest 9907cacf0c01 8 days ago 314MB alpine latest a187dde48cd2 2 weeks ago 5.6MB ubuntu 18.04 4e5021d210f6 2 weeks ago 64.2MB ubuntu latest 4e5021d210f6 2 weeks ago 64.'>
+[lukas@docker-host ~]# docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE postgres latest 9907cacf0c01 8 days ago 314MB alpine latest a187dde48cd2 2 weeks ago 5.6MB ubuntu 18.04 4e5021d210f6 2 weeks ago 64.2MB ubuntu latest 4e5021d210f6 2 weeks ago 64.'>
 <meta property='og:url' content='http://lbartnicki92.github.io/posts/docker_image_commands/'>
 <meta property='og:site_name' content='IT Knowledge Pill'>
 <meta property='og:type' content='article'><meta property='og:image' content='http://lbartnicki92.github.io/images/IMG_0217.jpeg'><meta property='article:section' content='posts'><meta property='article:tag' content='docker image'><meta property='article:published_time' content='2020-04-08T12:00:00&#43;01:00'/><meta property='article:modified_time' content='2020-04-08T12:00:00&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta property='twitter:image' content='http://lbartnicki92.github.io/images/IMG_0217.jpeg'>
@@ -109,6 +109,10 @@ if (!doNotTrack) {
         <a href='/tags/docker-import/' style='font-size:1em'>docker import</a>
       </li><li>
         <a href='/tags/docker-load/' style='font-size:1em'>docker load</a>
+      </li><li>
+        <a href='/tags/docker-login/' style='font-size:1em'>docker login</a>
+      </li><li>
+        <a href='/tags/docker-registry/' style='font-size:1em'>docker registry</a>
       </li><li>
         <a href='/tags/docker-save/' style='font-size:1em'>docker save</a>
       </li><li>
@@ -228,7 +232,7 @@ if (!doNotTrack) {
 <p>Usage of <code>docker image ls</code> is described in another post: <a href="/posts/docker_image_listing/">Docker image - list</a></p>
 <h3 id="remove-images">Remove images</h3>
 <p>Let&rsquo;s check what images we have locally:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
 REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
 postgres                        latest              9907cacf0c01        <span style="color:#ae81ff">8</span> days ago          314MB
 alpine                          latest              a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
@@ -238,10 +242,10 @@ ubuntu                          19.04               c88ac1f841b7        <span st
 schickling/postgres-backup-s3   latest              e8e41fa54edb        <span style="color:#ae81ff">21</span> months ago       117MB
 </code></pre></div><p>We have ubuntu image that has got two aliases: <code>ubuntu:latest</code> and <code>ubuntu:18.04</code><br>
 Let&rsquo;s remove one of it:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image rm ubuntu:18.04</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image rm ubuntu:18.04</span>
 Untagged: ubuntu:18.04
 
-<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
+<span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
 REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
 postgres                        latest              9907cacf0c01        <span style="color:#ae81ff">8</span> days ago          314MB
 alpine                          latest              a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
@@ -249,7 +253,7 @@ ubuntu                          latest              4e5021d210f6        <span st
 ubuntu                          19.04               c88ac1f841b7        <span style="color:#ae81ff">2</span> months ago        70MB
 schickling/postgres-backup-s3   latest              e8e41fa54edb        <span style="color:#ae81ff">21</span> months ago       117MB
 </code></pre></div><p>As we saw <code>docker image rm</code> removed only alias - if we remove last image alias - image will be deleted also - precisely layers that are no longer needed:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image rm ubuntu:latest</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image rm ubuntu:latest</span>
 Untagged: ubuntu:latest
 Untagged: ubuntu@sha256:bec5a2727be7fff3d308193cfde3491f8fba1a2ba392b7546b43a051853a341d
 Deleted: sha256:4e5021d210f65ebe915670c7089120120bc0a303b90208592851708c1b8c04bd
@@ -261,20 +265,20 @@ Deleted: sha256:c8be1b8f4d60d99c281fc2db75e0f56df42a83ad2f0b091621ce19357e19d853
 <h3 id="remove-dandling-and-unused-images">Remove dandling and unused images</h3>
 <p>We can remove dandling(without repository and tag) images with <code>docker image prune</code>.
 In our example all images has got repository and tag so none of them will be removed.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
 REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
 postgres                        latest              9907cacf0c01        <span style="color:#ae81ff">8</span> days ago          314MB
 alpine                          latest              a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
 ubuntu                          18.04               4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         64.2MB
 ubuntu                          19.04               c88ac1f841b7        <span style="color:#ae81ff">2</span> months ago        70MB
 schickling/postgres-backup-s3   latest              e8e41fa54edb        <span style="color:#ae81ff">21</span> months ago       117MB
-<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image prune</span>
+<span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image prune</span>
 WARNING! This will remove all dangling images.
 Are you sure you want to <span style="color:#66d9ef">continue</span>? <span style="color:#f92672">[</span>y/N<span style="color:#f92672">]</span> y
 Total reclaimed space: 0B
 </code></pre></div><p>We can use <code>-a</code> parameter to remove all images not associated with containers.<br>
 I dont&rsquo; have any containers in example so all images should be deleted by this command.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image prune -a</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image prune -a</span>
 WARNING! This will remove all images without at least one container associated to them.
 Are you sure you want to <span style="color:#66d9ef">continue</span>? <span style="color:#f92672">[</span>y/N<span style="color:#f92672">]</span> y
 Deleted Images:
@@ -307,7 +311,7 @@ deleted: sha256:873cbe4bd21ee6f6ea264cfc50c0b35b0c3a00e2be3f82b30884c3b9da5db2db
 Total reclaimed space: 570.3MB
 </code></pre></div><p>Like in <code>docker image ls</code> <code>--filter</code> parameters works here, more about it in: <a href="/posts/docker_image_listing/">Docker image - list</a></p>
 <h3 id="check-image-build-steps">Check image build steps</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image history 4e5021d210f6</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image history 4e5021d210f6</span>
 IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
 4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         /bin/sh -c <span style="color:#75715e">#(nop)  CMD [&#34;/bin/bash&#34;]            0B</span>
 &lt;missing&gt;           <span style="color:#ae81ff">2</span> weeks ago         /bin/sh -c mkdir -p /run/systemd <span style="color:#f92672">&amp;&amp;</span> echo <span style="color:#e6db74">&#39;do…   7B
@@ -318,12 +322,12 @@ IMAGE               CREATED             CREATED BY                              
 <p>By default commands are truncated but it is possibility to extend them to full size by adding <code>--no-trunc</code> parameter.</p>
 <h3 id="inspect-images">Inspect images</h3>
 <p>To view metadata about image we can use <code>docker image inspect</code> command:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 alpine              latest              a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
 ubuntu              latest              4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         64.2MB
 
-<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image inspect a187dde48cd2</span>
+<span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image inspect a187dde48cd2</span>
 <span style="color:#f92672">[</span>
     <span style="color:#f92672">{</span>
         <span style="color:#e6db74">&#34;Id&#34;</span>: <span style="color:#e6db74">&#34;sha256:a187dde48cd289ac374ad8539930628314bc581a481cdb41409c9289419ddb72&#34;</span>,
@@ -415,23 +419,23 @@ ubuntu              latest              4e5021d210f6        <span style="color:#
 <span style="color:#f92672">]</span>
 </code></pre></div><h3 id="tag-images">Tag images</h3>
 <p>We can change image name(repository and tag) by <code>docker image tag</code> command:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 alpine              latest              a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
 ubuntu              latest              4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         64.2MB
 
-<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image tag alpine:latest alpine-lukas:1.0</span>
+<span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image tag alpine:latest alpine-lukas:1.0</span>
 
-<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
+<span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 alpine-lukas        1.0                 a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
 alpine              latest              a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
 ubuntu              latest              4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         64.2MB
 </code></pre></div><p>In previous example we create another image(it is alias because of smart storage management in Docker).</p>
 <p>If we want prepare image for sending remotely we can add repository name, later we can push this image to remote registry:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image tag alpine-lukas:1.0 registry.lukas.it/alpine-lukas:1.0</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image tag alpine-lukas:1.0 registry.lukas.it/alpine-lukas:1.0</span>
 
-<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
+<span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
 REPOSITORY                       TAG                 IMAGE ID            CREATED             SIZE
 alpine-lukas                     1.0                 a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
 alpine                           latest              a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB

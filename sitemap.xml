@@ -4,17 +4,52 @@
   
   <url>
     <loc>http://lbartnicki92.github.io/authors/</loc>
-    <lastmod>2020-04-10T12:00:00+01:00</lastmod>
+    <lastmod>2020-04-14T10:00:00+01:00</lastmod>
   </url>
   
   <url>
     <loc>http://lbartnicki92.github.io/categories/</loc>
-    <lastmod>2020-04-10T12:00:00+01:00</lastmod>
+    <lastmod>2020-04-14T10:00:00+01:00</lastmod>
   </url>
   
   <url>
     <loc>http://lbartnicki92.github.io/categories/docker/</loc>
-    <lastmod>2020-04-10T12:00:00+01:00</lastmod>
+    <lastmod>2020-04-14T10:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lbartnicki92.github.io/tags/docker-login/</loc>
+    <lastmod>2020-04-14T10:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lbartnicki92.github.io/posts/docker_private_registry_setup/</loc>
+    <lastmod>2020-04-14T10:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lbartnicki92.github.io/tags/docker-registry/</loc>
+    <lastmod>2020-04-14T10:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lbartnicki92.github.io/</loc>
+    <lastmod>2020-04-14T10:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lbartnicki92.github.io/authors/lbartnicki/</loc>
+    <lastmod>2020-04-14T10:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lbartnicki92.github.io/posts/</loc>
+    <lastmod>2020-04-14T10:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lbartnicki92.github.io/tags/</loc>
+    <lastmod>2020-04-14T10:00:00+01:00</lastmod>
   </url>
   
   <url>
@@ -39,26 +74,6 @@
   
   <url>
     <loc>http://lbartnicki92.github.io/tags/docker-save/</loc>
-    <lastmod>2020-04-10T12:00:00+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://lbartnicki92.github.io/</loc>
-    <lastmod>2020-04-10T12:00:00+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://lbartnicki92.github.io/authors/lbartnicki/</loc>
-    <lastmod>2020-04-10T12:00:00+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://lbartnicki92.github.io/posts/</loc>
-    <lastmod>2020-04-10T12:00:00+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://lbartnicki92.github.io/tags/</loc>
     <lastmod>2020-04-10T12:00:00+01:00</lastmod>
   </url>
   

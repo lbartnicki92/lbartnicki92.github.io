@@ -112,6 +112,10 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/docker-load/' style='font-size:1em'>docker load</a>
       </li><li>
+        <a href='/tags/docker-login/' style='font-size:1em'>docker login</a>
+      </li><li>
+        <a href='/tags/docker-registry/' style='font-size:1em'>docker registry</a>
+      </li><li>
         <a href='/tags/docker-save/' style='font-size:1em'>docker save</a>
       </li><li>
         <a href='/tags/dockerfile/' style='font-size:1em'>dockerfile</a>
@@ -232,14 +236,14 @@ Also sometimes there is need for giving someone our container image in single fi
 <h5 id="export">Export</h5>
 <p>To export container filesystem we use command <code>docker export</code>.<br>
 This command will create output file with whole container filesystem - if we manually uncompress it - we will get directory structure like in <code>/</code> on Linux OS.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 alpine              latest              a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
 ubuntu              latest              4e5021d210f6        <span style="color:#ae81ff">3</span> weeks ago         64.2MB
 </code></pre></div><p>In our example we have ubuntu image from which we will start container, there is no <code>testfolder</code> folder in <code>/</code> directory.<br>
 So ubuntu official image not include such folder.</p>
 <p>Let&rsquo;s add it in our container, with some file in it:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker run -it ubuntu /bin/bash</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker run -it ubuntu /bin/bash</span>
 root@86b609d88376:/# pwd
 /
 root@86b609d88376:/# ls testfolder
@@ -251,31 +255,31 @@ file
 root@86b609d88376:/# exit
 exit
 </code></pre></div><p>Now we can check name of container and perform export from it with <code>docker export</code> and <code>-o</code> parameter for output tar file location.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker container ls -a</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker container ls -a</span>
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                     PORTS               NAMES
 86b609d88376        ubuntu              <span style="color:#e6db74">&#34;/bin/bash&#34;</span>         <span style="color:#ae81ff">56</span> seconds ago      Exited <span style="color:#f92672">(</span>0<span style="color:#f92672">)</span> <span style="color:#ae81ff">8</span> seconds ago                       sharp_mclaren
 
-<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker export -o ubuntu-export.tar 86b609d88376</span>
+<span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker export -o ubuntu-export.tar 86b609d88376</span>
 
-<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># ll</span>
+<span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># ll</span>
 total <span style="color:#ae81ff">65024</span>
--rw-------. <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">66584064</span> Apr <span style="color:#ae81ff">10</span> 20:59 ubuntu-export.tar
+-rw-------. <span style="color:#ae81ff">1</span> lukas lukas <span style="color:#ae81ff">66584064</span> Apr <span style="color:#ae81ff">10</span> 20:59 ubuntu-export.tar
 </code></pre></div><p>Now we have our container filesystem exported into file which we can give to someone!</p>
 <h5 id="import">Import</h5>
 <p>From tar file we can now create(import) new image by <code>docker import</code> command.</p>
 <p>It is important to notice that we will create from container export file docker image, not container!<br>
 Import command can take as input network directory also.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker import ubuntu-export.tar ubuntu-testfolder:1.0</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker import ubuntu-export.tar ubuntu-testfolder:1.0</span>
 sha256:c794b94e40a299a183af988fe6f6485bc065ac0fd95a0e190b2326c805e408f1
 
-<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
+<span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 ubuntu-testfolder   1.0                 c794b94e40a2        <span style="color:#ae81ff">5</span> seconds ago       64.2MB
 alpine              latest              a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
 ubuntu              latest              4e5021d210f6        <span style="color:#ae81ff">3</span> weeks ago         64.2MB
 </code></pre></div><p>We can see that our imported image named <code>ubuntu-testfolder:1.0</code> is on his place.</p>
 <p>Let&rsquo;s make container from it:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host  ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker run -it ubuntu-testfolder:1.0 /bin/bash</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host  ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker run -it ubuntu-testfolder:1.0 /bin/bash</span>
 root@8f2842c0158d:/# ls testfolder/
 file
 </code></pre></div><p>We have in our image previously created - folder and file.</p>
@@ -284,14 +288,14 @@ file
 <h5 id="important">Important!</h5>
 <p><code>docker import</code> command always import image as single layer image, it ignores before export layer layout!</p>
 <p>Compare ubuntu image from which we created container and made export and imported image:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker history ubuntu</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker history ubuntu</span>
 IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
 4e5021d210f6        <span style="color:#ae81ff">3</span> weeks ago         /bin/sh -c <span style="color:#75715e">#(nop)  CMD [&#34;/bin/bash&#34;]            0B</span>
 &lt;missing&gt;           <span style="color:#ae81ff">3</span> weeks ago         /bin/sh -c mkdir -p /run/systemd <span style="color:#f92672">&amp;&amp;</span> echo <span style="color:#e6db74">&#39;do…   7B
 </span><span style="color:#e6db74">&lt;missing&gt;           3 weeks ago         /bin/sh -c set -xe   &amp;&amp; echo &#39;</span><span style="color:#75715e">#!/bin/sh&#39; &gt; /…   745B</span>
 &lt;missing&gt;           <span style="color:#ae81ff">3</span> weeks ago         /bin/sh -c <span style="color:#f92672">[</span> -z <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>apt-get indextargets<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">]</span>     987kB
 &lt;missing&gt;           <span style="color:#ae81ff">3</span> weeks ago         /bin/sh -c <span style="color:#75715e">#(nop) ADD file:594fa35cf803361e6…   63.2MB</span>
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker history ubuntu-testfolder:1.0</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker history ubuntu-testfolder:1.0</span>
 IMAGE               CREATED             CREATED BY          SIZE                COMMENT
 c794b94e40a2        <span style="color:#ae81ff">31</span> seconds ago                          64.2MB              Imported from -
 </code></pre></div><h3 id="save-and-load-docker-image">Save and load docker image</h3>
@@ -300,19 +304,19 @@ So we save image to file, give it to someone, he or she can load image into his 
 <h5 id="save-image">Save image</h5>
 <p><code>docker save</code> will create file with layers and metadata about them instead of filesystem snapshot like in <code>docker export</code>.</p>
 <p>Let&rsquo;s save some image!</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 alpine              latest              a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
 ubuntu              latest              4e5021d210f6        <span style="color:#ae81ff">3</span> weeks ago         64.2MB
 
-<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker save -o ubuntu.tar ubuntu</span>
+<span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker save -o ubuntu.tar ubuntu</span>
 
-<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># ll</span>
--rw-------. <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">66612224</span> Apr <span style="color:#ae81ff">10</span> 21:44 ubuntu.tar
+<span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># ll</span>
+-rw-------. <span style="color:#ae81ff">1</span> lukas lukas <span style="color:#ae81ff">66612224</span> Apr <span style="color:#ae81ff">10</span> 21:44 ubuntu.tar
 </code></pre></div><p>Additionally we can check what is inside output tar archive. As we mentioned earlier we should see files structure similar to <code>/var/lib/docker/&lt;storage_driver&gt;</code> location where docker stores images locally.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># mkdir ubuntu</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># mkdir ubuntu</span>
 
-<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># tar xvf ubuntu.tar -C ubuntu</span>
+<span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># tar xvf ubuntu.tar -C ubuntu</span>
 4bea34c6cbddb48774fb9dea97758ae7148d309bb4f2b51ceda03904a8124b8b/
 4bea34c6cbddb48774fb9dea97758ae7148d309bb4f2b51ceda03904a8124b8b/VERSION
 4bea34c6cbddb48774fb9dea97758ae7148d309bb4f2b51ceda03904a8124b8b/json
@@ -333,11 +337,11 @@ d3bc4608f672143c84e7f1e0db9a00e5067213562f22fcd5b601a920d23859a2/layer.tar
 manifest.json
 repositories
 </code></pre></div><p>In random matedata json file, we will see all metadata about layer:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># vi ubuntu/d3bc4608f672143c84e7f1e0db9a00e5067213562f22fcd5b601a920d23859a2/json</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># vi ubuntu/d3bc4608f672143c84e7f1e0db9a00e5067213562f22fcd5b601a920d23859a2/json</span>
 <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;id&#34;</span>:<span style="color:#e6db74">&#34;d3bc4608f672143c84e7f1e0db9a00e5067213562f22fcd5b601a920d23859a2&#34;</span>,<span style="color:#e6db74">&#34;parent&#34;</span>:<span style="color:#e6db74">&#34;a514b8e33bd194200e62e981fa0e9bb3c13c6cd04ff82e91f3e8f11bd4f3500c&#34;</span>,<span style="color:#e6db74">&#34;created&#34;</span>:<span style="color:#e6db74">&#34;1970-01-01T01:00:00+01:00&#34;</span>,<span style="color:#e6db74">&#34;container_config&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;Hostname&#34;</span>:<span style="color:#e6db74">&#34;&#34;</span>,<span style="color:#e6db74">&#34;Domainname&#34;</span>:<span style="color:#e6db74">&#34;&#34;</span>,<span style="color:#e6db74">&#34;User&#34;</span>:<span style="color:#e6db74">&#34;&#34;</span>,<span style="color:#e6db74">&#34;AttachStdin&#34;</span>:false,<span style="color:#e6db74">&#34;AttachStdout&#34;</span>:false,<span style="color:#e6db74">&#34;AttachStderr&#34;</span>:false,<span style="color:#e6db74">&#34;Tty&#34;</span>:false,<span style="color:#e6db74">&#34;OpenStdin&#34;</span>:false,<span style="color:#e6db74">&#34;StdinOnce&#34;</span>:false,<span style="color:#e6db74">&#34;Env&#34;</span>:null,<span style="color:#e6db74">&#34;Cmd&#34;</span>:null,<span style="color:#e6db74">&#34;Image&#34;</span>:<span style="color:#e6db74">&#34;&#34;</span>,<span style="color:#e6db74">&#34;Volumes&#34;</span>:null,<span style="color:#e6db74">&#34;WorkingDir&#34;</span>:<span style="color:#e6db74">&#34;&#34;</span>,<span style="color:#e6db74">&#34;Entrypoint&#34;</span>:null,<span style="color:#e6db74">&#34;OnBuild&#34;</span>:null,<span style="color:#e6db74">&#34;Labels&#34;</span>:null<span style="color:#f92672">}</span>,<span style="color:#e6db74">&#34;os&#34;</span>:<span style="color:#e6db74">&#34;linux&#34;</span><span style="color:#f92672">}</span>
 </code></pre></div><h5 id="load-image">Load image</h5>
 <p>First, we remove ubuntu image from out local repository:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image rm ubuntu</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image rm ubuntu</span>
 Untagged: ubuntu:latest
 Untagged: ubuntu@sha256:bec5a2727be7fff3d308193cfde3491f8fba1a2ba392b7546b43a051853a341d
 Deleted: sha256:4e5021d210f65ebe915670c7089120120bc0a303b90208592851708c1b8c04bd
@@ -346,23 +350,23 @@ Deleted: sha256:efcf4a93c18b5d01aa8e10a2e3b7e2b2eef0378336456d8653e2d123d6232c1e
 Deleted: sha256:1e1aa31289fdca521c403edd6b37317bf0a349a941c7f19b6d9d311f59347502
 Deleted: sha256:c8be1b8f4d60d99c281fc2db75e0f56df42a83ad2f0b091621ce19357e19d853
 
-<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
+<span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 alpine              latest              a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
 </code></pre></div><p>Next we will perform load with <code>docker load</code> command:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker load -i ubuntu.tar</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker load -i ubuntu.tar</span>
 c8be1b8f4d60: Loading layer <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>  65.58MB/65.58MB
 977183d4e999: Loading layer <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>  991.2kB/991.2kB
 6597da2e2e52: Loading layer <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>  15.87kB/15.87kB
 16542a8fc3be: Loading layer <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>  3.072kB/3.072kB
 Loaded image: ubuntu:latest
 
-<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
+<span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 alpine              latest              a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
 ubuntu              latest              4e5021d210f6        <span style="color:#ae81ff">3</span> weeks ago         64.2MB
 </code></pre></div><p>Other than import operation, loading adds all metadata and all layers of image as they were before load operation:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker history ubuntu</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker history ubuntu</span>
 IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
 4e5021d210f6        <span style="color:#ae81ff">3</span> weeks ago         /bin/sh -c <span style="color:#75715e">#(nop)  CMD [&#34;/bin/bash&#34;]            0B</span>
 &lt;missing&gt;           <span style="color:#ae81ff">3</span> weeks ago         /bin/sh -c mkdir -p /run/systemd <span style="color:#f92672">&amp;&amp;</span> echo <span style="color:#e6db74">&#39;do…   7B
@@ -405,6 +409,16 @@ IMAGE               CREATED             CREATED BY                              
 </svg>
  Previous</span>
         <span class='screen-reader-text'>Previous post: </span>Docker image - commands</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/posts/docker_private_registry_setup/'>
+        <span class='screen-reader-text'>Next post: </span>Docker private registry - setup<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+  
+</svg>
+</span>
+      </a>
     </div></div>
 </nav>
 
