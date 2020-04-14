@@ -28,6 +28,17 @@ Remove images Let&rsquo;s check what images we have locally:
 :root{--color-accent:#2ab55a;}
 </style>
 
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-163565265-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
   
 
 </head>
@@ -246,7 +257,7 @@ Deleted: sha256:1d9112746e9d86157c23e426ce87cc2d7bced0ba2ec8ddbdfbcc3093e0769472
 Deleted: sha256:efcf4a93c18b5d01aa8e10a2e3b7e2b2eef0378336456d8653e2d123d6232c1e
 Deleted: sha256:1e1aa31289fdca521c403edd6b37317bf0a349a941c7f19b6d9d311f59347502
 Deleted: sha256:c8be1b8f4d60d99c281fc2db75e0f56df42a83ad2f0b091621ce19357e19d853
-</code></pre></div><p>Normally docker doesn&rsquo;t allow us to delete image from which containers are currently running. We can use <code>--force</code> in remove command but it will remove also containers.</p>
+</code></pre></div><p>Normally docker doesn&rsquo;t allow us to delete image from which containers are currently running. We can use <code>--force</code> in remove command, it will remove also containers running from images we are trying to delete.</p>
 <h3 id="remove-dandling-and-unused-images">Remove dandling and unused images</h3>
 <p>We can remove dandling(without repository and tag) images with <code>docker image prune</code>.
 In our example all images has got repository and tag so none of them will be removed.</p>
