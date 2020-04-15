@@ -5,10 +5,22 @@
     <link>http://lbartnicki92.github.io/categories/docker/</link>
     <description>Recent content in docker on IT Knowledge Pill</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 14 Apr 2020 10:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 15 Apr 2020 10:00:00 +0100</lastBuildDate>
     
 	<atom:link href="http://lbartnicki92.github.io/categories/docker/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Docker registry - operations on API</title>
+      <link>http://lbartnicki92.github.io/posts/docker_registry_api_operations/</link>
+      <pubDate>Wed, 15 Apr 2020 10:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/posts/docker_registry_api_operations/</guid>
+      <description>Instead of using Docker CLI commands - we can communicate with Docker registry with GET/POST methods of Docker Registry HTTP API.
+Post include information for V2 of API.
+Example setup For our examples we use docker private registry in container. Currently we have got alpine image and couple of ubuntu images loaded in it.
+[lukas@docker-host ~]$ docker container ls CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES f628491a985a registry:2 &amp;#34;/entrypoint.sh /etc…&amp;#34; About a minute ago Up About a minute 0.</description>
+    </item>
     
     <item>
       <title>Docker private registry - setup</title>

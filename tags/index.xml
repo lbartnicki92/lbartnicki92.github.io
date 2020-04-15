@@ -5,10 +5,19 @@
     <link>http://lbartnicki92.github.io/tags/</link>
     <description>Recent content in Tags on IT Knowledge Pill</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 14 Apr 2020 10:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 15 Apr 2020 10:00:00 +0100</lastBuildDate>
     
 	<atom:link href="http://lbartnicki92.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>docker registry</title>
+      <link>http://lbartnicki92.github.io/tags/docker-registry/</link>
+      <pubDate>Wed, 15 Apr 2020 10:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/docker-registry/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>docker login</title>
@@ -16,15 +25,6 @@
       <pubDate>Tue, 14 Apr 2020 10:00:00 +0100</pubDate>
       
       <guid>http://lbartnicki92.github.io/tags/docker-login/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>docker registry</title>
-      <link>http://lbartnicki92.github.io/tags/docker-registry/</link>
-      <pubDate>Tue, 14 Apr 2020 10:00:00 +0100</pubDate>
-      
-      <guid>http://lbartnicki92.github.io/tags/docker-registry/</guid>
       <description></description>
     </item>
     

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang='en'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Instead of using Docker CLI commands - we can communicate with Docker registry with GET/POST methods of Docker Registry HTTP API.
+Post include information for V2 of API.
+Example setup For our examples we use docker private registry in container. Currently we have got alpine image and couple of ubuntu images loaded in it.
+[lukas@docker-host ~]$ docker container ls CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES f628491a985a registry:2 &#34;/entrypoint.sh /etc…&#34; About a minute ago Up About a minute 0.'>
+<meta name='theme-color' content='#2ab55a'>
+
+<meta property='og:title' content='Docker registry - operations on API • Łukasz Bartnicki'>
+<meta property='og:description' content='Instead of using Docker CLI commands - we can communicate with Docker registry with GET/POST methods of Docker Registry HTTP API.
+Post include information for V2 of API.
+Example setup For our examples we use docker private registry in container. Currently we have got alpine image and couple of ubuntu images loaded in it.
+[lukas@docker-host ~]$ docker container ls CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES f628491a985a registry:2 &#34;/entrypoint.sh /etc…&#34; About a minute ago Up About a minute 0.'>
+<meta property='og:url' content='http://lbartnicki92.github.io/posts/docker_registry_api_operations/'>
+<meta property='og:site_name' content='IT Knowledge Pill'>
+<meta property='og:type' content='article'><meta property='og:image' content='http://lbartnicki92.github.io/images/IMG_0637.jpeg'><meta property='article:section' content='posts'><meta property='article:tag' content='docker registry'><meta property='article:published_time' content='2020-04-15T10:00:00&#43;01:00'/><meta property='article:modified_time' content='2020-04-15T10:00:00&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta property='twitter:image' content='http://lbartnicki92.github.io/images/IMG_0637.jpeg'>
+
+<meta name="generator" content="Hugo 0.63.2" />
+
+  <title>Docker registry - operations on API • Łukasz Bartnicki</title>
+  <link rel='canonical' href='http://lbartnicki92.github.io/posts/docker_registry_api_operations/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.css'><style>
+:root{--color-accent:#2ab55a;}
+</style>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-163565265-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  
+
+</head>
+<body class='page type-posts has-cover has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/images/logo.png'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      IT Knowledge Pill
+      </a>
+    </h2>
+    <div class='desc'>
+    Clear, practical and simple about IT technologies for DBA and DevOps
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><header>
+    <h4 class='title widget-title'>Menu</h4>
+  </header><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/categories/ansible'>Ansible</a></li><li class='item'>
+  <a href='/categories/docker'>Docker</a></li><li class='item'>
+  <a href='/categories/kubernetes'>Kubernetes</a></li><li class='item'>
+  <a href='/categories/oracle'>Oracle</a></li><li class='item'>
+  <a href='/categories/postgresql'>PostgreSQL</a></li><li class='item'>
+  <a href='/posts'>All posts</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-sidebar_menu_about sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/about'>About me</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-search sep-after'>
+  <header>
+    <h4 class='title widget-title'>Search</h4>
+  </header>
+
+  <form action='/search' id='search-form' class='search-form'>
+    <label>
+      <span class='screen-reader-text'>Search</span>
+      <input id='search-term' class='search-term' type='search' name='q' placeholder='Search&hellip;'>
+    </label></form>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/docker-build/' style='font-size:1em'>docker build</a>
+      </li><li>
+        <a href='/tags/docker-export/' style='font-size:1em'>docker export</a>
+      </li><li>
+        <a href='/tags/docker-image/' style='font-size:2em'>docker image</a>
+      </li><li>
+        <a href='/tags/docker-import/' style='font-size:1em'>docker import</a>
+      </li><li>
+        <a href='/tags/docker-load/' style='font-size:1em'>docker load</a>
+      </li><li>
+        <a href='/tags/docker-login/' style='font-size:1em'>docker login</a>
+      </li><li>
+        <a href='/tags/docker-registry/' style='font-size:2em'>docker registry</a>
+      </li><li>
+        <a href='/tags/docker-save/' style='font-size:1em'>docker save</a>
+      </li><li>
+        <a href='/tags/dockerfile/' style='font-size:1em'>dockerfile</a>
+      </li><li>
+        <a href='/tags/kubeconfig/' style='font-size:1em'>KUBECONFIG</a>
+      </li><li>
+        <a href='/tags/kubectl/' style='font-size:1em'>kubectl</a>
+      </li><li>
+        <a href='/tags/postgresql/' style='font-size:1em'>postgresql</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button><div class='header-widgets'>
+        <div class='container'>
+    
+    <style>.widget-breadcrumbs li:after{content:'\2f '}</style>
+  <section class='widget widget-breadcrumbs sep-after'>
+    <nav id='breadcrumbs'>
+      <ol><li><a href='/'>IT Knowledge Pill</a></li><li><a href='/posts/'>Posts</a></li><li><span>Docker registry - operations on API</span></li></ol>
+    </nav>
+  </section></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>IT Knowledge Pill</p><p class='desc site-desc'>Clear, practical and simple about IT technologies for DBA and DevOps</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Docker registry - operations on API</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2020-04-15T10:00:00&#43;01:00'>15 Apr 2020</time>
+</span>
+
+  <span class='byline'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M21,21V20c0-2.76-4-5-9-5s-9,2.24-9,5v1"/>
+  <path d="M16,6.37A4,4,0,1,1,12.63,3,4,4,0,0,1,16,6.37Z"/>
+  
+</svg>
+<span class='screen-reader-text'> by </span><a href='/authors/lbartnicki'>Łukasz Bartnicki</a></span>
+  
+<span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/>
+  
+</svg>
+4 mins read
+</span>
+
+
+</div>
+
+
+  </div>
+</header>
+
+  <div class='entry-cover'>
+  <figure class='container cover-normal'>
+    <img src='/images/IMG_0637.jpeg'/>
+    
+      
+    
+  </figure>
+</div>
+  
+
+  <div class='container entry-content'>
+  <p>Instead of using Docker CLI commands - we can communicate with Docker registry with GET/POST methods of Docker Registry HTTP API.<br>
+Post include information for V2 of API.</p>
+<h3 id="example-setup">Example setup</h3>
+<p>For our examples we use docker private registry in container. Currently we have got alpine image and couple of ubuntu images loaded in it.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ docker container ls
+CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS                    NAMES
+f628491a985a        registry:2          <span style="color:#e6db74">&#34;/entrypoint.sh /etc…&#34;</span>   About a minute ago   Up About a minute   0.0.0.0:5000-&gt;5000/tcp   registry
+</code></pre></div><p>If you want to use secure connections - look at <code>curl --help</code> and use parameters associated with CA and certificates like <code>--cacert</code>.</p>
+<h3 id="check-connection-with-repository">Check connection with repository</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ curl  -X GET http://localhost:5000/v2/ -v
+Note: Unnecessary use of -X or --request, GET is already inferred.
+*   Trying ::1...
+* TCP_NODELAY set
+* Connected to localhost <span style="color:#f92672">(</span>::1<span style="color:#f92672">)</span> port <span style="color:#ae81ff">5000</span> <span style="color:#f92672">(</span><span style="color:#75715e">#0)</span>
+&gt; GET /v2/ HTTP/1.1
+&gt; Host: localhost:5000
+&gt; User-Agent: curl/7.61.1
+&gt; Accept: */*
+&gt;
+&lt; HTTP/1.1 <span style="color:#ae81ff">200</span> OK
+&lt; Content-Length: <span style="color:#ae81ff">2</span>
+&lt; Content-Type: application/json; charset<span style="color:#f92672">=</span>utf-8
+&lt; Docker-Distribution-Api-Version: registry/2.0
+&lt; X-Content-Type-Options: nosniff
+&lt; Date: Wed, <span style="color:#ae81ff">15</span> Apr <span style="color:#ae81ff">2020</span> 13:34:39 GMT
+&lt;
+* Connection <span style="color:#75715e">#0 to host localhost left intact</span>
+<span style="color:#f92672">{</span><span style="color:#f92672">}</span><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$
+</code></pre></div><h3 id="list-images-in-registry">List images in registry</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ curl  -X GET http://localhost:5000/v2/_catalog
+<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;repositories&#34;</span>:<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;alpine&#34;</span>,<span style="color:#e6db74">&#34;ubuntu&#34;</span><span style="color:#f92672">]</span><span style="color:#f92672">}</span>
+</code></pre></div><h3 id="get-available-tags-for-image">Get available tags for image</h3>
+<p>Check tags for ubuntu image:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ curl  -X GET http://localhost:5000/v2/ubuntu/tags/list
+<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;ubuntu&#34;</span>,<span style="color:#e6db74">&#34;tags&#34;</span>:<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;latest&#34;</span>,<span style="color:#e6db74">&#34;19.10&#34;</span>,<span style="color:#e6db74">&#34;19.04&#34;</span>,<span style="color:#e6db74">&#34;18.10&#34;</span><span style="color:#f92672">]</span><span style="color:#f92672">}</span>
+</code></pre></div><h3 id="check-if-manifest-exists">Check if manifest exists</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ubuntu-19.10<span style="color:#f92672">]</span>$ curl -I  http://localhost:5000/v2/ubuntu/manifests/19.10
+HTTP/1.1 <span style="color:#ae81ff">200</span> OK
+Content-Length: <span style="color:#ae81ff">5568</span>
+Content-Type: application/vnd.docker.distribution.manifest.v1+prettyjws
+Docker-Content-Digest: sha256:84328f1bc9d8105cb4e5f014cac3eeafda161b58128fb87ea7541f0ec1710669
+Docker-Distribution-Api-Version: registry/2.0
+Etag: <span style="color:#e6db74">&#34;sha256:84328f1bc9d8105cb4e5f014cac3eeafda161b58128fb87ea7541f0ec1710669&#34;</span>
+X-Content-Type-Options: nosniff
+Date: Wed, <span style="color:#ae81ff">15</span> Apr <span style="color:#ae81ff">2020</span> 14:30:43 GMT
+</code></pre></div><h3 id="pull-image-manifest">Pull image manifest</h3>
+<p>Get metadata for Ubuntu 19.10 image:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ curl  -X GET http://localhost:5000/v2/ubuntu/manifests/19.10
+<span style="color:#f92672">{</span>
+   <span style="color:#e6db74">&#34;schemaVersion&#34;</span>: 1,
+   <span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;ubuntu&#34;</span>,
+   <span style="color:#e6db74">&#34;tag&#34;</span>: <span style="color:#e6db74">&#34;19.10&#34;</span>,
+   <span style="color:#e6db74">&#34;architecture&#34;</span>: <span style="color:#e6db74">&#34;amd64&#34;</span>,
+   <span style="color:#e6db74">&#34;fsLayers&#34;</span>: <span style="color:#f92672">[</span>
+      <span style="color:#f92672">{</span>
+         <span style="color:#e6db74">&#34;blobSum&#34;</span>: <span style="color:#e6db74">&#34;sha256:a3ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4&#34;</span>
+      <span style="color:#f92672">}</span>,
+      <span style="color:#f92672">{</span>
+         <span style="color:#e6db74">&#34;blobSum&#34;</span>: <span style="color:#e6db74">&#34;sha256:9460de83957c509dd234ede9ea96d4d03b7f9cd252ef1497844f8450dedb6570&#34;</span>
+      <span style="color:#f92672">}</span>,
+      <span style="color:#f92672">{</span>
+         <span style="color:#e6db74">&#34;blobSum&#34;</span>: <span style="color:#e6db74">&#34;sha256:22752cd61bd53e9ac71e22fef539c165b3e11b368c1e54ca947260e317c4870a&#34;</span>
+      <span style="color:#f92672">}</span>,
+      <span style="color:#f92672">{</span>
+         <span style="color:#e6db74">&#34;blobSum&#34;</span>: <span style="color:#e6db74">&#34;sha256:25405ed4f245fc5627d0b03996d04c11d492c7a9ff937f4562a18e8757c39434&#34;</span>
+      <span style="color:#f92672">}</span>,
+      <span style="color:#f92672">{</span>
+         <span style="color:#e6db74">&#34;blobSum&#34;</span>: <span style="color:#e6db74">&#34;sha256:eeacba527962683a1b026af611fe162d35281159762b699172caa48c69480f79&#34;</span>
+      <span style="color:#f92672">}</span>
+   <span style="color:#f92672">]</span>,
+   <span style="color:#e6db74">&#34;history&#34;</span>: <span style="color:#f92672">[</span>
+      <span style="color:#f92672">{</span>
+         <span style="color:#e6db74">&#34;v1Compatibility&#34;</span>: <span style="color:#e6db74">&#34;{\&#34;architecture\&#34;:\&#34;amd64\&#34;,\&#34;config\&#34;:{\&#34;Hostname\&#34;:\&#34;\&#34;,\&#34;Domainname\&#34;:\&#34;\&#34;,\&#34;User\&#34;:\&#34;\&#34;,\&#34;AttachStdin\&#34;:false,\&#34;AttachStdout\&#34;:false,\&#34;AttachStderr\&#34;:false,\&#34;Tty\&#34;:false,\&#34;OpenStdin\&#34;:false,\&#34;StdinOnce\&#34;:false,\&#34;Env\&#34;:[\&#34;PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\&#34;],\&#34;Cmd\&#34;:[\&#34;/bin/bash\&#34;],\&#34;ArgsEscaped\&#34;:true,\&#34;Image\&#34;:\&#34;sha256:c50c27e497214ed2e11462fe012e6f03516e8c22a96da7c8d43b66ee3d419754\&#34;,\&#34;Volumes\&#34;:null,\&#34;WorkingDir\&#34;:\&#34;\&#34;,\&#34;Entrypoint\&#34;:null,\&#34;OnBuild\&#34;:null,\&#34;Labels\&#34;:null},\&#34;container\&#34;:\&#34;245856bcc226438a902b39d236a66777383561c260605f12ca83a4b9bb429a21\&#34;,\&#34;container_config\&#34;:{\&#34;Hostname\&#34;:\&#34;245856bcc226\&#34;,\&#34;Domainname\&#34;:\&#34;\&#34;,\&#34;User\&#34;:\&#34;\&#34;,\&#34;AttachStdin\&#34;:false,\&#34;AttachStdout\&#34;:false,\&#34;AttachStderr\&#34;:false,\&#34;Tty\&#34;:false,\&#34;OpenStdin\&#34;:false,\&#34;StdinOnce\&#34;:false,\&#34;Env\&#34;:[\&#34;PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\&#34;],\&#34;Cmd\&#34;:[\&#34;/bin/sh\&#34;,\&#34;-c\&#34;,\&#34;#(nop) \&#34;,\&#34;CMD [\\\&#34;/bin/bash\\\&#34;]\&#34;],\&#34;ArgsEscaped\&#34;:true,\&#34;Image\&#34;:\&#34;sha256:c50c27e497214ed2e11462fe012e6f03516e8c22a96da7c8d43b66ee3d419754\&#34;,\&#34;Volumes\&#34;:null,\&#34;WorkingDir\&#34;:\&#34;\&#34;,\&#34;Entrypoint\&#34;:null,\&#34;OnBuild\&#34;:null,\&#34;Labels\&#34;:{}},\&#34;created\&#34;:\&#34;2020-03-20T19:20:36.847728128Z\&#34;,\&#34;docker_version\&#34;:\&#34;18.09.7\&#34;,\&#34;id\&#34;:\&#34;72c4b1dbff9f650f052e3e8d842d1f9a1c8d5a9a56372450cc655bcfbb51eafc\&#34;,\&#34;os\&#34;:\&#34;linux\&#34;,\&#34;parent\&#34;:\&#34;1865fab8daaf362fa003da426809977138cf316781c927ee927b560663ad8899\&#34;,\&#34;throwaway\&#34;:true}&#34;</span>
+      <span style="color:#f92672">}</span>,
+      <span style="color:#f92672">{</span>
+         <span style="color:#e6db74">&#34;v1Compatibility&#34;</span>: <span style="color:#e6db74">&#34;{\&#34;id\&#34;:\&#34;1865fab8daaf362fa003da426809977138cf316781c927ee927b560663ad8899\&#34;,\&#34;parent\&#34;:\&#34;a66a208f5a6d08af66e96314881c2a43adbcc381950cb0dc23b6e6361cac674b\&#34;,\&#34;created\&#34;:\&#34;2020-03-20T19:20:36.666791568Z\&#34;,\&#34;container_config\&#34;:{\&#34;Cmd\&#34;:[\&#34;/bin/sh -c mkdir -p /run/systemd \\u0026\\u0026 echo &#39;docker&#39; \\u003e /run/systemd/container\&#34;]}}&#34;</span>
+      <span style="color:#f92672">}</span>,
+      <span style="color:#f92672">{</span>
+         <span style="color:#e6db74">&#34;v1Compatibility&#34;</span>: <span style="color:#e6db74">&#34;{\&#34;id\&#34;:\&#34;a66a208f5a6d08af66e96314881c2a43adbcc381950cb0dc23b6e6361cac674b\&#34;,\&#34;parent\&#34;:\&#34;27fd7159a11d0bb84f765b89ad037900f915d2cdd72bdbc67e8af983b778f7f7\&#34;,\&#34;created\&#34;:\&#34;2020-03-20T19:20:35.896375229Z\&#34;,\&#34;container_config\&#34;:{\&#34;Cmd\&#34;:[\&#34;/bin/sh -c set -xe \\t\\t\\u0026\\u0026 echo &#39;#!/bin/sh&#39; \\u003e /usr/sbin/policy-rc.d \\t\\u0026\\u0026 echo &#39;exit 101&#39; \\u003e\\u003e /usr/sbin/policy-rc.d \\t\\u0026\\u0026 chmod +x /usr/sbin/policy-rc.d \\t\\t\\u0026\\u0026 dpkg-divert --local --rename --add /sbin/initctl \\t\\u0026\\u0026 cp -a /usr/sbin/policy-rc.d /sbin/initctl \\t\\u0026\\u0026 sed -i &#39;s/^exit.*/exit 0/&#39; /sbin/initctl \\t\\t\\u0026\\u0026 echo &#39;force-unsafe-io&#39; \\u003e /etc/dpkg/dpkg.cfg.d/docker-apt-speedup \\t\\t\\u0026\\u0026 echo &#39;DPkg::Post-Invoke { \\\&#34;rm -f /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin || true\\\&#34;; };&#39; \\u003e /etc/apt/apt.conf.d/docker-clean \\t\\u0026\\u0026 echo &#39;APT::Update::Post-Invoke { \\\&#34;rm -f /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin || true\\\&#34;; };&#39; \\u003e\\u003e /etc/apt/apt.conf.d/docker-clean \\t\\u0026\\u0026 echo &#39;Dir::Cache::pkgcache \\\&#34;\\\&#34;; Dir::Cache::srcpkgcache \\\&#34;\\\&#34;;&#39; \\u003e\\u003e /etc/apt/apt.conf.d/docker-clean \\t\\t\\u0026\\u0026 echo &#39;Acquire::Languages \\\&#34;none\\\&#34;;&#39; \\u003e /etc/apt/apt.conf.d/docker-no-languages \\t\\t\\u0026\\u0026 echo &#39;Acquire::GzipIndexes \\\&#34;true\\\&#34;; Acquire::CompressionTypes::Order:: \\\&#34;gz\\\&#34;;&#39; \\u003e /etc/apt/apt.conf.d/docker-gzip-indexes \\t\\t\\u0026\\u0026 echo &#39;Apt::AutoRemove::SuggestsImportant \\\&#34;false\\\&#34;;&#39; \\u003e /etc/apt/apt.conf.d/docker-autoremove-suggests\&#34;]}}&#34;</span>
+      <span style="color:#f92672">}</span>,
+      <span style="color:#f92672">{</span>
+         <span style="color:#e6db74">&#34;v1Compatibility&#34;</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{\&#34;id\&#34;:\&#34;27fd7159a11d0bb84f765b89ad037900f915d2cdd72bdbc67e8af983b778f7f7\&#34;,\&#34;parent\&#34;:\&#34;b14defeb827d49a068f1d1bb280e312add99650430b71e881f1f6f304d81aefe\&#34;,\&#34;created\&#34;:\&#34;2020-03-20T19:20:35.087356956Z\&#34;,\&#34;container_config\&#34;:{\&#34;Cmd\&#34;:[\&#34;/bin/sh -c [ -z \\\&#34;</span><span style="color:#66d9ef">$(</span>apt-get indextargets<span style="color:#66d9ef">)</span><span style="color:#e6db74">\\\&#34; ]\&#34;]}}</span><span style="color:#e6db74">&#34;</span>
+      <span style="color:#f92672">}</span>,
+      <span style="color:#f92672">{</span>
+         <span style="color:#e6db74">&#34;v1Compatibility&#34;</span>: <span style="color:#e6db74">&#34;{\&#34;id\&#34;:\&#34;b14defeb827d49a068f1d1bb280e312add99650430b71e881f1f6f304d81aefe\&#34;,\&#34;created\&#34;:\&#34;2020-03-20T19:20:34.200290542Z\&#34;,\&#34;container_config\&#34;:{\&#34;Cmd\&#34;:[\&#34;/bin/sh -c #(nop) ADD file:537f9883fb90d19383082b8ac20c17b581db9045a48fa28b83cab73fe317047d in / \&#34;]}}&#34;</span>
+      <span style="color:#f92672">}</span>
+   <span style="color:#f92672">]</span>,
+   <span style="color:#e6db74">&#34;signatures&#34;</span>: <span style="color:#f92672">[</span>
+      <span style="color:#f92672">{</span>
+         <span style="color:#e6db74">&#34;header&#34;</span>: <span style="color:#f92672">{</span>
+            <span style="color:#e6db74">&#34;jwk&#34;</span>: <span style="color:#f92672">{</span>
+               <span style="color:#e6db74">&#34;crv&#34;</span>: <span style="color:#e6db74">&#34;P-256&#34;</span>,
+               <span style="color:#e6db74">&#34;kid&#34;</span>: <span style="color:#e6db74">&#34;EAGI:M5GN:CQT7:AKOB:DROQ:BYVZ:BU3O:3OCP:UPRN:L6QL:FZVJ:DVNX&#34;</span>,
+               <span style="color:#e6db74">&#34;kty&#34;</span>: <span style="color:#e6db74">&#34;EC&#34;</span>,
+               <span style="color:#e6db74">&#34;x&#34;</span>: <span style="color:#e6db74">&#34;cXGUHd8wxSJc11dZDTWLOJ_rvGX5HLjLwh-rtDyj1KU&#34;</span>,
+               <span style="color:#e6db74">&#34;y&#34;</span>: <span style="color:#e6db74">&#34;7gfzvzTXiH2NHhGvdojb2XFLkRvod4gakPyR_6hgJDE&#34;</span>
+            <span style="color:#f92672">}</span>,
+            <span style="color:#e6db74">&#34;alg&#34;</span>: <span style="color:#e6db74">&#34;ES256&#34;</span>
+         <span style="color:#f92672">}</span>,
+         <span style="color:#e6db74">&#34;signature&#34;</span>: <span style="color:#e6db74">&#34;DdFJAdzi0t9LrViJrko_ZHwbX_nQwZlLtnkNe1piWVlYrh-8vxtuoNi5NcKvIfwUDK_rosCg705Ob2Gyk26rTQ&#34;</span>,
+         <span style="color:#e6db74">&#34;protected&#34;</span>: <span style="color:#e6db74">&#34;eyJmb3JtYXRMZW5ndGgiOjQ5MjEsImZvcm1hdFRhaWwiOiJDbjAiLCJ0aW1lIjoiMjAyMC0wNC0xNVQxMzo1OTowMFoifQ&#34;</span>
+      <span style="color:#f92672">}</span>
+   <span style="color:#f92672">]</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h3 id="download-image-layer-via-api">Download image layer via API</h3>
+<p>From manifest file we get list of layers - <code>fsLayers</code> section - with sha256 hashes we can download each layers of image:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ubuntu-19.10<span style="color:#f92672">]</span>$ curl  -X GET http://localhost:5000/v2/ubuntu/blobs/sha256:eeacba527962683a1b026af611fe162d35281159762b699172caa48c69480f79 --output sha256:eeacba527962683a1b026af611fe162d35281159762b699172caa48c69480f79
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+<span style="color:#ae81ff">100</span> 26.9M  <span style="color:#ae81ff">100</span> 26.9M    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>   350M      <span style="color:#ae81ff">0</span> --:--:-- --:--:-- --:--:--  350M
+</code></pre></div><p>After downloading all layers:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ubuntu-19.10<span style="color:#f92672">]</span>$ ll
+total <span style="color:#ae81ff">27660</span>
+-rw-rw-r--. <span style="color:#ae81ff">1</span> lukas lukas      <span style="color:#ae81ff">844</span> Apr <span style="color:#ae81ff">15</span> 16:07 sha256:22752cd61bd53e9ac71e22fef539c165b3e11b368c1e54ca947260e317c4870a
+-rw-rw-r--. <span style="color:#ae81ff">1</span> lukas lukas    <span style="color:#ae81ff">30632</span> Apr <span style="color:#ae81ff">15</span> 16:07 sha256:25405ed4f245fc5627d0b03996d04c11d492c7a9ff937f4562a18e8757c39434
+-rw-rw-r--. <span style="color:#ae81ff">1</span> lukas lukas      <span style="color:#ae81ff">163</span> Apr <span style="color:#ae81ff">15</span> 16:07 sha256:9460de83957c509dd234ede9ea96d4d03b7f9cd252ef1497844f8450dedb6570
+-rw-rw-r--. <span style="color:#ae81ff">1</span> lukas lukas       <span style="color:#ae81ff">32</span> Apr <span style="color:#ae81ff">15</span> 16:07 sha256:a3ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4
+-rw-rw-r--. <span style="color:#ae81ff">1</span> lukas lukas <span style="color:#ae81ff">28276050</span> Apr <span style="color:#ae81ff">15</span> 16:08 sha256:eeacba527962683a1b026af611fe162d35281159762b699172caa48c69480f79
+</code></pre></div><h3 id="delete-image-via-api">Delete image via API</h3>
+<p>By default deleting images is not allowed.<br>
+If you want allow deleting start registry container with variable <code>-e REGISTRY_STORAGE_DELETE_ENABLED=true</code></p>
+<p>Delete command only accepts digest hash as reference to image - tags are not supported - we get this digest when we uploading image into repository:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ curl  -X DELETE  http://localhost:5000/v2/ubuntu/manifests/sha256:7ce552ad1c3e94a5c3d2bb24c07000c34a4bb43fd9b379652b2c80593a018e80
+</code></pre></div><p>We can check that there is no longer Ubuntu 19.10 image in our repository:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ curl  -X GET http://localhost:5000/v2/ubuntu/tags/list
+<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;ubuntu&#34;</span>,<span style="color:#e6db74">&#34;tags&#34;</span>:<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;latest&#34;</span>,<span style="color:#e6db74">&#34;19.04&#34;</span>,<span style="color:#e6db74">&#34;18.10&#34;</span><span style="color:#f92672">]</span><span style="color:#f92672">}</span>
+</code></pre></div>
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='categories'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
+  
+</svg>
+<span class='screen-reader-text'>Categories: </span><a class='category' href='/categories/docker/'>docker</a></div>
+<div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/docker-registry/'>docker registry</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/docker_private_registry_setup/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Docker private registry - setup</a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='mailto:itknowledgepill@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='https://linkedin.com/in/lbartnicki92' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Open Linkedin account in new tab</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+  <rect x="2" y="9" width="4" height="12"/>
+  <circle cx="4" cy="4" r="2"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p> &copy; 2020 Łukasz Bartnicki </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script src='/js/custom.js'></script>
+
+</body>
+
+</html>
+
