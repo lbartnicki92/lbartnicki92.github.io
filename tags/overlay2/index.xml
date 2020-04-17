@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>overlay2 on IT Knowledge Pill</title>
+    <link>http://lbartnicki92.github.io/tags/overlay2/</link>
+    <description>Recent content in overlay2 on IT Knowledge Pill</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 17 Apr 2020 10:00:00 +0100</lastBuildDate>
+    
+	<atom:link href="http://lbartnicki92.github.io/tags/overlay2/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Docker - storage driver setup</title>
+      <link>http://lbartnicki92.github.io/posts/docker_storage_drivers/</link>
+      <pubDate>Fri, 17 Apr 2020 10:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/posts/docker_storage_drivers/</guid>
+      <description>Each container except read only image space, consume also some writable space from storage layer.
+This writable and none writable space are managed together by storage driver.
+What is storage driver? Storage driver is a plugin for docker which is responsible for creating and maintaining union filesystem used by containers - for example: creating proper directory layout on filesystem.
+It is important to notice that under storage driver we always have got regular filesystem like ext4, zfs or vfs.</description>
+    </item>
+    
+  </channel>
+</rss>

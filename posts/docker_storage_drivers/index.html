@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang='en'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Each container except read only image space, consume also some writable space from storage layer.
+This writable and none writable space are managed together by storage driver.
+What is storage driver? Storage driver is a plugin for docker which is responsible for creating and maintaining union filesystem used by containers - for example: creating proper directory layout on filesystem.
+It is important to notice that under storage driver we always have got regular filesystem like ext4, zfs or vfs.'>
+<meta name='theme-color' content='#2ab55a'>
+
+<meta property='og:title' content='Docker - storage driver setup • Łukasz Bartnicki'>
+<meta property='og:description' content='Each container except read only image space, consume also some writable space from storage layer.
+This writable and none writable space are managed together by storage driver.
+What is storage driver? Storage driver is a plugin for docker which is responsible for creating and maintaining union filesystem used by containers - for example: creating proper directory layout on filesystem.
+It is important to notice that under storage driver we always have got regular filesystem like ext4, zfs or vfs.'>
+<meta property='og:url' content='http://lbartnicki92.github.io/posts/docker_storage_drivers/'>
+<meta property='og:site_name' content='IT Knowledge Pill'>
+<meta property='og:type' content='article'><meta property='og:image' content='http://lbartnicki92.github.io/images/IMG_0658.jpeg'><meta property='article:section' content='posts'><meta property='article:tag' content='graph driver'><meta property='article:tag' content='overlay2'><meta property='article:tag' content='aufs'><meta property='article:tag' content='devicemapper'><meta property='article:published_time' content='2020-04-17T10:00:00&#43;01:00'/><meta property='article:modified_time' content='2020-04-17T10:00:00&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta property='twitter:image' content='http://lbartnicki92.github.io/images/IMG_0658.jpeg'>
+
+<meta name="generator" content="Hugo 0.63.2" />
+
+  <title>Docker - storage driver setup • Łukasz Bartnicki</title>
+  <link rel='canonical' href='http://lbartnicki92.github.io/posts/docker_storage_drivers/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.css'><style>
+:root{--color-accent:#2ab55a;}
+</style>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-163565265-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  
+
+</head>
+<body class='page type-posts has-cover has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/images/logo.png'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      IT Knowledge Pill
+      </a>
+    </h2>
+    <div class='desc'>
+    Clear, practical and simple about IT technologies for DBA and DevOps
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><header>
+    <h4 class='title widget-title'>Menu</h4>
+  </header><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/categories/ansible'>Ansible</a></li><li class='item'>
+  <a href='/categories/docker'>Docker</a></li><li class='item'>
+  <a href='/categories/kubernetes'>Kubernetes</a></li><li class='item'>
+  <a href='/categories/oracle'>Oracle</a></li><li class='item'>
+  <a href='/categories/postgresql'>PostgreSQL</a></li><li class='item'>
+  <a href='/posts'>All posts</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-sidebar_menu_about sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/about'>About me</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-search sep-after'>
+  <header>
+    <h4 class='title widget-title'>Search</h4>
+  </header>
+
+  <form action='/search' id='search-form' class='search-form'>
+    <label>
+      <span class='screen-reader-text'>Search</span>
+      <input id='search-term' class='search-term' type='search' name='q' placeholder='Search&hellip;'>
+    </label></form>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/aufs/' style='font-size:1em'>aufs</a>
+      </li><li>
+        <a href='/tags/devicemapper/' style='font-size:1em'>devicemapper</a>
+      </li><li>
+        <a href='/tags/docker-build/' style='font-size:1em'>docker build</a>
+      </li><li>
+        <a href='/tags/docker-export/' style='font-size:1em'>docker export</a>
+      </li><li>
+        <a href='/tags/docker-image/' style='font-size:2em'>docker image</a>
+      </li><li>
+        <a href='/tags/docker-import/' style='font-size:1em'>docker import</a>
+      </li><li>
+        <a href='/tags/docker-load/' style='font-size:1em'>docker load</a>
+      </li><li>
+        <a href='/tags/docker-login/' style='font-size:1em'>docker login</a>
+      </li><li>
+        <a href='/tags/docker-registry/' style='font-size:2em'>docker registry</a>
+      </li><li>
+        <a href='/tags/docker-save/' style='font-size:1em'>docker save</a>
+      </li><li>
+        <a href='/tags/dockerfile/' style='font-size:1em'>dockerfile</a>
+      </li><li>
+        <a href='/tags/graph-driver/' style='font-size:1em'>graph driver</a>
+      </li><li>
+        <a href='/tags/kubeconfig/' style='font-size:1em'>KUBECONFIG</a>
+      </li><li>
+        <a href='/tags/kubectl/' style='font-size:1em'>kubectl</a>
+      </li><li>
+        <a href='/tags/overlay2/' style='font-size:1em'>overlay2</a>
+      </li><li>
+        <a href='/tags/postgresql/' style='font-size:1em'>postgresql</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button><div class='header-widgets'>
+        <div class='container'>
+    
+    <style>.widget-breadcrumbs li:after{content:'\2f '}</style>
+  <section class='widget widget-breadcrumbs sep-after'>
+    <nav id='breadcrumbs'>
+      <ol><li><a href='/'>IT Knowledge Pill</a></li><li><a href='/posts/'>Posts</a></li><li><span>Docker - storage driver setup</span></li></ol>
+    </nav>
+  </section></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>IT Knowledge Pill</p><p class='desc site-desc'>Clear, practical and simple about IT technologies for DBA and DevOps</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Docker - storage driver setup</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2020-04-17T10:00:00&#43;01:00'>17 Apr 2020</time>
+</span>
+
+  <span class='byline'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M21,21V20c0-2.76-4-5-9-5s-9,2.24-9,5v1"/>
+  <path d="M16,6.37A4,4,0,1,1,12.63,3,4,4,0,0,1,16,6.37Z"/>
+  
+</svg>
+<span class='screen-reader-text'> by </span><a href='/authors/lbartnicki'>Łukasz Bartnicki</a></span>
+  
+<span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/>
+  
+</svg>
+4 mins read
+</span>
+
+
+</div>
+
+
+  </div>
+</header>
+
+  <div class='entry-cover'>
+  <figure class='container cover-normal'>
+    <img src='/images/IMG_0658.jpeg'/>
+    
+      
+    
+  </figure>
+</div>
+  
+
+  <div class='container entry-content'>
+  <p>Each container except read only image space, consume also some writable space from storage layer.<br>
+This writable and none writable space are managed together by storage driver.</p>
+<h3 id="what-is-storage-driver">What is storage driver?</h3>
+<p>Storage driver is a plugin for docker which is responsible for creating and maintaining union filesystem used by containers - for example: creating proper directory layout on filesystem.<br>
+It is important to notice that under storage driver we always have got regular filesystem like ext4, zfs or vfs.</p>
+<p>Storage drivers in docker language are called graph drivers.</p>
+<h3 id="what-storage-driver-to-choose">What storage driver to choose?</h3>
+<p>For all currently supported Linux distributions preferred storage driver is overlay2. After installing docker it is set by default if kernel supports it.</p>
+<p>If we want use another driver it is good to follow bellow rules:</p>
+<ul>
+<li>RHEL/CentOS/Fedora - kernel 4.x+ - docker 17.06 and newer - overlay2</li>
+<li>RHEL/CentOS/Fedora - kernel lower than 4.x - docker lower than 17.06 - devicemapper</li>
+<li>Ubuntu/Debian - kernel 4.x+ - overlay2</li>
+<li>Ubuntu/Debian - kernel 3.13 - aufs</li>
+<li>SUSE Linux Enterprise Server - brtfs</li>
+<li>btrfs or zfs as backing filesystem - btrfs or zfs</li>
+<li>no copy on write can be used - vfs</li>
+</ul>
+<h3 id="backing-filesystem---varlibdocker">Backing Filesystem - /var/lib/docker</h3>
+<ul>
+<li>overlay2, overlay -&gt; xfs with ftype=1, ext4</li>
+<li>aufs	-&gt; xfs, ext4</li>
+<li>devicemapper	-&gt; direct-lvm</li>
+<li>btrfs -&gt; btrfs</li>
+<li>zfs -&gt; zfs</li>
+<li>vfs -&gt; any filesystem</li>
+</ul>
+<h3 id="checking-currently-used-storage-driver">Checking currently used storage driver</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ docker system info
+Client:
+ Debug Mode: false
+
+Server:
+ Containers: <span style="color:#ae81ff">4</span>
+  Running: <span style="color:#ae81ff">1</span>
+  Paused: <span style="color:#ae81ff">0</span>
+  Stopped: <span style="color:#ae81ff">3</span>
+ Images: <span style="color:#ae81ff">6</span>
+ Server Version: 18.09.1
+ Storage Driver: overlay2
+  Backing Filesystem: xfs
+  Supports d_type: true
+  Native Overlay Diff: true
+</code></pre></div><h3 id="changing-storage-driver">Changing storage driver</h3>
+<hr>
+<h5 id="important">Important!</h5>
+<p>Best option is to set storage driver once when we setting up our docker host and not changing it later.<br>
+If we have to change it on used for a while host, we should remember that:</p>
+<ul>
+<li>main path for docker files for Linux is <code>/var/lib/docker</code></li>
+<li>under <code>/var/lib/docker</code> each storage driver creates folder in which storage files are stored - for overlay2 path will be: <code>/var/lib/docker/overlay2</code>, for aufs path will be <code>/var/lib/docker/aufs</code> etc.</li>
+<li>after changing storage drivers all images and containers writable layers stays at directory for storage driver that created them!</li>
+</ul>
+<p>We have to manually move docker images with <code>docker save</code>(before changing driver), <code>docker load</code>(after changing driver) and starting our containers - that all objects get recreated under new storage driver directory.</p>
+<hr>
+<p>From <code>root</code> user or with sudo.</p>
+<ul>
+<li>Stop docker engine</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># systemctl stop docker</span>
+</code></pre></div><ul>
+<li>Optionally if you want change filesystem in <code>/var/lib/docker</code> format it and remount</li>
+<li>Set in docker config file storage-driver. In example I will change default overlay2 to older(and not recommended!) overlay.</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># vi /etc/docker/daemon.json</span>
+<span style="color:#f92672">{</span>
+  <span style="color:#e6db74">&#34;storage-driver&#34;</span>: <span style="color:#e6db74">&#34;overlay&#34;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><ul>
+<li>Start docker</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># systemctl start docker</span>
+</code></pre></div><ul>
+<li>Check that change comes into life</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker system info</span>
+Client:
+Debug Mode: false
+
+Server:
+Containers: <span style="color:#ae81ff">0</span>
+ Running: <span style="color:#ae81ff">0</span>
+ Paused: <span style="color:#ae81ff">0</span>
+ Stopped: <span style="color:#ae81ff">0</span>
+Images: <span style="color:#ae81ff">0</span>
+Server Version: 18.09.1
+Storage Driver: overlay
+ Backing Filesystem: xfs
+ Supports d_type: true
+</code></pre></div><p>As we mentioned in important section, new storage driver directory is empty:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># ls -lah /var/lib/docker/overlay2/</span>
+total 8.0K
+drwx------. <span style="color:#ae81ff">33</span> root root   4.0K Apr <span style="color:#ae81ff">17</span> 13:47 .
+drwx--x--x. <span style="color:#ae81ff">16</span> root root    <span style="color:#ae81ff">215</span> Apr <span style="color:#ae81ff">17</span> 15:50 ..
+drwx------.  <span style="color:#ae81ff">4</span> root root     <span style="color:#ae81ff">55</span> Apr <span style="color:#ae81ff">15</span> 16:46 12b365375674274f8ac0562678fbcece4025cd7e36b2bedb5d738796bd29cc87
+drwx------.  <span style="color:#ae81ff">4</span> root root     <span style="color:#ae81ff">55</span> Apr <span style="color:#ae81ff">15</span> 16:46 1d22222ace78d8c5a5dd95b37756b17da5aba98dd2c9ceece2757bb3c3a9bd4a
+drwx------.  <span style="color:#ae81ff">4</span> root root     <span style="color:#ae81ff">55</span> Apr <span style="color:#ae81ff">17</span> 15:41 1d42f20fa161bede1cf4e14e71e69a8f88e86f3809d3a104ad85c1677ec41187
+drwx------.  <span style="color:#ae81ff">4</span> root root     <span style="color:#ae81ff">55</span> Apr <span style="color:#ae81ff">15</span> 16:45 1d42f20fa161bede1cf4e14e71e69a8f88e86f3809d3a104ad85c1677ec41187-init
+drwx------.  <span style="color:#ae81ff">4</span> root root     <span style="color:#ae81ff">55</span> Apr <span style="color:#ae81ff">15</span> 16:46 26509f1a2e19c59bb9792fa83b6649149360775d28b74f61a2a142cdf291b258
+drwx------.  <span style="color:#ae81ff">3</span> root root     <span style="color:#ae81ff">30</span> Apr <span style="color:#ae81ff">14</span> 13:49 46cfa83c2c666559583cb58886f0ee6d6da0d6c70e49464e76857b7dcb264008
+drwx------.  <span style="color:#ae81ff">4</span> root root     <span style="color:#ae81ff">55</span> Apr <span style="color:#ae81ff">14</span> 13:49 4c0e521c6b4c7e98798a31fe5d4b5a6247319c97371c0ff10adf78b2adcf15d2
+
+<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># ls -lah /var/lib/docker/overlay/</span>
+total <span style="color:#ae81ff">0</span>
+drwx------.  <span style="color:#ae81ff">2</span> root root   <span style="color:#ae81ff">6</span> Apr <span style="color:#ae81ff">17</span> 15:50 .
+drwx--x--x. <span style="color:#ae81ff">16</span> root root <span style="color:#ae81ff">215</span> Apr <span style="color:#ae81ff">17</span> 15:50 ..
+</code></pre></div><p>We also not seeing our images and containers:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+</code></pre></div><h3 id="revert-back-to-default-overlay2">Revert back to default overlay2</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># systemctl stop docker</span>
+
+<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># rm -rf /etc/docker/daemon.json</span>
+
+<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># systemctl start docker</span>
+
+<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
+REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE
+alpine                  latest              a187dde48cd2        <span style="color:#ae81ff">3</span> weeks ago         5.6MB
+localhost:443/alpine    latest              a187dde48cd2        <span style="color:#ae81ff">3</span> weeks ago         5.6MB
+localhost:5000/alpine   latest              a187dde48cd2        <span style="color:#ae81ff">3</span> weeks ago         5.6MB
+ubuntu                  19.10               e9ccb229a23d        <span style="color:#ae81ff">3</span> weeks ago         72.9MB
+localhost:5000/ubuntu   19.10               e9ccb229a23d        <span style="color:#ae81ff">3</span> weeks ago         72.9MB
+</code></pre></div>
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='categories'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
+  
+</svg>
+<span class='screen-reader-text'>Categories: </span><a class='category' href='/categories/docker/'>docker</a></div>
+<div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/graph-driver/'>graph driver</a>, <a class='tag' href='/tags/overlay2/'>overlay2</a>, <a class='tag' href='/tags/aufs/'>aufs</a>, <a class='tag' href='/tags/devicemapper/'>devicemapper</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/docker_registry_api_operations/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Docker registry - operations on API</a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='mailto:itknowledgepill@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='https://linkedin.com/in/lbartnicki92' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Open Linkedin account in new tab</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+  <rect x="2" y="9" width="4" height="12"/>
+  <circle cx="4" cy="4" r="2"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p> &copy; 2020 Łukasz Bartnicki </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script src='/js/custom.js'></script>
+
+</body>
+
+</html>
+

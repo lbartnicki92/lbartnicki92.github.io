@@ -109,6 +109,10 @@ if (!doNotTrack) {
 
   <div class='container list-container'>
   <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/aufs/' style='font-size:1em'>aufs</a>
+      </li><li>
+        <a href='/tags/devicemapper/' style='font-size:1em'>devicemapper</a>
+      </li><li>
         <a href='/tags/docker-build/' style='font-size:1em'>docker build</a>
       </li><li>
         <a href='/tags/docker-export/' style='font-size:1em'>docker export</a>
@@ -127,9 +131,13 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/dockerfile/' style='font-size:1em'>dockerfile</a>
       </li><li>
+        <a href='/tags/graph-driver/' style='font-size:1em'>graph driver</a>
+      </li><li>
         <a href='/tags/kubeconfig/' style='font-size:1em'>KUBECONFIG</a>
       </li><li>
         <a href='/tags/kubectl/' style='font-size:1em'>kubectl</a>
+      </li><li>
+        <a href='/tags/overlay2/' style='font-size:1em'>overlay2</a>
       </li><li>
         <a href='/tags/postgresql/' style='font-size:1em'>postgresql</a>
       </li></ul>
@@ -292,6 +300,7 @@ file
 </code></pre></div><p>We have in our image previously created - folder and file.</p>
 <p>Docker export never include files from volumes mounted to container!</p>
 <p>If you want to add some instructions from Dockerfile before importing image - check in help <code>--change</code> parameter for <code>docker import</code> command.</p>
+<hr>
 <h5 id="important">Important!</h5>
 <p><code>docker import</code> command always import image as single layer image, it ignores before export layer layout!</p>
 <p>Compare ubuntu image from which we created container and made export and imported image:</p>
@@ -305,7 +314,8 @@ IMAGE               CREATED             CREATED BY                              
 </code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker history ubuntu-testfolder:1.0</span>
 IMAGE               CREATED             CREATED BY          SIZE                COMMENT
 c794b94e40a2        <span style="color:#ae81ff">31</span> seconds ago                          64.2MB              Imported from -
-</code></pre></div><h3 id="save-and-load-docker-image">Save and load docker image</h3>
+</code></pre></div><hr>
+<h3 id="save-and-load-docker-image">Save and load docker image</h3>
 <p>Save and load operates only on images, it has nothing to do with containers.<br>
 So we save image to file, give it to someone, he or she can load image into his repository.</p>
 <h5 id="save-image">Save image</h5>
