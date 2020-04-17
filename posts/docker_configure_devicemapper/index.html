@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang='en'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='If you are searching for better manageability of storage layer under your docker images and container you should consider devicemapper storage driver.
+It gives you ability to use block device instead of standard file based storage.
+Configure devicemapper with lvm as storage driver  Important! If you creating fresh docker installation and want to use only one block device as storage - from docker 17.06 you can use autoconfigure feature, simply by adding to /etc/docker/daemon.'>
+<meta name='theme-color' content='#2ab55a'>
+
+<meta property='og:title' content='Docker - devicemapper setup • Łukasz Bartnicki'>
+<meta property='og:description' content='If you are searching for better manageability of storage layer under your docker images and container you should consider devicemapper storage driver.
+It gives you ability to use block device instead of standard file based storage.
+Configure devicemapper with lvm as storage driver  Important! If you creating fresh docker installation and want to use only one block device as storage - from docker 17.06 you can use autoconfigure feature, simply by adding to /etc/docker/daemon.'>
+<meta property='og:url' content='http://lbartnicki92.github.io/posts/docker_configure_devicemapper/'>
+<meta property='og:site_name' content='IT Knowledge Pill'>
+<meta property='og:type' content='article'><meta property='og:image' content='http://lbartnicki92.github.io/images/IMG_0326.jpeg'><meta property='article:section' content='posts'><meta property='article:tag' content='graph driver'><meta property='article:tag' content='devicemapper'><meta property='article:tag' content='lvm'><meta property='article:published_time' content='2020-04-17T14:00:00&#43;01:00'/><meta property='article:modified_time' content='2020-04-17T14:00:00&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta property='twitter:image' content='http://lbartnicki92.github.io/images/IMG_0326.jpeg'>
+
+<meta name="generator" content="Hugo 0.63.2" />
+
+  <title>Docker - devicemapper setup • Łukasz Bartnicki</title>
+  <link rel='canonical' href='http://lbartnicki92.github.io/posts/docker_configure_devicemapper/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.css'><style>
+:root{--color-accent:#2ab55a;}
+</style>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-163565265-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  
+
+</head>
+<body class='page type-posts has-cover has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/images/logo.png'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      IT Knowledge Pill
+      </a>
+    </h2>
+    <div class='desc'>
+    Clear, practical and simple about IT technologies for DBA and DevOps
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><header>
+    <h4 class='title widget-title'>Menu</h4>
+  </header><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/categories/ansible'>Ansible</a></li><li class='item'>
+  <a href='/categories/docker'>Docker</a></li><li class='item'>
+  <a href='/categories/kubernetes'>Kubernetes</a></li><li class='item'>
+  <a href='/categories/oracle'>Oracle</a></li><li class='item'>
+  <a href='/categories/postgresql'>PostgreSQL</a></li><li class='item'>
+  <a href='/posts'>All posts</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-sidebar_menu_about sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/about'>About me</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-search sep-after'>
+  <header>
+    <h4 class='title widget-title'>Search</h4>
+  </header>
+
+  <form action='/search' id='search-form' class='search-form'>
+    <label>
+      <span class='screen-reader-text'>Search</span>
+      <input id='search-term' class='search-term' type='search' name='q' placeholder='Search&hellip;'>
+    </label></form>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/aufs/' style='font-size:1em'>aufs</a>
+      </li><li>
+        <a href='/tags/devicemapper/' style='font-size:2em'>devicemapper</a>
+      </li><li>
+        <a href='/tags/docker-build/' style='font-size:1em'>docker build</a>
+      </li><li>
+        <a href='/tags/docker-export/' style='font-size:1em'>docker export</a>
+      </li><li>
+        <a href='/tags/docker-image/' style='font-size:2em'>docker image</a>
+      </li><li>
+        <a href='/tags/docker-import/' style='font-size:1em'>docker import</a>
+      </li><li>
+        <a href='/tags/docker-load/' style='font-size:1em'>docker load</a>
+      </li><li>
+        <a href='/tags/docker-login/' style='font-size:1em'>docker login</a>
+      </li><li>
+        <a href='/tags/docker-registry/' style='font-size:2em'>docker registry</a>
+      </li><li>
+        <a href='/tags/docker-save/' style='font-size:1em'>docker save</a>
+      </li><li>
+        <a href='/tags/dockerfile/' style='font-size:1em'>dockerfile</a>
+      </li><li>
+        <a href='/tags/graph-driver/' style='font-size:2em'>graph driver</a>
+      </li><li>
+        <a href='/tags/kubeconfig/' style='font-size:1em'>KUBECONFIG</a>
+      </li><li>
+        <a href='/tags/kubectl/' style='font-size:1em'>kubectl</a>
+      </li><li>
+        <a href='/tags/lvm/' style='font-size:1em'>lvm</a>
+      </li><li>
+        <a href='/tags/overlay2/' style='font-size:1em'>overlay2</a>
+      </li><li>
+        <a href='/tags/postgresql/' style='font-size:1em'>postgresql</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button><div class='header-widgets'>
+        <div class='container'>
+    
+    <style>.widget-breadcrumbs li:after{content:'\2f '}</style>
+  <section class='widget widget-breadcrumbs sep-after'>
+    <nav id='breadcrumbs'>
+      <ol><li><a href='/'>IT Knowledge Pill</a></li><li><a href='/posts/'>Posts</a></li><li><span>Docker - devicemapper setup</span></li></ol>
+    </nav>
+  </section></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>IT Knowledge Pill</p><p class='desc site-desc'>Clear, practical and simple about IT technologies for DBA and DevOps</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Docker - devicemapper setup</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2020-04-17T14:00:00&#43;01:00'>17 Apr 2020</time>
+</span>
+
+  <span class='byline'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M21,21V20c0-2.76-4-5-9-5s-9,2.24-9,5v1"/>
+  <path d="M16,6.37A4,4,0,1,1,12.63,3,4,4,0,0,1,16,6.37Z"/>
+  
+</svg>
+<span class='screen-reader-text'> by </span><a href='/authors/lbartnicki'>Łukasz Bartnicki</a></span>
+  
+<span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/>
+  
+</svg>
+5 mins read
+</span>
+
+
+</div>
+
+
+  </div>
+</header>
+
+  <div class='entry-cover'>
+  <figure class='container cover-normal'>
+    <img src='/images/IMG_0326.jpeg'/>
+    
+      
+    
+  </figure>
+</div>
+  
+
+  <div class='container entry-content'>
+  <p>If you are searching for better manageability of storage layer under your docker images and container you should consider devicemapper storage driver.</p>
+<p>It gives you ability to use block device instead of standard file based storage.</p>
+<h3 id="configure-devicemapper-with-lvm-as-storage-driver">Configure devicemapper with lvm as storage driver</h3>
+<hr>
+<h5 id="important">Important!</h5>
+<p>If you creating fresh docker installation and want to use only one block device as storage - from docker 17.06 you can use autoconfigure feature, simply by adding to <code>/etc/docker/daemon.json</code> following:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">{</span>
+  <span style="color:#e6db74">&#34;storage-driver&#34;</span>: <span style="color:#e6db74">&#34;devicemapper&#34;</span>,
+  <span style="color:#e6db74">&#34;storage-opts&#34;</span>: <span style="color:#f92672">[</span>
+    <span style="color:#e6db74">&#34;dm.directlvm_device=/dev/&lt;your_block_device&#34;</span>,
+    <span style="color:#e6db74">&#34;dm.thinp_percent=95&#34;</span>,
+    <span style="color:#e6db74">&#34;dm.thinp_metapercent=1&#34;</span>,
+    <span style="color:#e6db74">&#34;dm.thinp_autoextend_threshold=80&#34;</span>,
+    <span style="color:#e6db74">&#34;dm.thinp_autoextend_percent=20&#34;</span>,
+    <span style="color:#e6db74">&#34;dm.directlvm_device_force=false&#34;</span>
+  <span style="color:#f92672">]</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>All magic will be done for you.<br>
+Despite that I advice to do manual configuration by yourself.</p>
+<h5 id="what-parameters-mean">What parameters mean?</h5>
+<ul>
+<li>thinp_percent - max space in % allocated for data in Volume Group</li>
+<li>max space in % allocated for metadata in Volume Group</li>
+<li>thinp_autoextend_threshold - at what % allocation thinpool will extend itself</li>
+<li>thinp_autoextend_percent - amount of % than will be allocated at extending event</li>
+<li>directlvm_device_force - forcing device format</li>
+</ul>
+<hr>
+<p>From <code>root</code> - this is <code>direct-lvm</code> method</p>
+<ul>
+<li>Install packages(on CentOS 8+ you probably already have them installed):</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># yum install -y lvm2 device-mapper-persistent-data</span>
+Failed to set locale, defaulting to C.UTF-8
+Last metadata expiration check: 0:21:01 ago on Fri Apr <span style="color:#ae81ff">17</span> 20:23:13 2020.
+Package lvm2-8:2.03.05-5.el8.0.1.x86_64 is already installed.
+Package device-mapper-persistent-data-0.8.5-2.el8.x86_64 is already installed.
+Dependencies resolved.
+Nothing to <span style="color:#66d9ef">do</span>.
+Complete!
+</code></pre></div><p>On ubuntu it will be <code>thin-provisioning-tools</code> instead of <code>device-mapper-persistent-data</code>.</p>
+<ul>
+<li>Stop docker</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># systemctl stop docker</span>
+</code></pre></div><ul>
+<li>Check available raw devices - we will use <code>/dev/sdb</code> and <code>/dev/sdc</code> 10GB devices</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># lsblk</span>
+NAME        MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda           8:0    <span style="color:#ae81ff">0</span>   32G  <span style="color:#ae81ff">0</span> disk
+|-sda1        8:1    <span style="color:#ae81ff">0</span>    1G  <span style="color:#ae81ff">0</span> part /boot
+<span style="color:#e6db74">`</span>-sda2        8:2    <span style="color:#ae81ff">0</span>   31G  <span style="color:#ae81ff">0</span> part
+  <span style="color:#e6db74">`</span>-cl-root 253:0    <span style="color:#ae81ff">0</span>   31G  <span style="color:#ae81ff">0</span> lvm  /
+sdb           8:16   <span style="color:#ae81ff">0</span>   10G  <span style="color:#ae81ff">0</span> disk
+sdc           8:32   <span style="color:#ae81ff">0</span>   10G  <span style="color:#ae81ff">0</span> disk
+sdd           8:48   <span style="color:#ae81ff">0</span>   10G  <span style="color:#ae81ff">0</span> disk
+sr0          11:0    <span style="color:#ae81ff">1</span>  6.7G  <span style="color:#ae81ff">0</span> rom
+</code></pre></div><ul>
+<li>Create LVM physical volumes and volume group, later check that everything is correct by <code>pvs</code> command</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># pvcreate /dev/sdb</span>
+ Physical volume <span style="color:#e6db74">&#34;/dev/sdb&#34;</span> successfully created.
+
+<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># pvcreate /dev/sdc</span>
+ Physical volume <span style="color:#e6db74">&#34;/dev/sdc&#34;</span> successfully created.
+
+<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># vgcreate docker /dev/sdb /dev/sdc</span>
+ Volume group <span style="color:#e6db74">&#34;docker&#34;</span> successfully created
+
+<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># pvs</span>
+   PV         VG     Fmt  Attr PSize   PFree
+   /dev/sda2  cl     lvm2 a--  &lt;31.00g      <span style="color:#ae81ff">0</span>
+   /dev/sdb   docker lvm2 a--  &lt;10.00g &lt;10.00g
+   /dev/sdc   docker lvm2 a--  &lt;10.00g &lt;10.00g
+</code></pre></div><ul>
+<li>Create logical volumes on LVM for thin thinpool(<code>-l</code> defines max percentage of space from VG than LV can use)</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># lvcreate --wipesignatures y -n thinpool docker -l 95%VG</span>
+  Logical volume <span style="color:#e6db74">&#34;thinpool&#34;</span> created.
+
+<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># lvcreate --wipesignatures y -n thinpoolmeta docker -l 1%VG</span>
+  Logical volume <span style="color:#e6db74">&#34;thinpoolmeta&#34;</span> created
+</code></pre></div><ul>
+<li>Create thinpool</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># lvconvert -y --zero n -c 512K --thinpool docker/thinpool --poolmetadata docker/thinpoolmeta</span>
+  Thin pool volume with chunk size 512.00 KiB can address at most 126.50 TiB of data.
+  WARNING: Converting docker/thinpool and docker/thinpoolmeta to thin pool<span style="color:#960050;background-color:#1e0010">&#39;</span>s data and metadata volumes with metadata wiping.
+  THIS WILL DESTROY CONTENT OF LOGICAL VOLUME <span style="color:#f92672">(</span>filesystem etc.<span style="color:#f92672">)</span>
+  Converted docker/thinpool and docker/thinpoolmeta to thin pool.
+</code></pre></div><ul>
+<li>Configure profile for thinpool</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># vi /etc/lvm/profile/docker-thinpool.profile</span>
+activation <span style="color:#f92672">{</span>
+  thin_pool_autoextend_threshold<span style="color:#f92672">=</span><span style="color:#ae81ff">80</span>
+  thin_pool_autoextend_percent<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><ul>
+<li>Apply profile and activate pool monitor</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># lvchange --metadataprofile docker-thinpool docker/thinpool</span>
+  Logical volume docker/thinpool changed.
+
+<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># lvchange --monitor y docker/thinpool</span>
+</code></pre></div><ul>
+<li>Configure docker to use devicemapper storage driver</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># vi /etc/docker/daemon.json</span>
+<span style="color:#f92672">{</span>
+    <span style="color:#e6db74">&#34;storage-driver&#34;</span>: <span style="color:#e6db74">&#34;devicemapper&#34;</span>,
+    <span style="color:#e6db74">&#34;storage-opts&#34;</span>: <span style="color:#f92672">[</span>
+    <span style="color:#e6db74">&#34;dm.thinpooldev=/dev/mapper/docker-thinpool&#34;</span>,
+    <span style="color:#e6db74">&#34;dm.use_deferred_removal=true&#34;</span>,
+    <span style="color:#e6db74">&#34;dm.use_deferred_deletion=true&#34;</span>
+    <span style="color:#f92672">]</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><ul>
+<li>Start docker and check that devicemapper is in use</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># systemctl start docker</span>
+
+<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker system info</span>
+Client:
+ Debug Mode: false
+
+Server:
+ Containers: <span style="color:#ae81ff">0</span>
+  Running: <span style="color:#ae81ff">0</span>
+  Paused: <span style="color:#ae81ff">0</span>
+  Stopped: <span style="color:#ae81ff">0</span>
+ Images: <span style="color:#ae81ff">0</span>
+ Server Version: 18.09.1
+ Storage Driver: devicemapper
+  Pool Name: docker-thinpool
+  Pool Blocksize: 524.3kB
+  Base Device Size: 10.74GB
+  Backing Filesystem: xfs
+  Udev Sync Supported: true
+  Data Space Used: 19.92MB
+  Data Space Total: 20.39GB
+  Data Space Available: 20.37GB
+  Metadata Space Used: 16.84MB
+  Metadata Space Total: 213.9MB
+  Metadata Space Available: 197.1MB
+  Thin Pool Minimum Free Space: 2.039GB
+  Deferred Removal Enabled: true
+  Deferred Deletion Enabled: true
+  Deferred Deleted Device Count: <span style="color:#ae81ff">0</span>
+  Library Version: 1.02.163-RHEL8 <span style="color:#f92672">(</span>2019-06-15<span style="color:#f92672">)</span>
+</code></pre></div><h3 id="devicemapper-configuration-maintenance">Devicemapper configuration maintenance</h3>
+<h5 id="add-new-device-to-thinpool">Add new device to thinpool</h5>
+<ul>
+<li>Add device to Volume Group</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># lsblk</span>
+NAME                    MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda                       8:0    <span style="color:#ae81ff">0</span>   32G  <span style="color:#ae81ff">0</span> disk
+|-sda1                    8:1    <span style="color:#ae81ff">0</span>    1G  <span style="color:#ae81ff">0</span> part /boot
+<span style="color:#e6db74">`</span>-sda2                    8:2    <span style="color:#ae81ff">0</span>   31G  <span style="color:#ae81ff">0</span> part
+ <span style="color:#e6db74">`</span>-cl-root             253:0    <span style="color:#ae81ff">0</span>   31G  <span style="color:#ae81ff">0</span> lvm  /
+sdb                       8:16   <span style="color:#ae81ff">0</span>   10G  <span style="color:#ae81ff">0</span> disk
+<span style="color:#e6db74">`</span>-docker-thinpool_tdata 253:2    <span style="color:#ae81ff">0</span>   19G  <span style="color:#ae81ff">0</span> lvm
+ <span style="color:#e6db74">`</span>-docker-thinpool     253:3    <span style="color:#ae81ff">0</span>   19G  <span style="color:#ae81ff">0</span> lvm
+sdc                       8:32   <span style="color:#ae81ff">0</span>   10G  <span style="color:#ae81ff">0</span> disk
+|-docker-thinpool_tmeta 253:1    <span style="color:#ae81ff">0</span>  204M  <span style="color:#ae81ff">0</span> lvm
+| <span style="color:#e6db74">`</span>-docker-thinpool     253:3    <span style="color:#ae81ff">0</span>   19G  <span style="color:#ae81ff">0</span> lvm
+<span style="color:#e6db74">`</span>-docker-thinpool_tdata 253:2    <span style="color:#ae81ff">0</span>   19G  <span style="color:#ae81ff">0</span> lvm
+ <span style="color:#e6db74">`</span>-docker-thinpool     253:3    <span style="color:#ae81ff">0</span>   19G  <span style="color:#ae81ff">0</span> lvm
+sdd                       8:48   <span style="color:#ae81ff">0</span>   10G  <span style="color:#ae81ff">0</span> disk
+sr0                      11:0    <span style="color:#ae81ff">1</span>  6.7G  <span style="color:#ae81ff">0</span> rom
+
+<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># pvcreate /dev/sdd</span>
+ Physical volume <span style="color:#e6db74">&#34;/dev/sdd&#34;</span> successfully created.
+
+<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># vgextend docker /dev/sdd</span>
+ Volume group <span style="color:#e6db74">&#34;docker&#34;</span> successfully extended
+</code></pre></div><ul>
+<li>Add space to thinpool and check</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># lvextend -l+100%FREE -n docker/thinpool</span>
+  Size of logical volume docker/thinpool_tdata changed from 18.99 GiB <span style="color:#f92672">(</span><span style="color:#ae81ff">4862</span> extents<span style="color:#f92672">)</span> to &lt;29.59 GiB <span style="color:#f92672">(</span><span style="color:#ae81ff">7575</span> extents<span style="color:#f92672">)</span>.
+  Logical volume docker/thinpool_tdata successfully resized.
+
+<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker system info</span>
+Client:
+ Debug Mode: false
+
+Server:
+ Containers: <span style="color:#ae81ff">0</span>
+  Running: <span style="color:#ae81ff">0</span>
+  Paused: <span style="color:#ae81ff">0</span>
+  Stopped: <span style="color:#ae81ff">0</span>
+ Images: <span style="color:#ae81ff">0</span>
+ Server Version: 18.09.1
+ Storage Driver: devicemapper
+  Pool Name: docker-thinpool
+  Pool Blocksize: 524.3kB
+  Base Device Size: 10.74GB
+  Backing Filesystem: xfs
+  Udev Sync Supported: true
+  Data Space Used: 19.92MB
+  Data Space Total: 31.77GB
+  Data Space Available: 31.75GB
+  Metadata Space Used: 16.84MB
+  Metadata Space Total: 213.9MB
+  Metadata Space Available: 197.1MB
+  Thin Pool Minimum Free Space: 3.177GB
+  Deferred Removal Enabled: true
+  Deferred Deletion Enabled: true
+  Deferred Deleted Device Count: <span style="color:#ae81ff">0</span>
+  Library Version: 1.02.163-RHEL8 <span style="color:#f92672">(</span>2019-06-15<span style="color:#f92672">)</span>
+</code></pre></div><h5 id="restart-lvm-after-reboot">Restart LVM after reboot</h5>
+<p><code>lvchange -ay docker/thinpool</code></p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='categories'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
+  
+</svg>
+<span class='screen-reader-text'>Categories: </span><a class='category' href='/categories/docker/'>docker</a></div>
+<div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/graph-driver/'>graph driver</a>, <a class='tag' href='/tags/devicemapper/'>devicemapper</a>, <a class='tag' href='/tags/lvm/'>lvm</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/docker_storage_drivers/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Docker - storage driver setup</a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='mailto:itknowledgepill@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='https://linkedin.com/in/lbartnicki92' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Open Linkedin account in new tab</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+  <rect x="2" y="9" width="4" height="12"/>
+  <circle cx="4" cy="4" r="2"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p> &copy; 2020 Łukasz Bartnicki </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script src='/js/custom.js'></script>
+
+</body>
+
+</html>
+
