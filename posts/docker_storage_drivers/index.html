@@ -8,7 +8,7 @@ What is storage driver? Storage driver is a plugin for docker which is responsib
 It is important to notice that under storage driver we always have got regular filesystem like ext4, zfs or vfs.'>
 <meta name='theme-color' content='#2ab55a'>
 
-<meta property='og:title' content='Docker - storage driver setup • Łukasz Bartnicki'>
+<meta property='og:title' content='Docker storage driver - setup • Łukasz Bartnicki'>
 <meta property='og:description' content='Each container except read only image space, consume also some writable space from storage layer.
 This writable and none writable space are managed together by storage driver.
 What is storage driver? Storage driver is a plugin for docker which is responsible for creating and maintaining union filesystem used by containers - for example: creating proper directory layout on filesystem.
@@ -19,7 +19,7 @@ It is important to notice that under storage driver we always have got regular f
 
 <meta name="generator" content="Hugo 0.63.2" />
 
-  <title>Docker - storage driver setup • Łukasz Bartnicki</title>
+  <title>Docker storage driver - setup • Łukasz Bartnicki</title>
   <link rel='canonical' href='http://lbartnicki92.github.io/posts/docker_storage_drivers/'>
   
   
@@ -111,6 +111,8 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/devicemapper/' style='font-size:2em'>devicemapper</a>
       </li><li>
+        <a href='/tags/docker-bind-mount/' style='font-size:1em'>docker bind mount</a>
+      </li><li>
         <a href='/tags/docker-build/' style='font-size:1em'>docker build</a>
       </li><li>
         <a href='/tags/docker-export/' style='font-size:1em'>docker export</a>
@@ -126,6 +128,8 @@ if (!doNotTrack) {
         <a href='/tags/docker-registry/' style='font-size:2em'>docker registry</a>
       </li><li>
         <a href='/tags/docker-save/' style='font-size:1em'>docker save</a>
+      </li><li>
+        <a href='/tags/docker-volume/' style='font-size:1em'>docker volume</a>
       </li><li>
         <a href='/tags/dockerfile/' style='font-size:1em'>dockerfile</a>
       </li><li>
@@ -173,7 +177,7 @@ if (!doNotTrack) {
     <style>.widget-breadcrumbs li:after{content:'\2f '}</style>
   <section class='widget widget-breadcrumbs sep-after'>
     <nav id='breadcrumbs'>
-      <ol><li><a href='/'>IT Knowledge Pill</a></li><li><a href='/posts/'>Posts</a></li><li><span>Docker - storage driver setup</span></li></ol>
+      <ol><li><a href='/'>IT Knowledge Pill</a></li><li><a href='/posts/'>Posts</a></li><li><span>Docker storage driver - setup</span></li></ol>
     </nav>
   </section></div>
       </div>
@@ -192,7 +196,7 @@ if (!doNotTrack) {
   <header class='header entry-header'>
   <div class='container sep-after'>
     <div class='header-info'>
-      <h1 class='title'>Docker - storage driver setup</h1>
+      <h1 class='title'>Docker storage driver - setup</h1>
       
 
     </div>
@@ -228,7 +232,7 @@ if (!doNotTrack) {
 
 
   <span class='entry-label'>
-  <span>Version: </span> Docker 18.09
+  <span>Tested on: </span> Docker 18.09
 </span>
 </div>
 
@@ -408,7 +412,7 @@ localhost:5000/ubuntu   19.10               e9ccb229a23d        <span style="col
         <span class='screen-reader-text'>Previous post: </span>Docker registry - operations on API</a>
     </div><div class='next-entry sep-before'>
       <a href='/posts/docker_configure_devicemapper/'>
-        <span class='screen-reader-text'>Next post: </span>Docker - devicemapper setup<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+        <span class='screen-reader-text'>Next post: </span>Docker devicemapper - setup<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
   
   <line x1="4" y1="12" x2="20" y2="12"/>
   <polyline points="14 6 20 12 14 18"/>

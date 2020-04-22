@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang='en'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Storing persistent data in containers needs special storage. There is two options - volumes or bind mounts.
+How to use them?
+Volume vs bind mounts Bind mounts:
+ rely on docker host directory structure different behaviour for --mount and --volume parameters cant&rsquo; be control by docker CLI used mainly in development environments  Volumes:
+ can be control by docker CLI works in Linux and Windows hosts easier to backup because of central location /var/lib/docker/volumes easier to store in cloud provider infrastructure preferred method as docker documentation said give possibility to be shared between cluster nodes  At newer versions of Docker preferred method for configuring is --mount parameter instead of --volume.'>
+<meta name='theme-color' content='#2ab55a'>
+
+<meta property='og:title' content='Docker volumes and bind mounts • Łukasz Bartnicki'>
+<meta property='og:description' content='Storing persistent data in containers needs special storage. There is two options - volumes or bind mounts.
+How to use them?
+Volume vs bind mounts Bind mounts:
+ rely on docker host directory structure different behaviour for --mount and --volume parameters cant&rsquo; be control by docker CLI used mainly in development environments  Volumes:
+ can be control by docker CLI works in Linux and Windows hosts easier to backup because of central location /var/lib/docker/volumes easier to store in cloud provider infrastructure preferred method as docker documentation said give possibility to be shared between cluster nodes  At newer versions of Docker preferred method for configuring is --mount parameter instead of --volume.'>
+<meta property='og:url' content='http://lbartnicki92.github.io/posts/docker_volume_bind_mounts/'>
+<meta property='og:site_name' content='IT Knowledge Pill'>
+<meta property='og:type' content='article'><meta property='og:image' content='http://lbartnicki92.github.io/images/IMG_0335.jpeg'><meta property='article:section' content='posts'><meta property='article:tag' content='docker volume'><meta property='article:tag' content='docker bind mount'><meta property='article:published_time' content='2020-04-22T10:00:00&#43;01:00'/><meta property='article:modified_time' content='2020-04-22T10:00:00&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta property='twitter:image' content='http://lbartnicki92.github.io/images/IMG_0335.jpeg'>
+
+<meta name="generator" content="Hugo 0.63.2" />
+
+  <title>Docker volumes and bind mounts • Łukasz Bartnicki</title>
+  <link rel='canonical' href='http://lbartnicki92.github.io/posts/docker_volume_bind_mounts/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.css'><style>
+:root{--color-accent:#2ab55a;}
+</style>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-163565265-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  
+
+</head>
+<body class='page type-posts has-cover has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/images/logo.png'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      IT Knowledge Pill
+      </a>
+    </h2>
+    <div class='desc'>
+    Clear, practical and simple about IT technologies for DBA and DevOps
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><header>
+    <h4 class='title widget-title'>Menu</h4>
+  </header><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/categories/ansible'>Ansible</a></li><li class='item'>
+  <a href='/categories/docker'>Docker</a></li><li class='item'>
+  <a href='/categories/kubernetes'>Kubernetes</a></li><li class='item'>
+  <a href='/categories/oracle'>Oracle</a></li><li class='item'>
+  <a href='/categories/postgresql'>PostgreSQL</a></li><li class='item'>
+  <a href='/posts'>All posts</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-sidebar_menu_about sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/about'>About me</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-search sep-after'>
+  <header>
+    <h4 class='title widget-title'>Search</h4>
+  </header>
+
+  <form action='/search' id='search-form' class='search-form'>
+    <label>
+      <span class='screen-reader-text'>Search</span>
+      <input id='search-term' class='search-term' type='search' name='q' placeholder='Search&hellip;'>
+    </label></form>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/aufs/' style='font-size:1em'>aufs</a>
+      </li><li>
+        <a href='/tags/devicemapper/' style='font-size:2em'>devicemapper</a>
+      </li><li>
+        <a href='/tags/docker-bind-mount/' style='font-size:1em'>docker bind mount</a>
+      </li><li>
+        <a href='/tags/docker-build/' style='font-size:1em'>docker build</a>
+      </li><li>
+        <a href='/tags/docker-export/' style='font-size:1em'>docker export</a>
+      </li><li>
+        <a href='/tags/docker-image/' style='font-size:2em'>docker image</a>
+      </li><li>
+        <a href='/tags/docker-import/' style='font-size:1em'>docker import</a>
+      </li><li>
+        <a href='/tags/docker-load/' style='font-size:1em'>docker load</a>
+      </li><li>
+        <a href='/tags/docker-login/' style='font-size:1em'>docker login</a>
+      </li><li>
+        <a href='/tags/docker-registry/' style='font-size:2em'>docker registry</a>
+      </li><li>
+        <a href='/tags/docker-save/' style='font-size:1em'>docker save</a>
+      </li><li>
+        <a href='/tags/docker-volume/' style='font-size:1em'>docker volume</a>
+      </li><li>
+        <a href='/tags/dockerfile/' style='font-size:1em'>dockerfile</a>
+      </li><li>
+        <a href='/tags/graph-driver/' style='font-size:2em'>graph driver</a>
+      </li><li>
+        <a href='/tags/kubeconfig/' style='font-size:1em'>KUBECONFIG</a>
+      </li><li>
+        <a href='/tags/kubectl/' style='font-size:1em'>kubectl</a>
+      </li><li>
+        <a href='/tags/lvm/' style='font-size:1em'>lvm</a>
+      </li><li>
+        <a href='/tags/overlay2/' style='font-size:1em'>overlay2</a>
+      </li><li>
+        <a href='/tags/postgresql/' style='font-size:1em'>postgresql</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button><div class='header-widgets'>
+        <div class='container'>
+    
+    <style>.widget-breadcrumbs li:after{content:'\2f '}</style>
+  <section class='widget widget-breadcrumbs sep-after'>
+    <nav id='breadcrumbs'>
+      <ol><li><a href='/'>IT Knowledge Pill</a></li><li><a href='/posts/'>Posts</a></li><li><span>Docker volumes and bind mounts</span></li></ol>
+    </nav>
+  </section></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>IT Knowledge Pill</p><p class='desc site-desc'>Clear, practical and simple about IT technologies for DBA and DevOps</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Docker volumes and bind mounts</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2020-04-22T10:00:00&#43;01:00'>22 Apr 2020</time>
+</span>
+
+  <span class='byline'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M21,21V20c0-2.76-4-5-9-5s-9,2.24-9,5v1"/>
+  <path d="M16,6.37A4,4,0,1,1,12.63,3,4,4,0,0,1,16,6.37Z"/>
+  
+</svg>
+<span class='screen-reader-text'> by </span><a href='/authors/lbartnicki'>Łukasz Bartnicki</a></span>
+  
+<span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/>
+  
+</svg>
+3 mins read
+</span>
+
+
+  <span class='entry-label'>
+  <span>Tested on: </span> Docker 18.09
+</span>
+</div>
+
+
+  </div>
+</header>
+
+  <div class='entry-cover'>
+  <figure class='container cover-normal'>
+    <img src='/images/IMG_0335.jpeg'/>
+    
+      
+    
+  </figure>
+</div>
+  
+
+  <div class='container entry-content'>
+  <p>Storing persistent data in containers needs special storage. There is two options - volumes or bind mounts.</p>
+<p>How to use them?</p>
+<h3 id="volume-vs-bind-mounts">Volume vs bind mounts</h3>
+<p>Bind mounts:</p>
+<ul>
+<li>rely on docker host directory structure</li>
+<li>different behaviour for <code>--mount</code> and <code>--volume</code> parameters</li>
+<li>cant&rsquo; be control by docker CLI</li>
+<li>used mainly in development environments</li>
+</ul>
+<p>Volumes:</p>
+<ul>
+<li>can be control by docker CLI</li>
+<li>works in Linux and Windows hosts</li>
+<li>easier to backup because of central location <code>/var/lib/docker/volumes</code></li>
+<li>easier to store in cloud provider infrastructure</li>
+<li>preferred method as docker documentation said</li>
+<li>give possibility to be shared between cluster nodes</li>
+</ul>
+<p>At newer versions of Docker preferred method for configuring is <code>--mount</code> parameter instead of <code>--volume</code>.</p>
+<h3 id="volume-usage">Volume usage</h3>
+<h5 id="create-volume">Create volume</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ docker volume create lukas-space
+lukas-space
+</code></pre></div><h4 id="list-volumes">List volumes</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker volume ls</span>
+DRIVER              VOLUME NAME
+local               lukas-space
+</code></pre></div><h5 id="check-volume-physical-location">Check volume physical location</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ docker volume inspect lukas-space
+<span style="color:#f92672">[</span>
+    <span style="color:#f92672">{</span>
+        <span style="color:#e6db74">&#34;CreatedAt&#34;</span>: <span style="color:#e6db74">&#34;2020-04-22T14:06:33+02:00&#34;</span>,
+        <span style="color:#e6db74">&#34;Driver&#34;</span>: <span style="color:#e6db74">&#34;local&#34;</span>,
+        <span style="color:#e6db74">&#34;Labels&#34;</span>: <span style="color:#f92672">{</span><span style="color:#f92672">}</span>,
+        <span style="color:#e6db74">&#34;Mountpoint&#34;</span>: <span style="color:#e6db74">&#34;/var/lib/docker/volumes/lukas-space/_data&#34;</span>,
+        <span style="color:#e6db74">&#34;Name&#34;</span>: <span style="color:#e6db74">&#34;lukas-space&#34;</span>,
+        <span style="color:#e6db74">&#34;Options&#34;</span>: <span style="color:#f92672">{</span><span style="color:#f92672">}</span>,
+        <span style="color:#e6db74">&#34;Scope&#34;</span>: <span style="color:#e6db74">&#34;local&#34;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">]</span>
+</code></pre></div><p>Driver <code>local</code> means that we didn&rsquo;t use any external driver to create volume, it resides on docker host local storage.<br>
+External drivers will be covered in another post.</p>
+<p>At docker host from <code>root</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># ls -lah /var/lib/docker/volumes/lukas-space/_data</span>
+total <span style="color:#ae81ff">0</span>
+drwxr-xr-x. <span style="color:#ae81ff">2</span> root root  <span style="color:#ae81ff">6</span> Apr <span style="color:#ae81ff">22</span> 14:06 .
+drwxr-xr-x. <span style="color:#ae81ff">3</span> root root <span style="color:#ae81ff">19</span> Apr <span style="color:#ae81ff">22</span> 14:06 ..
+</code></pre></div><h5 id="start-container-with-created-volume">Start container with created volume</h5>
+<p>Parameter <code>--mount</code> has following options:</p>
+<ul>
+<li>type - volume(default), bind mount or tmpfs</li>
+<li>source - name of volume</li>
+<li>target - location in container filesystem where volume should be mounted</li>
+<li>optionally <code>readonly</code> option</li>
+</ul>
+<p>Options have to be delimited by comma.</p>
+<p>We want to mount <code>lukas-space</code> volume at <code>/lukas-space</code> directory in read-write mode:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ docker run -it --name ubuntu-server --mount source<span style="color:#f92672">=</span>lukas-space,target<span style="color:#f92672">=</span>/lukas-space ubuntu bash
+</code></pre></div><hr>
+<h5 id="important">Important!</h5>
+<ul>
+<li>if we didn&rsquo;t create volume earlier docker will create it for us with name given in <code>source</code> field of <code>--mount</code> parameter</li>
+<li>volumes by default will not be deleted while we removing container</li>
+<li>if volume should be deleted with container - add <code>--rm</code> option to <code>docker run</code> command</li>
+<li>if container has got in <code>target</code> directory any files, this files will be copied into volume</li>
+</ul>
+<hr>
+<p>Check if mounted directory exists:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">root@7d7887833e93:/# ls -lah /lukas-space/
+total <span style="color:#ae81ff">0</span>
+drwxr-xr-x.  <span style="color:#ae81ff">2</span> root root  <span style="color:#ae81ff">22</span> Apr <span style="color:#ae81ff">22</span> 12:23 .
+drwxr-xr-x. <span style="color:#ae81ff">22</span> root root <span style="color:#ae81ff">261</span> Apr <span style="color:#ae81ff">22</span> 12:24 ..
+</code></pre></div><p>Create test file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">root@be1874c33798:/# touch /lukas-space/testfile
+</code></pre></div><p>Check from docker host level that file appears:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># ls -lah /var/lib/docker/volumes/lukas-space/_data</span>
+total <span style="color:#ae81ff">0</span>
+drwxr-xr-x. <span style="color:#ae81ff">2</span> root root <span style="color:#ae81ff">22</span> Apr <span style="color:#ae81ff">22</span> 14:23 .
+drwxr-xr-x. <span style="color:#ae81ff">3</span> root root <span style="color:#ae81ff">19</span> Apr <span style="color:#ae81ff">22</span> 14:06 ..
+-rw-r--r--. <span style="color:#ae81ff">1</span> root root  <span style="color:#ae81ff">0</span> Apr <span style="color:#ae81ff">22</span> 14:23 testfile
+</code></pre></div><p>You can make from this location backup or restore of volume data.</p>
+<h3 id="bind-mount-usage">Bind mount usage</h3>
+<h5 id="create-directory-to-mount">Create directory to mount</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ mkdir bindmount
+</code></pre></div><p>Create container with directory mounted:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ docker run -it --name ubuntu-server --mount type<span style="color:#f92672">=</span>bind,source<span style="color:#f92672">=</span>/home/lukas/bindmount,target<span style="color:#f92672">=</span>/lukas-space ubuntu bash
+
+root@41cd34d22b7d:/# ls -lah /lukas-space/
+total <span style="color:#ae81ff">0</span>
+drwxrwxr-x.  <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">1000</span> <span style="color:#ae81ff">1000</span>   <span style="color:#ae81ff">6</span> Apr <span style="color:#ae81ff">22</span> 13:26 .
+drwxr-xr-x. <span style="color:#ae81ff">22</span> root root <span style="color:#ae81ff">261</span> Apr <span style="color:#ae81ff">22</span> 13:27 ..
+</code></pre></div><hr>
+<h5 id="important-1">Important!</h5>
+<ul>
+<li>if we didn&rsquo;t create directory on docker host earlier docker will not create it for us with <code>--mount</code> parameter, auto-creating is available only it older <code>--volume</code></li>
+<li>bind mounts by default will not be deleted while we removing container</li>
+<li>if container has got in <code>target</code> directory any files, this files will NOT be copied into bind mount directory, bind directory will cover any files in target container directory</li>
+</ul>
+<hr>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='categories'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
+  
+</svg>
+<span class='screen-reader-text'>Categories: </span><a class='category' href='/categories/docker/'>docker</a></div>
+<div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/docker-volume/'>docker volume</a>, <a class='tag' href='/tags/docker-bind-mount/'>docker bind mount</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/docker_configure_devicemapper/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Docker devicemapper - setup</a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='mailto:itknowledgepill@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='https://linkedin.com/in/lbartnicki92' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Open Linkedin account in new tab</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+  <rect x="2" y="9" width="4" height="12"/>
+  <circle cx="4" cy="4" r="2"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p> &copy; 2020 Łukasz Bartnicki </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script src='/js/custom.js'></script>
+
+</body>
+
+</html>
+
