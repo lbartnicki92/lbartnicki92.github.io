@@ -5,10 +5,23 @@
     <link>http://lbartnicki92.github.io/</link>
     <description>Recent content on IT Knowledge Pill</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 22 Apr 2020 10:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 28 Apr 2020 10:00:00 +0100</lastBuildDate>
     
 	<atom:link href="http://lbartnicki92.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Docker swarm - setup and usage</title>
+      <link>http://lbartnicki92.github.io/posts/docker_swarm_compendium/</link>
+      <pubDate>Tue, 28 Apr 2020 10:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/posts/docker_swarm_compendium/</guid>
+      <description>For HA and easier management of our containers we can create swarm cluster.
+It is composed of couple nodes with docker engine installed.
+How to setup swarm and use it?
+Example configuration and prerequisites In my lab environment I used three nodes:
+   Role in Swarm Server IP     Manager docker-host1.lukas.int 10.10.10.20   Worker1 docker-host2.lukas.int 10.10.10.21   Worker2 docker-host3.lukas.int 10.10.10.22    Each node has got docker engine installed with standard procedure as for single node docker.</description>
+    </item>
     
     <item>
       <title>Docker volumes and bind mounts</title>

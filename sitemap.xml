@@ -4,17 +4,47 @@
   
   <url>
     <loc>http://lbartnicki92.github.io/authors/</loc>
-    <lastmod>2020-04-22T10:00:00+01:00</lastmod>
+    <lastmod>2020-04-28T10:00:00+01:00</lastmod>
   </url>
   
   <url>
     <loc>http://lbartnicki92.github.io/categories/</loc>
-    <lastmod>2020-04-22T10:00:00+01:00</lastmod>
+    <lastmod>2020-04-28T10:00:00+01:00</lastmod>
   </url>
   
   <url>
     <loc>http://lbartnicki92.github.io/categories/docker/</loc>
-    <lastmod>2020-04-22T10:00:00+01:00</lastmod>
+    <lastmod>2020-04-28T10:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lbartnicki92.github.io/tags/docker-swarm/</loc>
+    <lastmod>2020-04-28T10:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lbartnicki92.github.io/posts/docker_swarm_compendium/</loc>
+    <lastmod>2020-04-28T10:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lbartnicki92.github.io/</loc>
+    <lastmod>2020-04-28T10:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lbartnicki92.github.io/authors/lbartnicki/</loc>
+    <lastmod>2020-04-28T10:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lbartnicki92.github.io/posts/</loc>
+    <lastmod>2020-04-28T10:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lbartnicki92.github.io/tags/</loc>
+    <lastmod>2020-04-28T10:00:00+01:00</lastmod>
   </url>
   
   <url>
@@ -29,26 +59,6 @@
   
   <url>
     <loc>http://lbartnicki92.github.io/posts/docker_volume_bind_mounts/</loc>
-    <lastmod>2020-04-22T10:00:00+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://lbartnicki92.github.io/</loc>
-    <lastmod>2020-04-22T10:00:00+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://lbartnicki92.github.io/authors/lbartnicki/</loc>
-    <lastmod>2020-04-22T10:00:00+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://lbartnicki92.github.io/posts/</loc>
-    <lastmod>2020-04-22T10:00:00+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://lbartnicki92.github.io/tags/</loc>
     <lastmod>2020-04-22T10:00:00+01:00</lastmod>
   </url>
   
