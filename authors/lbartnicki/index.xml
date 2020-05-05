@@ -5,10 +5,22 @@
     <link>http://lbartnicki92.github.io/authors/lbartnicki/</link>
     <description>Recent content in lbartnicki on IT Knowledge Pill</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 04 May 2020 10:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 05 May 2020 10:00:00 +0100</lastBuildDate>
     
 	<atom:link href="http://lbartnicki92.github.io/authors/lbartnicki/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Docker logging driver configuration - json-file and journald</title>
+      <link>http://lbartnicki92.github.io/posts/docker_logging_driver/</link>
+      <pubDate>Tue, 05 May 2020 10:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/posts/docker_logging_driver/</guid>
+      <description>Docker allows us to stream logs to different places with plugins called logging drivers.
+How to change logging driver? What&amp;rsquo;s the most popular ones?
+What is logging driver? Docker has got two types of logging drivers:
+ built-in like:  awslogs fluentd gcplogs gelf journald json-file local logentries splunk syslog   external drivers that we can install with docker plugin install  Logging driver is used to forward logs from containers to specific log aggregators, widely known rsyslog or fluentd for example.</description>
+    </item>
     
     <item>
       <title>Docker install and upgrade guide - CentOS and Ubuntu</title>

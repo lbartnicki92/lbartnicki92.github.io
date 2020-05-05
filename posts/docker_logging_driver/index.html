@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang='en'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Docker allows us to stream logs to different places with plugins called logging drivers.
+How to change logging driver? What&rsquo;s the most popular ones?
+What is logging driver? Docker has got two types of logging drivers:
+ built-in like:  awslogs fluentd gcplogs gelf journald json-file local logentries splunk syslog   external drivers that we can install with docker plugin install  Logging driver is used to forward logs from containers to specific log aggregators, widely known rsyslog or fluentd for example.'>
+<meta name='theme-color' content='#2ab55a'>
+
+<meta property='og:title' content='Docker logging driver configuration - json-file and journald • Łukasz Bartnicki'>
+<meta property='og:description' content='Docker allows us to stream logs to different places with plugins called logging drivers.
+How to change logging driver? What&rsquo;s the most popular ones?
+What is logging driver? Docker has got two types of logging drivers:
+ built-in like:  awslogs fluentd gcplogs gelf journald json-file local logentries splunk syslog   external drivers that we can install with docker plugin install  Logging driver is used to forward logs from containers to specific log aggregators, widely known rsyslog or fluentd for example.'>
+<meta property='og:url' content='http://lbartnicki92.github.io/posts/docker_logging_driver/'>
+<meta property='og:site_name' content='IT Knowledge Pill'>
+<meta property='og:type' content='article'><meta property='og:image' content='http://lbartnicki92.github.io/images/docker_banner.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='docker logs'><meta property='article:tag' content='log-driver'><meta property='article:published_time' content='2020-05-05T10:00:00&#43;01:00'/><meta property='article:modified_time' content='2020-05-05T10:00:00&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta property='twitter:image' content='http://lbartnicki92.github.io/images/docker_banner.jpg'>
+
+<meta name="generator" content="Hugo 0.63.2" />
+
+  <title>Docker logging driver configuration - json-file and journald • Łukasz Bartnicki</title>
+  <link rel='canonical' href='http://lbartnicki92.github.io/posts/docker_logging_driver/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.css'><style>
+:root{--color-accent:#2ab55a;}
+</style>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-163565265-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  
+
+</head>
+<body class='page type-posts has-cover has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/images/logo.png'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      IT Knowledge Pill
+      </a>
+    </h2>
+    <div class='desc'>
+    Clear, practical and simple about IT technologies for DBA and DevOps
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><header>
+    <h4 class='title widget-title'>Menu</h4>
+  </header><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/categories/ansible'>Ansible</a></li><li class='item'>
+  <a href='/categories/docker'>Docker</a></li><li class='item'>
+  <a href='/categories/kubernetes'>Kubernetes</a></li><li class='item'>
+  <a href='/categories/oracle'>Oracle</a></li><li class='item'>
+  <a href='/categories/postgresql'>PostgreSQL</a></li><li class='item'>
+  <a href='/posts'>All posts</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-sidebar_menu_about sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/about'>About me</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-search sep-after'>
+  <header>
+    <h4 class='title widget-title'>Search</h4>
+  </header>
+
+  <form action='/search' id='search-form' class='search-form'>
+    <label>
+      <span class='screen-reader-text'>Search</span>
+      <input id='search-term' class='search-term' type='search' name='q' placeholder='Search&hellip;'>
+    </label></form>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/aufs/' style='font-size:1em'>aufs</a>
+      </li><li>
+        <a href='/tags/devicemapper/' style='font-size:2em'>devicemapper</a>
+      </li><li>
+        <a href='/tags/docker-bind-mount/' style='font-size:1em'>docker bind mount</a>
+      </li><li>
+        <a href='/tags/docker-build/' style='font-size:1em'>docker build</a>
+      </li><li>
+        <a href='/tags/docker-export/' style='font-size:1em'>docker export</a>
+      </li><li>
+        <a href='/tags/docker-image/' style='font-size:2em'>docker image</a>
+      </li><li>
+        <a href='/tags/docker-import/' style='font-size:1em'>docker import</a>
+      </li><li>
+        <a href='/tags/docker-load/' style='font-size:1em'>docker load</a>
+      </li><li>
+        <a href='/tags/docker-login/' style='font-size:1em'>docker login</a>
+      </li><li>
+        <a href='/tags/docker-logs/' style='font-size:1em'>docker logs</a>
+      </li><li>
+        <a href='/tags/docker-registry/' style='font-size:2em'>docker registry</a>
+      </li><li>
+        <a href='/tags/docker-save/' style='font-size:1em'>docker save</a>
+      </li><li>
+        <a href='/tags/docker-swarm/' style='font-size:1em'>docker swarm</a>
+      </li><li>
+        <a href='/tags/docker-volume/' style='font-size:1em'>docker volume</a>
+      </li><li>
+        <a href='/tags/dockerfile/' style='font-size:1em'>dockerfile</a>
+      </li><li>
+        <a href='/tags/graph-driver/' style='font-size:2em'>graph driver</a>
+      </li><li>
+        <a href='/tags/kubeconfig/' style='font-size:1em'>KUBECONFIG</a>
+      </li><li>
+        <a href='/tags/kubectl/' style='font-size:1em'>kubectl</a>
+      </li><li>
+        <a href='/tags/log-driver/' style='font-size:1em'>log-driver</a>
+      </li><li>
+        <a href='/tags/lvm/' style='font-size:1em'>lvm</a>
+      </li><li>
+        <a href='/tags/overlay2/' style='font-size:1em'>overlay2</a>
+      </li><li>
+        <a href='/tags/postgresql/' style='font-size:1em'>postgresql</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button><div class='header-widgets'>
+        <div class='container'>
+    
+    <style>.widget-breadcrumbs li:after{content:'\2f '}</style>
+  <section class='widget widget-breadcrumbs sep-after'>
+    <nav id='breadcrumbs'>
+      <ol><li><a href='/'>IT Knowledge Pill</a></li><li><a href='/posts/'>Posts</a></li><li><span>Docker logging driver configuration - json-file and journald</span></li></ol>
+    </nav>
+  </section></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>IT Knowledge Pill</p><p class='desc site-desc'>Clear, practical and simple about IT technologies for DBA and DevOps</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Docker logging driver configuration - json-file and journald</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2020-05-05T10:00:00&#43;01:00'>05 May 2020</time>
+</span>
+
+  <span class='byline'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M21,21V20c0-2.76-4-5-9-5s-9,2.24-9,5v1"/>
+  <path d="M16,6.37A4,4,0,1,1,12.63,3,4,4,0,0,1,16,6.37Z"/>
+  
+</svg>
+<span class='screen-reader-text'> by </span><a href='/authors/lbartnicki'>Łukasz Bartnicki</a></span>
+  
+<span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/>
+  
+</svg>
+4 mins read
+</span>
+
+
+  <span class='entry-label'>
+  <span>Tested on: </span> Docker 19.03
+</span>
+</div>
+
+
+  </div>
+</header>
+
+  <div class='entry-cover'>
+  <figure class='container cover-normal'>
+    <img src='/images/docker_banner.jpg'/>
+    
+      
+    
+  </figure>
+</div>
+  
+
+  <div class='container entry-content'>
+  <p>Docker allows us to stream logs to different places with plugins called logging drivers.</p>
+<p>How to change logging driver? What&rsquo;s the most popular ones?</p>
+<h2 id="what-is-logging-driver">What is logging driver?</h2>
+<p>Docker has got two types of logging drivers:</p>
+<ul>
+<li>built-in like:
+<ul>
+<li><code>awslogs</code></li>
+<li><code>fluentd</code></li>
+<li><code>gcplogs</code></li>
+<li><code>gelf</code></li>
+<li><code>journald</code></li>
+<li><code>json-file</code></li>
+<li><code>local</code></li>
+<li><code>logentries</code></li>
+<li><code>splunk</code></li>
+<li><code>syslog</code></li>
+</ul>
+</li>
+<li>external drivers that we can install with <code>docker plugin install</code></li>
+</ul>
+<p>Logging driver is used to forward logs from containers to specific log aggregators, widely known rsyslog or fluentd for example.</p>
+<p>Default logging driver after installation is <code>json-file</code>.</p>
+<p>It is important to test non default logging drivers before using on production - problems with logging can cause crash/hang or startup problems with containers.</p>
+<h2 id="check-default-logging-driver">Check default logging driver</h2>
+<p>This is driver that docker daemon will use for itself and containers that won&rsquo;t have set explicit another driver at start</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker info --format <span style="color:#e6db74">&#39;{{.LoggingDriver}}&#39;</span>
+json-file
+</code></pre></div><h2 id="check-logging-driver-for-running-container">Check logging driver for running container</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 docker<span style="color:#f92672">]</span><span style="color:#75715e"># docker container ls</span>
+CONTAINER ID        IMAGE               COMMAND              CREATED              STATUS              PORTS               NAMES
+7e0f1ab24716        httpd               <span style="color:#e6db74">&#34;httpd-foreground&#34;</span>   About a minute ago   Up About a minute   80/tcp              web_server_httpd
+
+<span style="color:#f92672">[</span>lukas@docker-host1 docker<span style="color:#f92672">]</span><span style="color:#75715e"># docker inspect -f &#39;{{.HostConfig.LogConfig.Type}}&#39; web_server_httpd</span>
+json-file
+</code></pre></div><h2 id="log-location---container-with-json-file-driver">Log location - container with <code>json-file</code> driver</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 docker<span style="color:#f92672">]</span><span style="color:#75715e"># docker container inspect web_server_httpd --format &#34;{{.LogPath}}&#34;</span>
+/var/lib/docker/containers/7e0f1ab2471674b020f39a03e6c1cc49f8c70378acb5ca94d4323dc2cbeecb68/7e0f1ab2471674b020f39a03e6c1cc49f8c70378acb5ca94d4323dc2cbeecb68-json.log
+</code></pre></div><h2 id="logs-from-docker-cli-command">Logs from docker cli command</h2>
+<p>This command will work fine with default &lsquo;json-log&rsquo; driver, can fail with non default ones</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 docker<span style="color:#f92672">]</span><span style="color:#75715e"># docker logs web_server_httpd</span>
+AH00558: httpd: Could not reliably determine the server<span style="color:#e6db74">&#39;s fully qualified domain name, using 172.17.0.3. Set the &#39;</span>ServerName<span style="color:#e6db74">&#39; directive globally to suppress this message
+</span><span style="color:#e6db74">AH00558: httpd: Could not reliably determine the server&#39;</span>s fully qualified domain name, using 172.17.0.3. Set the <span style="color:#e6db74">&#39;ServerName&#39;</span> directive globally to suppress this message
+<span style="color:#f92672">[</span>Tue May <span style="color:#ae81ff">05</span> 13:28:43.383499 2020<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>mpm_event:notice<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>pid 1:tid 140713807934592<span style="color:#f92672">]</span> AH00489: Apache/2.4.43 <span style="color:#f92672">(</span>Unix<span style="color:#f92672">)</span> configured -- resuming normal operations
+<span style="color:#f92672">[</span>Tue May <span style="color:#ae81ff">05</span> 13:28:43.405939 2020<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>core:notice<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>pid 1:tid 140713807934592<span style="color:#f92672">]</span> AH00094: Command line: <span style="color:#e6db74">&#39;httpd -D FOREGROUND&#39;</span>
+</code></pre></div><h2 id="set-default-logging-driver">Set default logging driver</h2>
+<p>We can set default log-driver in <code>/etc/docker/daemon.json</code>.
+Format:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">{</span>
+  <span style="color:#e6db74">&#34;log-driver&#34;</span>: <span style="color:#e6db74">&#34;&lt;log_driver_name&gt;&#34;</span>,
+  <span style="color:#e6db74">&#34;log-opts&#34;</span>: <span style="color:#f92672">{</span>
+    <span style="color:#e6db74">&#34;&lt;log_opt1_name&gt;&#34;</span>: <span style="color:#e6db74">&#34;&lt;log_opt1_value&gt;&#34;</span>,
+    <span style="color:#e6db74">&#34;&lt;log_opt2_name&gt;&#34;</span>: <span style="color:#e6db74">&#34;&lt;log_opt2_value&gt;&#34;</span>
+  <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><hr>
+<h3 id="log_opts-for-json-file"><code>log_opts</code> for <code>json-file</code></h3>
+<ul>
+<li>max-size - max file size</li>
+<li>max-file - max number of files</li>
+<li>labels - list of keys of labels hat should be in log - if container has them set</li>
+<li>env - list of variables that should be in log - if container has them set</li>
+</ul>
+<hr>
+<h3 id="change-logging-driver-to-journald">Change logging driver to <code>journald</code></h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># vi /etc/docker/daemon.json</span>
+<span style="color:#f92672">{</span>
+    <span style="color:#e6db74">&#34;log-driver&#34;</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">journald
+</span><span style="color:#e6db74">}
+</span></code></pre></div><p>As in <code>json-file</code> we can optionally add another parameter <code>log_opts</code> to set some flags for <code>journald</code> driver:</p>
+<ul>
+<li>tag - Use to change CONTAINER_TAG and SYSLOG_IDENTIFIER</li>
+<li>labels - list of keys of labels hat should be in log - if container has them set</li>
+<li>env	-	list of variables that should be in log - if container has them set</li>
+</ul>
+<p>After configuration change we should restart docker daemon:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># systemctl restart docker</span>
+</code></pre></div><p>After starting container we can check his logs with <code>journalctl</code> command</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker run -d --name web_server_httpd httpd</span>
+
+<span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># journalctl CONTAINER_NAME=web_server_httpd</span>
+-- Logs begin at Tue 2020-05-05 16:08:42 CEST, end at Tue 2020-05-05 16:12:28 CEST. --
+May <span style="color:#ae81ff">05</span> 16:12:28 docker-host1.lukas.int 5c331ed1a91b<span style="color:#f92672">[</span>1752<span style="color:#f92672">]</span>: AH00558: httpd: Could not reliably determine the server<span style="color:#e6db74">&#39;s fully qualified domain name, using 172.17.0.2. Set the &gt;
+</span><span style="color:#e6db74">May 05 16:12:28 docker-host1.lukas.int 5c331ed1a91b[1752]: AH00558: httpd: Could not reliably determine the server&#39;</span>s fully qualified domain name, using 172.17.0.2. Set the &gt;
+May <span style="color:#ae81ff">05</span> 16:12:28 docker-host1.lukas.int 5c331ed1a91b<span style="color:#f92672">[</span>1752<span style="color:#f92672">]</span>: <span style="color:#f92672">[</span>Tue May <span style="color:#ae81ff">05</span> 14:12:28.492926 2020<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>mpm_event:notice<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>pid 1:tid 140110908605568<span style="color:#f92672">]</span> AH00489: Apache/2.4.43 <span style="color:#f92672">(</span>Unix<span style="color:#f92672">)</span> co&gt;
+May <span style="color:#ae81ff">05</span> 16:12:28 docker-host1.lukas.int 5c331ed1a91b<span style="color:#f92672">[</span>1752<span style="color:#f92672">]</span>: <span style="color:#f92672">[</span>Tue May <span style="color:#ae81ff">05</span> 14:12:28.517394 2020<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>core:notice<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>pid 1:tid 140110908605568<span style="color:#f92672">]</span> AH00094: Command line: <span style="color:#960050;background-color:#1e0010">&#39;</span>httpd -D FORE&gt;
+</code></pre></div><p>Your non priliged user should be in <code>systemd-journal</code> OS group to use <code>journalctl</code> command</p>
+<h2 id="set-logging-driver-at-container-level">Set logging driver at container level</h2>
+<p>We have now as default configured <code>journald</code> - but we can override this when starting container</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker run -d --name web_server --log-driver json-file httpd
+9427635d3943c2cf7fa48f0fe82f00b06bd5026619151437858ec9d40bc1b7ad
+</code></pre></div><p>We can also set options for driver with <code>--log-opt</code> followed by &lt; key &gt;=&lt; value &gt;.<br>
+For multiple flags we add multiple <code>--log-opt</code> params.</p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='categories'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
+  
+</svg>
+<span class='screen-reader-text'>Categories: </span><a class='category' href='/categories/docker/'>docker</a></div>
+<div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/docker-logs/'>docker logs</a>, <a class='tag' href='/tags/log-driver/'>log-driver</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/docker_install_upgrade/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Docker install and upgrade guide - CentOS and Ubuntu</a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='mailto:itknowledgepill@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='https://linkedin.com/in/lbartnicki92' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Open Linkedin account in new tab</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+  <rect x="2" y="9" width="4" height="12"/>
+  <circle cx="4" cy="4" r="2"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p> &copy; 2020 Łukasz Bartnicki </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script src='/js/custom.js'></script>
+
+</body>
+
+</html>
+
