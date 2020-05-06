@@ -5,10 +5,21 @@
     <link>http://lbartnicki92.github.io/posts/</link>
     <description>Recent content in Posts on IT Knowledge Pill</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 05 May 2020 10:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 06 May 2020 10:00:00 +0100</lastBuildDate>
     
 	<atom:link href="http://lbartnicki92.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Docker TLS - secure client and daemon</title>
+      <link>http://lbartnicki92.github.io/posts/docker_tls_secure_client_daemon/</link>
+      <pubDate>Wed, 06 May 2020 10:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/posts/docker_tls_secure_client_daemon/</guid>
+      <description>By default after installing docker on our host we have client and server(daemon) locally speaking to each other by IPC socket. On Linux - /var/run/docker.sock.
+So what we should do when our daemon is in remote location? How to make connection secure?
+Example environment    Role Server IP     Client docker-host1.lukas.int 10.10.10.20   CA docker-host2.lukas.int 10.10.10.21   Daemon docker-host3.lukas.int 10.10.10.22    All hosts can reach each other by hostname.</description>
+    </item>
     
     <item>
       <title>Docker logging driver configuration - json-file and journald</title>

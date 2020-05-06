@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang='en'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='In production setup it is very important to secure communication between client and server. In this post I will provide simple to follow guide to make your environment more secure!'>
+<meta name='theme-color' content='#2ab55a'>
+
+<meta property='og:title' content='Docker TLS - secure client and daemon • Łukasz Bartnicki'>
+<meta property='og:description' content='In production setup it is very important to secure communication between client and server. In this post I will provide simple to follow guide to make your environment more secure!'>
+<meta property='og:url' content='http://lbartnicki92.github.io/posts/docker_tls_secure_client_daemon/'>
+<meta property='og:site_name' content='IT Knowledge Pill'>
+<meta property='og:type' content='article'><meta property='og:image' content='http://lbartnicki92.github.io/images/docker_banner.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='tls'><meta property='article:tag' content='security'><meta property='article:published_time' content='2020-05-06T10:00:00&#43;01:00'/><meta property='article:modified_time' content='2020-05-06T10:00:00&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta property='twitter:image' content='http://lbartnicki92.github.io/images/docker_banner.jpg'>
+
+<meta name="generator" content="Hugo 0.63.2" />
+
+  <title>Docker TLS - secure client and daemon • Łukasz Bartnicki</title>
+  <link rel='canonical' href='http://lbartnicki92.github.io/posts/docker_tls_secure_client_daemon/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.css'><style>
+:root{--color-accent:#2ab55a;}
+</style>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-163565265-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  
+
+</head>
+<body class='page type-posts has-cover has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/images/logo.png'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      IT Knowledge Pill
+      </a>
+    </h2>
+    <div class='desc'>
+    Clear, practical and simple about IT technologies for DBA and DevOps
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><header>
+    <h4 class='title widget-title'>Menu</h4>
+  </header><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/categories/ansible'>Ansible</a></li><li class='item'>
+  <a href='/categories/docker'>Docker</a></li><li class='item'>
+  <a href='/categories/kubernetes'>Kubernetes</a></li><li class='item'>
+  <a href='/categories/oracle'>Oracle</a></li><li class='item'>
+  <a href='/categories/postgresql'>PostgreSQL</a></li><li class='item'>
+  <a href='/posts'>All posts</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-sidebar_menu_about sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/about'>About me</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-search sep-after'>
+  <header>
+    <h4 class='title widget-title'>Search</h4>
+  </header>
+
+  <form action='/search' id='search-form' class='search-form'>
+    <label>
+      <span class='screen-reader-text'>Search</span>
+      <input id='search-term' class='search-term' type='search' name='q' placeholder='Search&hellip;'>
+    </label></form>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/aufs/' style='font-size:1em'>aufs</a>
+      </li><li>
+        <a href='/tags/devicemapper/' style='font-size:2em'>devicemapper</a>
+      </li><li>
+        <a href='/tags/docker-bind-mount/' style='font-size:1em'>docker bind mount</a>
+      </li><li>
+        <a href='/tags/docker-build/' style='font-size:1em'>docker build</a>
+      </li><li>
+        <a href='/tags/docker-export/' style='font-size:1em'>docker export</a>
+      </li><li>
+        <a href='/tags/docker-image/' style='font-size:2em'>docker image</a>
+      </li><li>
+        <a href='/tags/docker-import/' style='font-size:1em'>docker import</a>
+      </li><li>
+        <a href='/tags/docker-load/' style='font-size:1em'>docker load</a>
+      </li><li>
+        <a href='/tags/docker-login/' style='font-size:1em'>docker login</a>
+      </li><li>
+        <a href='/tags/docker-logs/' style='font-size:1em'>docker logs</a>
+      </li><li>
+        <a href='/tags/docker-registry/' style='font-size:2em'>docker registry</a>
+      </li><li>
+        <a href='/tags/docker-save/' style='font-size:1em'>docker save</a>
+      </li><li>
+        <a href='/tags/docker-swarm/' style='font-size:1em'>docker swarm</a>
+      </li><li>
+        <a href='/tags/docker-volume/' style='font-size:1em'>docker volume</a>
+      </li><li>
+        <a href='/tags/dockerfile/' style='font-size:1em'>dockerfile</a>
+      </li><li>
+        <a href='/tags/graph-driver/' style='font-size:2em'>graph driver</a>
+      </li><li>
+        <a href='/tags/kubeconfig/' style='font-size:1em'>KUBECONFIG</a>
+      </li><li>
+        <a href='/tags/kubectl/' style='font-size:1em'>kubectl</a>
+      </li><li>
+        <a href='/tags/log-driver/' style='font-size:1em'>log-driver</a>
+      </li><li>
+        <a href='/tags/lvm/' style='font-size:1em'>lvm</a>
+      </li><li>
+        <a href='/tags/overlay2/' style='font-size:1em'>overlay2</a>
+      </li><li>
+        <a href='/tags/postgresql/' style='font-size:1em'>postgresql</a>
+      </li><li>
+        <a href='/tags/security/' style='font-size:1em'>security</a>
+      </li><li>
+        <a href='/tags/tls/' style='font-size:1em'>tls</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button><div class='header-widgets'>
+        <div class='container'>
+    
+    <style>.widget-breadcrumbs li:after{content:'\2f '}</style>
+  <section class='widget widget-breadcrumbs sep-after'>
+    <nav id='breadcrumbs'>
+      <ol><li><a href='/'>IT Knowledge Pill</a></li><li><a href='/posts/'>Posts</a></li><li><span>Docker TLS - secure client and daemon</span></li></ol>
+    </nav>
+  </section></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>IT Knowledge Pill</p><p class='desc site-desc'>Clear, practical and simple about IT technologies for DBA and DevOps</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Docker TLS - secure client and daemon</h1>
+      
+<p class='desc'>In production setup it is very important to secure communication between client and server. In this post I will provide simple to follow guide to make your environment more secure!</p>
+
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2020-05-06T10:00:00&#43;01:00'>06 May 2020</time>
+</span>
+
+  <span class='byline'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M21,21V20c0-2.76-4-5-9-5s-9,2.24-9,5v1"/>
+  <path d="M16,6.37A4,4,0,1,1,12.63,3,4,4,0,0,1,16,6.37Z"/>
+  
+</svg>
+<span class='screen-reader-text'> by </span><a href='/authors/lbartnicki'>Łukasz Bartnicki</a></span>
+  
+<span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/>
+  
+</svg>
+5 mins read
+</span>
+
+
+  <span class='entry-label'>
+  <span>Tested on: </span> Docker 19.03
+</span>
+</div>
+
+
+  </div>
+</header>
+
+  <div class='entry-cover'>
+  <figure class='container cover-normal'>
+    <img src='/images/docker_banner.jpg'/>
+    
+      
+    
+  </figure>
+</div>
+  
+
+  <div class='container entry-content'>
+  <p>By default after installing docker on our host we have client and server(daemon) locally speaking to each other by IPC socket. On Linux - <code>/var/run/docker.sock</code>.</p>
+<p>So what we should do when our daemon is in remote location? How to make connection secure?</p>
+<h3 id="example-environment">Example environment</h3>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Server</th>
+<th>IP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Client</td>
+<td>docker-host1.lukas.int</td>
+<td>10.10.10.20</td>
+</tr>
+<tr>
+<td>CA</td>
+<td>docker-host2.lukas.int</td>
+<td>10.10.10.21</td>
+</tr>
+<tr>
+<td>Daemon</td>
+<td>docker-host3.lukas.int</td>
+<td>10.10.10.22</td>
+</tr>
+</tbody>
+</table>
+<p>All hosts can reach each other by hostname.</p>
+<h2 id="tls">TLS</h2>
+<p>Docker uses TLS for securing connection over network between client and daemon.<br>
+We will set this from both sides:</p>
+<ul>
+<li>Daemon will want to talk only to clients with proper certificate</li>
+<li>Client will want to talk only to daemon with proper certificate also</li>
+</ul>
+<h2 id="self-signed-cert---if-we-dont-have-cert-from-ca">Self-signed cert - if we don&rsquo;t have cert from CA</h2>
+<ul>
+<li>Private key for CA</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e"># openssl genrsa -aes256 -out ca-key.pem 4096</span>
+Generating RSA private key, <span style="color:#ae81ff">4096</span> bit long modulus <span style="color:#f92672">(</span><span style="color:#ae81ff">2</span> primes<span style="color:#f92672">)</span>
+...............................................................................................++++
+..............................................................................++++
+e is <span style="color:#ae81ff">65537</span> <span style="color:#f92672">(</span>0x010001<span style="color:#f92672">)</span>
+Enter pass phrase <span style="color:#66d9ef">for</span> ca-key.pem:
+Verifying - Enter pass phrase <span style="color:#66d9ef">for</span> ca-key.pem:
+</code></pre></div><ul>
+<li>Public key</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e"># openssl  req -new -x509 -days 730 -key ca-key.pem -sha256 -out ca.pem</span>
+Enter pass phrase <span style="color:#66d9ef">for</span> ca-key.pem:
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter <span style="color:#e6db74">&#39;.&#39;</span>, the field will be left blank.
+-----
+Country Name <span style="color:#f92672">(</span><span style="color:#ae81ff">2</span> letter code<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>XX<span style="color:#f92672">]</span>:PL
+State or Province Name <span style="color:#f92672">(</span>full name<span style="color:#f92672">)</span> <span style="color:#f92672">[</span><span style="color:#f92672">]</span>:Maz
+Locality Name <span style="color:#f92672">(</span>eg, city<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>Default City<span style="color:#f92672">]</span>:Warsaw
+Organization Name <span style="color:#f92672">(</span>eg, company<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>Default Company Ltd<span style="color:#f92672">]</span>:knowledgepill.it
+Organizational Unit Name <span style="color:#f92672">(</span>eg, section<span style="color:#f92672">)</span> <span style="color:#f92672">[</span><span style="color:#f92672">]</span>:BlogSite
+Common Name <span style="color:#f92672">(</span>eg, your name or your server<span style="color:#960050;background-color:#1e0010">&#39;</span>s hostname<span style="color:#f92672">)</span> <span style="color:#f92672">[</span><span style="color:#f92672">]</span>:docker-host2.lukas.int
+
+</code></pre></div><h3 id="generate-key-and-certificate-for-daemon">Generate key and certificate for daemon</h3>
+<ul>
+<li>Generate private key for daemon</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e"># openssl genrsa -out daemon-key.pem 4096</span>
+Generating RSA private key, <span style="color:#ae81ff">4096</span> bit long modulus <span style="color:#f92672">(</span><span style="color:#ae81ff">2</span> primes<span style="color:#f92672">)</span>
+...................................................................................................++++
+........................................................++++
+e is <span style="color:#ae81ff">65537</span> <span style="color:#f92672">(</span>0x010001<span style="color:#f92672">)</span>
+</code></pre></div><ul>
+<li>Request CA to sign certificate for daemon</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e"># openssl req -subj &#34;/CN=docker-host3&#34; -sha256 -new -key daemon-key.pem -out daemon.csr</span>
+</code></pre></div><ul>
+<li>Add info to cert</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e"># vi extfile.cnf</span>
+
+subjectAltName <span style="color:#f92672">=</span> DNS:docker-host3,IP:10.10.10.22
+extendedKeyUsage <span style="color:#f92672">=</span> serverAuth
+</code></pre></div><ul>
+<li>Generate daemon certificate</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e"># openssl x509 -req -days 730 -sha256 -in daemon.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out daemon-cert.pem -extfile extfile.cnf</span>
+Signature ok
+subject<span style="color:#f92672">=</span>CN <span style="color:#f92672">=</span> docker-host3
+Getting CA Private Key
+Enter pass phrase <span style="color:#66d9ef">for</span> ca-key.pem:
+</code></pre></div><h3 id="generate-key-and-cert-for-client">Generate key and cert for client</h3>
+<ul>
+<li>Generate private key for client</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e"># openssl genrsa -out client-key.pem 4096</span>
+Generating RSA private key, <span style="color:#ae81ff">4096</span> bit long modulus <span style="color:#f92672">(</span><span style="color:#ae81ff">2</span> primes<span style="color:#f92672">)</span>
+......................++++
+....++++
+e is <span style="color:#ae81ff">65537</span> <span style="color:#f92672">(</span>0x010001<span style="color:#f92672">)</span>
+</code></pre></div><ul>
+<li>Request CA to sign certificate for client</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e"># openssl req -subj &#34;/CN=docker-host1&#34; -sha256 -new -key client-key.pem -out client.csr</span>
+</code></pre></div><ul>
+<li>Add info to cert</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e"># vi extfile.cnf</span>
+
+extendedKeyUsage <span style="color:#f92672">=</span> clientAuth
+</code></pre></div><ul>
+<li>Generate client certificate</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e"># openssl x509 -req -days 730 -sha256 -in client.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out client-cert.pem -extfile extfile.cnf</span>
+Signature ok
+subject<span style="color:#f92672">=</span>CN <span style="color:#f92672">=</span> docker-host1
+Getting CA Private Key
+Enter pass phrase <span style="color:#66d9ef">for</span> ca-key.pem:
+</code></pre></div><h3 id="send-generated-keys-and-certificates">Send generated keys and certificates</h3>
+<p>I moved generated files to correct machines:</p>
+<ul>
+<li>client - docker-host1
+<ul>
+<li>ca.pem -&gt; /home/lukas/.docker/ca.pem</li>
+<li>client-cert.pem -&gt; /home/lukas/.docker/cert.pem</li>
+<li>client-key.pem -&gt; /home/lukas/.docker/key.pem</li>
+</ul>
+</li>
+<li>daemon - docker-host3
+<ul>
+<li>ca.pem -&gt; /home/lukas/.docker/ca.pem</li>
+<li>daemon-cert.pem -&gt; /home/lukas/.docker/cert.pem</li>
+<li>daemon-key.pem -&gt; /home/lukas/.docker/key.pem</li>
+</ul>
+</li>
+</ul>
+<p>It is important to change names properly as shown above.</p>
+<h2 id="configure-tls">Configure TLS</h2>
+<h3 id="daemon">Daemon</h3>
+<p>On <code>docker-host3</code> that will be daemon host - set TLS parameters in <code>/etc/docker/daemon.json</code> config file</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host3 ~<span style="color:#f92672">]</span><span style="color:#75715e"># vi /etc/docker/daemon.json</span>
+
+<span style="color:#f92672">{</span>
+    <span style="color:#e6db74">&#34;hosts&#34;</span>: <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;tcp://docker-host3:2376&#34;</span><span style="color:#f92672">]</span>,
+    <span style="color:#e6db74">&#34;tls&#34;</span>: true,
+    <span style="color:#e6db74">&#34;tlsverify&#34;</span>: true,
+    <span style="color:#e6db74">&#34;tlscacert&#34;</span>: <span style="color:#e6db74">&#34;/home/lukas/.docker/ca.pem&#34;</span>,
+    <span style="color:#e6db74">&#34;tlscert&#34;</span>: <span style="color:#e6db74">&#34;/home/lukas/.docker/cert.pem&#34;</span>,
+    <span style="color:#e6db74">&#34;tlskey&#34;</span>: <span style="color:#e6db74">&#34;/home/lukas/.docker/key.pem&#34;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><hr>
+<h3 id="important">Important!</h3>
+<p><code>hosts</code> tells docker daemon to listen on IP <code>docker-host3</code> on port 2376.<br>
+This option cant&rsquo;t be use in docker config file if we have on host <code>systemd</code>.<br>
+If so, we have to edit <code>docker.service</code> with command: <code>systemctl edit docker</code></p>
+<p>In editor we have to add and save:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>Service<span style="color:#f92672">]</span>
+ExecStart<span style="color:#f92672">=</span>
+ExecStart<span style="color:#f92672">=</span>/usr/bin/dockerd -H tcp://docker-host3:2376
+</code></pre></div><hr>
+<p>Restart Docker</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host3 ~<span style="color:#f92672">]</span><span style="color:#75715e"># systemctl restart docker</span>
+</code></pre></div><p>Check that docker listen on correct IP:Port</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host3 ~<span style="color:#f92672">]</span><span style="color:#75715e"># ps aux | grep docker</span>
+root      <span style="color:#ae81ff">1729</span>  0.7  4.6 <span style="color:#ae81ff">922864</span> <span style="color:#ae81ff">87940</span> ?        Ssl  22:38   0:00 /usr/bin/dockerd -H tcp://docker-host3:2376
+root      <span style="color:#ae81ff">1895</span>  0.0  0.0   <span style="color:#ae81ff">9180</span>   <span style="color:#ae81ff">968</span> pts/0    S+   22:39   0:00 grep --color<span style="color:#f92672">=</span>auto docker
+</code></pre></div><p>From now at <code>docker-host3</code> we can&rsquo;t just use docker cli - IPC communication is now forbidden.<br>
+We can communicate by tcp - daemon insist on using TLS at client side:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host3 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker -H tcp://docker-host3:2376 version</span>
+Client: Docker Engine - Community
+ Version:           19.03.8
+ API version:       1.40
+ Go version:        go1.12.17
+ Git commit:        afacb8b
+ Built:             Wed Mar <span style="color:#ae81ff">11</span> 01:27:04 <span style="color:#ae81ff">2020</span>
+ OS/Arch:           linux/amd64
+ Experimental:      false
+Error response from daemon: Client sent an HTTP request to an HTTPS server.
+</code></pre></div><h3 id="client">Client</h3>
+<p>Set remote daemon location and check that without TLS we can&rsquo;t connect</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># export DOCKER_HOST=tcp://docker-host3:2376</span>
+
+<span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker version
+Client: Docker Engine - Community
+ Version:           19.03.8
+ API version:       1.40
+ Go version:        go1.12.17
+ Git commit:        afacb8b
+ Built:             Wed Mar <span style="color:#ae81ff">11</span> 01:27:04 <span style="color:#ae81ff">2020</span>
+ OS/Arch:           linux/amd64
+ Experimental:      false
+Error response from daemon: Client sent an HTTP request to an HTTPS server.
+</code></pre></div><p>Activate TLS verification and check again that now we can connect securely</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># export DOCKER_TLS_VERIFY=1</span>
+
+<span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker version
+Client: Docker Engine - Community
+ Version:           19.03.8
+ API version:       1.40
+ Go version:        go1.12.17
+ Git commit:        afacb8b
+ Built:             Wed Mar <span style="color:#ae81ff">11</span> 01:27:04 <span style="color:#ae81ff">2020</span>
+ OS/Arch:           linux/amd64
+ Experimental:      false
+
+Server: Docker Engine - Community
+ Engine:
+  Version:          19.03.8
+  API version:      1.40 <span style="color:#f92672">(</span>minimum version 1.12<span style="color:#f92672">)</span>
+  Go version:       go1.12.17
+  Git commit:       afacb8b
+  Built:            Wed Mar <span style="color:#ae81ff">11</span> 01:25:42 <span style="color:#ae81ff">2020</span>
+  OS/Arch:          linux/amd64
+  Experimental:     false
+ containerd:
+  Version:          1.2.13
+  GitCommit:        7ad184331fa3e55e52b890ea95e65ba581ae3429
+ runc:
+  Version:          1.0.0-rc10
+  GitCommit:        dc9208a3303feef5b3839f4323d9beb36df0a9dd
+ docker-init:
+  Version:          0.18.0
+  GitCommit:        fec3683
+</code></pre></div><p>Remember to set exported variables in for example .bashrc for persistence.</p>
+<p>Optionally we can change path to cert and key by setting variable <code>DOCKER_CERT_PATH</code></p>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='categories'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
+  
+</svg>
+<span class='screen-reader-text'>Categories: </span><a class='category' href='/categories/docker/'>docker</a></div>
+<div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/tls/'>tls</a>, <a class='tag' href='/tags/security/'>security</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/docker_logging_driver/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Docker logging driver configuration - json-file and journald</a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='mailto:itknowledgepill@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='https://linkedin.com/in/lbartnicki92' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Open Linkedin account in new tab</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+  <rect x="2" y="9" width="4" height="12"/>
+  <circle cx="4" cy="4" r="2"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p> &copy; 2020 Łukasz Bartnicki </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script src='/js/custom.js'></script>
+
+</body>
+
+</html>
+
