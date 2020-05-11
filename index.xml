@@ -5,10 +5,25 @@
     <link>http://lbartnicki92.github.io/</link>
     <description>Recent content on IT Knowledge Pill</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 06 May 2020 10:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 07 May 2020 10:00:00 +0100</lastBuildDate>
     
 	<atom:link href="http://lbartnicki92.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Docker network - complete guide</title>
+      <link>http://lbartnicki92.github.io/posts/docker_network/</link>
+      <pubDate>Thu, 07 May 2020 10:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/posts/docker_network/</guid>
+      <description>Containers need to communicate with each other and outside world.
+Docker has wide network capabilities.
+What we can do with docker network? How to use it?
+Docker Network Theory What elements we have in docker network?
+ CNM libnetwork drivers  Docker network concept is based on open-source design specification called Container Network Model(CNM). CNM assume that network drivers should be pluggable.
+Docker CNM implementation is in libnetwork library.
+What we can do with docker CNM?</description>
+    </item>
     
     <item>
       <title>Docker TLS - secure client and daemon</title>

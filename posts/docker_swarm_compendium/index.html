@@ -121,6 +121,8 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/docker-logs/' style='font-size:1em'>docker logs</a>
       </li><li>
+        <a href='/tags/docker-network/' style='font-size:1em'>docker network</a>
+      </li><li>
         <a href='/tags/docker-registry/' style='font-size:2em'>docker registry</a>
       </li><li>
         <a href='/tags/docker-save/' style='font-size:1em'>docker save</a>
@@ -693,7 +695,11 @@ verify: Service converged
           <span style="color:#e6db74">&#34;GlobalIPv6PrefixLen&#34;</span>: 0,
           <span style="color:#e6db74">&#34;MacAddress&#34;</span>: <span style="color:#e6db74">&#34;02:42:0a:00:01:03&#34;</span>,
           <span style="color:#e6db74">&#34;DriverOpts&#34;</span>: null
-</code></pre></div><h3 id="global-service">Global service</h3>
+</code></pre></div><hr>
+<p>For more information about network configuraion in Docker Swarm look at:</p>
+<p><a href="/posts/docker_network/">Docker Network - complete guide</a></p>
+<hr>
+<h3 id="global-service">Global service</h3>
 <p>By then we was creating services in replicated mode where we set exact number of replicas.</p>
 <p>If we want to have service containers on all available nodes of our cluster then we should run in with <code>--mode=global</code>.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service create --with-registry-auth --name web_server --mode<span style="color:#f92672">=</span>global  --publish target<span style="color:#f92672">=</span>80,published<span style="color:#f92672">=</span><span style="color:#ae81ff">80</span> httpd:2.4
