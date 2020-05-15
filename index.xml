@@ -5,10 +5,22 @@
     <link>http://lbartnicki92.github.io/</link>
     <description>Recent content on IT Knowledge Pill</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 07 May 2020 10:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 14 May 2020 10:00:00 +0100</lastBuildDate>
     
 	<atom:link href="http://lbartnicki92.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Docker Production Enviroment - Enterprise Edition and security features</title>
+      <link>http://lbartnicki92.github.io/posts/docker_enterprise_ucp_security/</link>
+      <pubDate>Thu, 14 May 2020 10:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/posts/docker_enterprise_ucp_security/</guid>
+      <description>In production environment we should care about security, also we want easy of usage.
+So, it is good to know docker security options and Docker Enterprise Edition.
+ This guide assume that we have got Docker Enterprise Edition installed on three node cluster. Most of features described here are paid ones, but we can get a trial of Docker Enterprise Edition for free - 30 day period.
+How to do it?</description>
+    </item>
     
     <item>
       <title>Docker network - complete guide</title>

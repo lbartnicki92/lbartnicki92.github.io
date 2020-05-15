@@ -4,17 +4,47 @@
   
   <url>
     <loc>http://lbartnicki92.github.io/authors/</loc>
-    <lastmod>2020-05-07T10:00:00+01:00</lastmod>
+    <lastmod>2020-05-14T10:00:00+01:00</lastmod>
   </url>
   
   <url>
     <loc>http://lbartnicki92.github.io/categories/</loc>
-    <lastmod>2020-05-07T10:00:00+01:00</lastmod>
+    <lastmod>2020-05-14T10:00:00+01:00</lastmod>
   </url>
   
   <url>
     <loc>http://lbartnicki92.github.io/categories/docker/</loc>
-    <lastmod>2020-05-07T10:00:00+01:00</lastmod>
+    <lastmod>2020-05-14T10:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lbartnicki92.github.io/tags/docker-enterprise/</loc>
+    <lastmod>2020-05-14T10:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lbartnicki92.github.io/posts/docker_enterprise_ucp_security/</loc>
+    <lastmod>2020-05-14T10:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lbartnicki92.github.io/</loc>
+    <lastmod>2020-05-14T10:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lbartnicki92.github.io/authors/lbartnicki/</loc>
+    <lastmod>2020-05-14T10:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lbartnicki92.github.io/posts/</loc>
+    <lastmod>2020-05-14T10:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://lbartnicki92.github.io/tags/</loc>
+    <lastmod>2020-05-14T10:00:00+01:00</lastmod>
   </url>
   
   <url>
@@ -24,26 +54,6 @@
   
   <url>
     <loc>http://lbartnicki92.github.io/posts/docker_network/</loc>
-    <lastmod>2020-05-07T10:00:00+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://lbartnicki92.github.io/</loc>
-    <lastmod>2020-05-07T10:00:00+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://lbartnicki92.github.io/authors/lbartnicki/</loc>
-    <lastmod>2020-05-07T10:00:00+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://lbartnicki92.github.io/posts/</loc>
-    <lastmod>2020-05-07T10:00:00+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://lbartnicki92.github.io/tags/</loc>
     <lastmod>2020-05-07T10:00:00+01:00</lastmod>
   </url>
   
