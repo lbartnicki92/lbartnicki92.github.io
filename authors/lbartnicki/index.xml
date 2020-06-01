@@ -214,8 +214,9 @@ How we build image? We build image by issuing command docker build, but before w
       <guid>http://lbartnicki92.github.io/about/</guid>
       <description>Hi! My name is Łukasz Bartnicki. I&amp;rsquo;m database administrator from Poland.
 On daily basis I&amp;rsquo;m working mainly with Oracle Database but also PostgreSQL and many things around that technologies.
-If you want to contact me, feel free to communicate by Linkedin - link to my profile at bottom of the site.
-Why I created this site? What is aim of it? Good administrator or DevOps has to got his personal notes.</description>
+If you want to contact me, feel free to communicate by Linkedin.
+Łukasz Bartnicki - Linkedin
+Why I created this site? What is aim of it? Good administrator or DevOps has to got his personal notes. It is very important especially in database world where some procedures can be long and hard to remember - creating such site will help me to order my notes and give me possibility to be more effective at my work.</description>
     </item>
     
   </channel>
