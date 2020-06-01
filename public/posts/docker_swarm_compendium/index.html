@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang='en'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Complete docker swarm guide - from set up and configuration to usage of  swarm services - all important commands included.'>
+<meta name='theme-color' content='#2ab55a'>
+
+<meta property='og:title' content='Docker swarm - setup and usage • Łukasz Bartnicki'>
+<meta property='og:description' content='Complete docker swarm guide - from set up and configuration to usage of  swarm services - all important commands included.'>
+<meta property='og:url' content='http://lbartnicki92.github.io/posts/docker_swarm_compendium/'>
+<meta property='og:site_name' content='IT Knowledge Pill'>
+<meta property='og:type' content='article'><meta property='og:image' content='http://lbartnicki92.github.io/images/docker_banner.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='docker swarm'><meta property='article:published_time' content='2020-04-28T10:00:00&#43;01:00'/><meta property='article:modified_time' content='2020-04-28T10:00:00&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta property='twitter:image' content='http://lbartnicki92.github.io/images/docker_banner.jpg'>
+
+<meta name="generator" content="Hugo 0.63.2" />
+
+  <title>Docker swarm - setup and usage • Łukasz Bartnicki</title>
+  <link rel='canonical' href='http://lbartnicki92.github.io/posts/docker_swarm_compendium/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.css'><style>
+:root{--color-accent:#2ab55a;}
+</style>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-163565265-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  
+
+  <script data-ad-client="ca-pub-3316601029431032" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+</head>
+<body class='page type-posts has-cover has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/images/logo.png'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      IT Knowledge Pill
+      </a>
+    </h2>
+    <div class='desc'>
+    Clear, practical and simple about IT technologies for DBA and DevOps
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><header>
+    <h4 class='title widget-title'>Menu</h4>
+  </header><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/categories/docker'>Docker</a></li><li class='item'>
+  <a href='/categories/kubernetes'>Kubernetes</a></li><li class='item'>
+  <a href='/categories/oracle'>Oracle</a></li><li class='item'>
+  <a href='/categories/postgresql'>PostgreSQL</a></li><li class='item'>
+  <a href='/posts'>All posts</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-sidebar_menu_about sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/about'>About me</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-search sep-after'>
+  <header>
+    <h4 class='title widget-title'>Search</h4>
+  </header>
+
+  <form action='/search' id='search-form' class='search-form'>
+    <label>
+      <span class='screen-reader-text'>Search</span>
+      <input id='search-term' class='search-term' type='search' name='q' placeholder='Search&hellip;'>
+    </label></form>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/aufs/' style='font-size:1em'>aufs</a>
+      </li><li>
+        <a href='/tags/devicemapper/' style='font-size:2em'>devicemapper</a>
+      </li><li>
+        <a href='/tags/docker-bind-mount/' style='font-size:1em'>docker bind mount</a>
+      </li><li>
+        <a href='/tags/docker-build/' style='font-size:1em'>docker build</a>
+      </li><li>
+        <a href='/tags/docker-enterprise/' style='font-size:1em'>docker enterprise</a>
+      </li><li>
+        <a href='/tags/docker-export/' style='font-size:1em'>docker export</a>
+      </li><li>
+        <a href='/tags/docker-image/' style='font-size:2em'>docker image</a>
+      </li><li>
+        <a href='/tags/docker-import/' style='font-size:1em'>docker import</a>
+      </li><li>
+        <a href='/tags/docker-load/' style='font-size:1em'>docker load</a>
+      </li><li>
+        <a href='/tags/docker-login/' style='font-size:1em'>docker login</a>
+      </li><li>
+        <a href='/tags/docker-logs/' style='font-size:1em'>docker logs</a>
+      </li><li>
+        <a href='/tags/docker-network/' style='font-size:1em'>docker network</a>
+      </li><li>
+        <a href='/tags/docker-registry/' style='font-size:2em'>docker registry</a>
+      </li><li>
+        <a href='/tags/docker-save/' style='font-size:1em'>docker save</a>
+      </li><li>
+        <a href='/tags/docker-swarm/' style='font-size:1em'>docker swarm</a>
+      </li><li>
+        <a href='/tags/docker-volume/' style='font-size:1em'>docker volume</a>
+      </li><li>
+        <a href='/tags/dockerfile/' style='font-size:1em'>dockerfile</a>
+      </li><li>
+        <a href='/tags/graph-driver/' style='font-size:2em'>graph driver</a>
+      </li><li>
+        <a href='/tags/kubeconfig/' style='font-size:1em'>KUBECONFIG</a>
+      </li><li>
+        <a href='/tags/kubectl/' style='font-size:1em'>kubectl</a>
+      </li><li>
+        <a href='/tags/log-driver/' style='font-size:1em'>log-driver</a>
+      </li><li>
+        <a href='/tags/lvm/' style='font-size:1em'>lvm</a>
+      </li><li>
+        <a href='/tags/overlay2/' style='font-size:1em'>overlay2</a>
+      </li><li>
+        <a href='/tags/postgresql/' style='font-size:1em'>postgresql</a>
+      </li><li>
+        <a href='/tags/security/' style='font-size:1em'>security</a>
+      </li><li>
+        <a href='/tags/tls/' style='font-size:1em'>tls</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button><div class='header-widgets'>
+        <div class='container'>
+    
+    <style>.widget-breadcrumbs li:after{content:'\2f '}</style>
+  <section class='widget widget-breadcrumbs sep-after'>
+    <nav id='breadcrumbs'>
+      <ol><li><a href='/'>IT Knowledge Pill</a></li><li><a href='/posts/'>Posts</a></li><li><span>Docker swarm - setup and usage</span></li></ol>
+    </nav>
+  </section></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>IT Knowledge Pill</p><p class='desc site-desc'>Clear, practical and simple about IT technologies for DBA and DevOps</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Docker swarm - setup and usage</h1>
+      
+<p class='desc'>Complete docker swarm guide - from set up and configuration to usage of  swarm services - all important commands included.</p>
+
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2020-04-28T10:00:00&#43;01:00'>28 Apr 2020</time>
+</span>
+
+  <span class='byline'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M21,21V20c0-2.76-4-5-9-5s-9,2.24-9,5v1"/>
+  <path d="M16,6.37A4,4,0,1,1,12.63,3,4,4,0,0,1,16,6.37Z"/>
+  
+</svg>
+<span class='screen-reader-text'> by </span><a href='/authors/lbartnicki'>Łukasz Bartnicki</a></span>
+  
+<span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/>
+  
+</svg>
+17 mins read
+</span>
+
+
+  <span class='entry-label'>
+  <span>Tested on: </span> Docker 19.03
+</span>
+</div>
+
+
+  </div>
+</header>
+
+  <div class='entry-cover'>
+  <figure class='container cover-normal'>
+    <img src='/images/docker_banner.jpg'/>
+    
+      
+    
+  </figure>
+</div>
+  
+
+  <div class='container entry-content'>
+  <p>For HA and easier management of our containers we can create swarm cluster.<br>
+It is composed of couple nodes with docker engine installed.</p>
+<p>How to setup swarm and use it?</p>
+<h3 id="example-configuration-and-prerequisites">Example configuration and prerequisites</h3>
+<p>In my lab environment I used three nodes:</p>
+<table>
+<thead>
+<tr>
+<th>Role in Swarm</th>
+<th>Server</th>
+<th>IP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Manager</td>
+<td>docker-host1.lukas.int</td>
+<td>10.10.10.20</td>
+</tr>
+<tr>
+<td>Worker1</td>
+<td>docker-host2.lukas.int</td>
+<td>10.10.10.21</td>
+</tr>
+<tr>
+<td>Worker2</td>
+<td>docker-host3.lukas.int</td>
+<td>10.10.10.22</td>
+</tr>
+</tbody>
+</table>
+<p>Each node has got docker engine installed with standard procedure as for single node docker.</p>
+<p>Ports that are need to be open on each node:</p>
+<table>
+<thead>
+<tr>
+<th>TCP/UDP</th>
+<th>Port</th>
+<th>What is for?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TCP</td>
+<td>2377</td>
+<td>cluster management</td>
+</tr>
+<tr>
+<td>TCP and UDP</td>
+<td>7946</td>
+<td>node communication</td>
+</tr>
+<tr>
+<td>UDP</td>
+<td>4789</td>
+<td>overlay network</td>
+</tr>
+</tbody>
+</table>
+<h2 id="create-swarm-cluster">Create swarm cluster</h2>
+<p>Log in to manager node.</p>
+<p>Most importatnt parameters for <code>docker swarm init</code>:</p>
+<ul>
+<li><code>--autolock</code> - <code>true</code> or <code>false</code> - enable autolock for manager node - more later in this post</li>
+<li><code>--advertise-addr</code> - address for API and overlay networks for other cluster members</li>
+<li><code>--listen-addr</code> - address for cluster management</li>
+<li><code>--availability</code> - cloud be <code>active</code>(new tasks allowed), <code>pause</code>(new tasks not allowed, but old keeps going) or <code>drain</code>(new tasks not allowed, finish immediately old ones if they exists) - set drain for manager node to create manager without containers on it</li>
+<li><code>--default-addr-pool</code> - by default <code>10.10.10.0/8</code> - we can set another address pool for overlay network created with cluster</li>
+<li><code>--default-addr-pool-mask-len</code> - number on subnets that are allow to be created in <code>--default-addr-pool</code></li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker swarm init --advertise-addr 10.10.10.20 --listen-addr 10.10.10.20
+Swarm initialized: current node <span style="color:#f92672">(</span>x7mdjbmfz3ttkxbvelriix4yz<span style="color:#f92672">)</span> is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-0zwqchv43d2alvl99fgw2mh6cnv7xc8vakspd90yjh4i7eiwwx-cn32plktlwjf8q25azk37ij5v 10.10.10.20:2377
+
+To add a manager to this swarm, run <span style="color:#e6db74">&#39;docker swarm join-token manager&#39;</span> and follow the instructions.
+</code></pre></div><p>In output we get command to add worker node to cluster.</p>
+<hr>
+<h3 id="get-tokens-for-adding-nodes-to-cluster">Get tokens for adding nodes to cluster</h3>
+<p>If we need tokens later and we didn&rsquo;t write them down we can get them from any manager node.</p>
+<h5 id="manager-token">Manager token</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker swarm join-token manager
+To add a manager to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-0zwqchv43d2alvl99fgw2mh6cnv7xc8vakspd90yjh4i7eiwwx-956h96o5ivrekolr42k71bgqc 10.10.10.20:2377
+</code></pre></div><h5 id="worker-command">Worker command</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker swarm join-token worker
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-0zwqchv43d2alvl99fgw2mh6cnv7xc8vakspd90yjh4i7eiwwx-cn32plktlwjf8q25azk37ij5v 10.10.10.20:2377
+</code></pre></div><h5 id="important">Important!</h5>
+<p>Tokens should be secured well, they give access to cluster.<br>
+If they leaked somewhere, we should change them with command(we can rotate for worker or manager):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker swarm join-token --rotate worker
+Successfully rotated worker join token.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-0zwqchv43d2alvl99fgw2mh6cnv7xc8vakspd90yjh4i7eiwwx-c7r78dy7kwho1zq3uq7w26xhl 10.10.10.20:2377
+</code></pre></div><hr>
+<h3 id="add-workers">Add workers</h3>
+<p>I will add my <code>docker-host2</code> and <code>docker-host3</code> as workers.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host2 ~<span style="color:#f92672">]</span>$ docker swarm join --token SWMTKN-1-0zwqchv43d2alvl99fgw2mh6cnv7xc8vakspd90yjh4i7eiwwx-cn32plktlwjf8q25azk37ij5v 10.10.10.20:2377
+This node joined a swarm as a worker.
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host3 ~<span style="color:#f92672">]</span>$ docker swarm join --token SWMTKN-1-0zwqchv43d2alvl99fgw2mh6cnv7xc8vakspd90yjh4i7eiwwx-cn32plktlwjf8q25azk37ij5v 10.10.10.20:2377
+This node joined a swarm as a worker.
+</code></pre></div><h3 id="list-nodes">List nodes</h3>
+<p>We can see that manager node is named as <code>leader</code>.</p>
+<p>Listing is available only from manager node.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker node ls
+ID                            HOSTNAME                 STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION
+x7mdjbmfz3ttkxbvelriix4yz *   docker-host1.lukas.int   Ready               Active              Leader              19.03.8
+va779vfr6v115025a15yvuntv     docker-host2.lukas.int   Ready               Active                                  19.03.8
+k61h5c7sqzjepifp6lzjxpr95     docker-host3.lukas.int   Ready               Active                                  19.03.8
+</code></pre></div><h2 id="what-each-type-of-node-do">What each type of node do?</h2>
+<h5 id="manager">Manager</h5>
+<ul>
+<li>sends tasks to worker nodes(or manager nodes also if we allow container there)</li>
+<li>sends heartbeat to nodes in cluster to be current with cluster state</li>
+<li>serves API for management</li>
+</ul>
+<p>It is strongly recommended to have at least three manager nodes in production cluster for HA. This configuration will survive lost of one manager node.<br>
+In such configuration still only one of managers will be leader, rest will replicates data from him and waits for his breakdown.</p>
+<h5 id="worker">Worker</h5>
+<p>This type of nodes only hosts scheduled containers.<br>
+It can by promoted to manager with <code>docker node promote</code> command.</p>
+<h3 id="inspect-node-details">Inspect node details</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker node inspect docker-host2.lukas.int --pretty
+ID:			va779vfr6v115025a15yvuntv
+Hostname:              	docker-host2.lukas.int
+Joined at:             	2020-04-24 13:44:41.431444118 +0000 utc
+Status:
+ State:			Ready
+ Availability:         	Active
+ Address:		10.10.10.21
+Platform:
+ Operating System:	linux
+ Architecture:		x86_64
+Resources:
+ CPUs:			<span style="color:#ae81ff">2</span>
+ Memory:		1.786GiB
+Plugins:
+ Log:		awslogs, fluentd, gcplogs, gelf, journald, json-file, local, logentries, splunk, syslog
+ Network:		bridge, host, ipvlan, macvlan, null, overlay
+ Volume:		local
+Engine Version:		19.03.8
+TLS Info:
+ TrustRoot:
+-----BEGIN CERTIFICATE-----
+&lt;cert here&gt;
+-----END CERTIFICATE-----
+
+ Issuer Subject:	MBMxETAPBgNVBAMTCHN3YXJtLWNh
+ Issuer Public Key:	&lt;public key here&gt;
+</code></pre></div><p>Without <code>--pretty</code> flag we get raw json describing node. We can get exact information from it with <code>--format</code> flag.</p>
+<h5 id="check-node-role">Check node role</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker inspect docker-host1.lukas.int --format <span style="color:#e6db74">&#34;{{.Spec.Role}}&#34;</span>
+manager
+</code></pre></div><h5 id="check-node-status">Check node status</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker inspect docker-host1.lukas.int --format <span style="color:#e6db74">&#34;{{.Status.State}}&#34;</span>
+ready
+</code></pre></div><h2 id="changing-node-parameters">Changing node parameters</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker node update --availability drain docker-host3.lukas.int
+docker-host3.lukas.int
+
+<span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker node ls
+ID                            HOSTNAME                 STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION
+x7mdjbmfz3ttkxbvelriix4yz *   docker-host1.lukas.int   Ready               Active              Leader              19.03.8
+va779vfr6v115025a15yvuntv     docker-host2.lukas.int   Ready               Active                                  19.03.8
+k61h5c7sqzjepifp6lzjxpr95     docker-host3.lukas.int   Ready               Drain                                   19.03.8
+</code></pre></div><h2 id="promotingdemoting-node">Promoting/demoting node</h2>
+<h5 id="promote">Promote</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker node promote docker-host3.lukas.int
+Node docker-host3.lukas.int promoted to a manager in the swarm.
+
+<span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker node ls
+ID                            HOSTNAME                 STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION
+x7mdjbmfz3ttkxbvelriix4yz *   docker-host1.lukas.int   Ready               Active              Leader              19.03.8
+va779vfr6v115025a15yvuntv     docker-host2.lukas.int   Ready               Active                                  19.03.8
+nqe3eyk55lvmwsmqy5lx8v8vx     docker-host3.lukas.int   Ready               Active              Reachable           19.03.8
+</code></pre></div><h5 id="demote">Demote</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker node demote docker-host3.lukas.int
+Manager docker-host3.lukas.int demoted in the swarm.
+</code></pre></div><h2 id="leave-cluster">Leave cluster</h2>
+<p>From leaving node:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host2 ~<span style="color:#f92672">]</span>$ docker swarm leave
+Node left the swarm.
+</code></pre></div><p>It is possible to use flag <code>--force</code> if you want evict manager node.</p>
+<p>From manager - node that will be removed should be shutted down before:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker node rm docker-host2.lukas.int
+docker-host2.lukas.int
+</code></pre></div><h2 id="locking-swarm-cluster">Locking swarm cluster</h2>
+<p>All managers of swarm has got copy of TLS encryption keys.</p>
+<p>If we want to protect these keys we can enable <code>autolock</code> feature.<br>
+When enabled, after node restart his configuration data needs to be decrypted with special key before starting any service on it.</p>
+<h5 id="enable-autolock">Enable autolock</h5>
+<p>You can enable <code>autolock</code> at cluster initialization with <code>docker swarm init</code> or later with <code>docker swarm update</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker swarm update --autolock<span style="color:#f92672">=</span>true
+Swarm updated.
+To unlock a swarm manager after it restarts, run the <span style="color:#e6db74">`</span>docker swarm unlock<span style="color:#e6db74">`</span>
+command and provide the following key:
+
+    SWMKEY-1-fFGBM6X97rFMI/2NHn3meJGH+j5lhLT1VnzgeQcZBAU
+
+Please remember to store this key in a password manager, since without it you
+will not be able to restart the manager.
+</code></pre></div><h5 id="testing-autolock">Testing autolock</h5>
+<p>I will promote <code>docker-host2.lukas.int</code> to manager.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker node promote docker-host2.lukas.int
+Node docker-host2.lukas.int promoted to a manager in the swarm.
+<span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker node ls
+ID                            HOSTNAME                 STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION
+x7mdjbmfz3ttkxbvelriix4yz *   docker-host1.lukas.int   Ready               Active              Leader              19.03.8
+va779vfr6v115025a15yvuntv     docker-host2.lukas.int   Ready               Active              Reachable           19.03.8
+nqe3eyk55lvmwsmqy5lx8v8vx     docker-host3.lukas.int   Ready               Active                                  19.03.8
+</code></pre></div><p>Restart <code>docker-host2.lukas.int</code> - only docker daemon - will be enough.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e"># systemctl restart docker</span>
+</code></pre></div><p>Check any docker command on <code>docker-host2.lukas.int</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host2 ~<span style="color:#f92672">]</span>$ docker node ls
+Error response from daemon: Swarm is encrypted and needs to be unlocked before it can be used. Please use <span style="color:#e6db74">&#34;docker swarm unlock&#34;</span> to unlock it.
+</code></pre></div><p>Unlock with key generated before:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host2 ~<span style="color:#f92672">]</span>$ docker swarm unlock
+Please enter unlock key:
+</code></pre></div><p>Check if node started correctly:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host2 ~<span style="color:#f92672">]</span>$ docker node ls
+ID                            HOSTNAME                 STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION
+x7mdjbmfz3ttkxbvelriix4yz     docker-host1.lukas.int   Ready               Active              Leader              19.03.8
+va779vfr6v115025a15yvuntv *   docker-host2.lukas.int   Ready               Active              Reachable           19.03.8
+nqe3eyk55lvmwsmqy5lx8v8vx     docker-host3.lukas.int   Ready               Active                                  19.03.8
+</code></pre></div><h5 id="check-unlock-key">Check unlock key</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker swarm unlock-key
+To unlock a swarm manager after it restarts, run the <span style="color:#e6db74">`</span>docker swarm unlock<span style="color:#e6db74">`</span>
+command and provide the following key:
+
+    SWMKEY-1-fFGBM6X97rFMI/2NHn3meJGH+j5lhLT1VnzgeQcZBAU
+
+Please remember to store this key in a password manager, since without it you
+will not be able to restart the manager.
+</code></pre></div><h5 id="rotate-key">Rotate key</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker swarm unlock-key --rotate
+Successfully rotated manager unlock key.
+
+To unlock a swarm manager after it restarts, run the <span style="color:#e6db74">`</span>docker swarm unlock<span style="color:#e6db74">`</span>
+command and provide the following key:
+
+    SWMKEY-1-RsrHxoajv/57yi9Eng7SDcDS7TGxcWI0MqKrpMTlpWs
+
+Please remember to store this key in a password manager, since without it you
+will not be able to restart the manager.
+</code></pre></div><h2 id="swarm-services">Swarm Services</h2>
+<p>All operations on swarm services will be done from manager node.</p>
+<h3 id="create-service">Create service</h3>
+<p>If you plan to create service with image from login-secured registry, you  should first login:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker login
+Login with your Docker ID to push and pull images from Docker Hub. If you don<span style="color:#960050;background-color:#1e0010">&#39;</span>t have a Docker ID, head over to https://hub.docker.com to create one.
+Username: &lt;username&gt;
+Password: &lt;password&gt;
+WARNING! Your password will be stored unencrypted in /home/lukas/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+</code></pre></div><p>Then you can crate service with optional <code>--with-registry-auth</code> flag - docker client will copy your authentication information securely to all nodes that will be pulling image for your service.</p>
+<hr>
+<h5 id="important-1">Important!</h5>
+<p>It is strongly advised to not use images names without tag or with <code>latest</code> tag.</p>
+<p>When Swarm is creating service it resolves name of image and tag into digest hash, from that moment in service configuration resides only hash pointing to image that was tagged <code>latest</code> at moment of issuing <code>docker service create</code> command.</p>
+<p>Using <code>latest</code> tag in service description can lead to mistakes because of fact, that <code>latest</code> tag moves always to newest software version.</p>
+<p>Always use explicit images names like <code>ubuntu:19.04</code></p>
+<hr>
+<p>We will create docker service named <code>web_server</code>, there will be two containers deployed around our docker swarm cluster, each of this containers will expose his port 80 on 80 port of docker host machine(it is important to check that port is available on every docker host from swarm cluster).<br>
+Containers will be hosting Apache version 2.4</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service create --with-registry-auth --name web_server --replicas<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>  --publish 80:80 httpd:2.4
+h6ttr4yuoukc8zhwo4a5oin33
+overall progress: <span style="color:#ae81ff">2</span> out of <span style="color:#ae81ff">2</span> tasks
+1/2: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+2/2: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+verify: Service converged
+</code></pre></div><p>As in <code>docker run</code> we can add parameters that will change containers start behaviour or override some image settings like:</p>
+<ul>
+<li><code>--dns</code></li>
+<li><code>--entrypoint</code></li>
+<li><code>--env</code></li>
+<li><code>--workdir</code></li>
+<li><code>--user</code></li>
+</ul>
+<p>Full list available with command <code>docker service create -h</code>.</p>
+<hr>
+<h5 id="templating-service">Templating service</h5>
+<p>When creating service there is possibility to set some parameters to contaiers based on service metadata.</p>
+<p>Parameters that we can use with templates:</p>
+<ul>
+<li><code>--hostname</code> - set hostname for containers</li>
+<li><code>--mount</code> - mount volumes</li>
+<li><code>--env</code> - set environment variables in containers runtime</li>
+</ul>
+<p>Possible templates:</p>
+<ul>
+<li><code>.Service.ID</code></li>
+<li><code>.Service.Name</code></li>
+<li><code>.Service.Labels</code></li>
+<li><code>.Node.ID</code></li>
+<li><code>.Node.Hostname</code></li>
+<li><code>.Task.Name</code></li>
+<li><code>.Task.Slot</code></li>
+</ul>
+<p>We want to set hostname in containers that it will correspond to service name:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service create --with-registry-auth --name web_server --replicas<span style="color:#f92672">=</span><span style="color:#ae81ff">6</span>  --publish target<span style="color:#f92672">=</span>80,published<span style="color:#f92672">=</span><span style="color:#ae81ff">80</span> --hostname<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{{.Node.ID}}-{{.Service.Name}}&#34;</span> httpd:2.4
+x0zrp0zkls6v3wfue39638lev
+overall progress: <span style="color:#ae81ff">6</span> out of <span style="color:#ae81ff">6</span> tasks
+1/6: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+2/6: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+3/6: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+4/6: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+5/6: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+6/6: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+verify: Service converged
+</code></pre></div><p>Check hostname of random container:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host2 ~<span style="color:#f92672">]</span>$ docker exec -it f3cd22cef724 bash
+
+root@va779vfr6v115025a15yvuntv-web_server:/usr/local/apache2# hostname
+va779vfr6v115025a15yvuntv-web_server
+</code></pre></div><hr>
+<h3 id="list-services">List services</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service ls
+ID                  NAME                MODE                REPLICAS            IMAGE               PORTS
+h6ttr4yuoukc        web_server          replicated          2/2                 httpd:2.4           *:80-&gt;80/tcp
+</code></pre></div><h5 id="list-service-details">List service details</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service ps h6ttr4yuoukc
+ID                  NAME                IMAGE               NODE                     DESIRED STATE       CURRENT STATE                ERROR               PORTS
+zdv7uqomaz29        web_server.1        httpd:2.4           docker-host3.lukas.int   Running             Running about a minute ago
+fe36zt5e5zsz        web_server.2        httpd:2.4           docker-host2.lukas.int   Running             Running <span style="color:#ae81ff">59</span> seconds ago
+</code></pre></div><h3 id="check-service-response---ingress-mode">Check service response - ingress mode</h3>
+<p>We can easily test apache with <code>curl</code> and GET method.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ curl -X GET 127.0.0.1:80
+&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host2 ~<span style="color:#f92672">]</span>$ curl -X GET 127.0.0.1:80
+&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host3 ~<span style="color:#f92672">]</span>$ curl -X GET 127.0.0.1:80
+&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;
+</code></pre></div><p>As we see despite that containers are only on <code>docker-host2</code> and <code>docker-host3</code> machines - service that they serve is available on every node in cluster at port 80. This is default called <code>ingress</code> mode - all calls on port 80 on every node in swarm cluster are redirected automatically to nodes with containers serving service.</p>
+<h3 id="set-port-publishing-in-host-mode">Set port publishing in host mode</h3>
+<p>If you want to publish ports of service only on nodes where containers from services resides you should deploy it with <code>mode=host</code> parameter in <code>--publish</code> flag.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service create --with-registry-auth --name web_server --replicas<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>  --publish mode<span style="color:#f92672">=</span>host,target<span style="color:#f92672">=</span>80,published<span style="color:#f92672">=</span><span style="color:#ae81ff">80</span> httpd:2.4
+s7qjpd70u19ttk49jbgu647p5
+overall progress: <span style="color:#ae81ff">2</span> out of <span style="color:#ae81ff">2</span> tasks
+1/2: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+2/2: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+verify: Service converged
+
+<span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service ps s7qjpd70u19t
+ID                  NAME                IMAGE               NODE                     DESIRED STATE       CURRENT STATE            ERROR               PORTS
+tic5zzp4s0ry        web_server.1        httpd:2.4           docker-host2.lukas.int   Running             Running <span style="color:#ae81ff">33</span> seconds ago                       *:80-&gt;80/tcp
+bjz1zlnpxh1v        web_server.2        httpd:2.4           docker-host3.lukas.int   Running             Running <span style="color:#ae81ff">33</span> seconds ago                       *:80-&gt;80/tcp
+</code></pre></div><p>Let&rsquo;s check where we can connect to our service.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ curl -X GET 127.0.0.1:80
+curl: <span style="color:#f92672">(</span>7<span style="color:#f92672">)</span> Failed to connect to 127.0.0.1 port 80: Connection refused
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host2 ~<span style="color:#f92672">]</span>$ curl -X GET 127.0.0.1:80
+&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host3 ~<span style="color:#f92672">]</span>$ curl -X GET 127.0.0.1:80
+&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;
+</code></pre></div><p>As we see, ports are available only on nodes with containers.</p>
+<h3 id="mount-volumes">Mount volumes</h3>
+<p>As in standard container, in swarm we can create volumes with <code>--mount</code> flag.<br>
+We mount <code>site_content</code> in <code>/var/html/www</code> location in every container.<br>
+This volume was not created earlier so docker will create it by himself.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service create --with-registry-auth --name web_server --replicas<span style="color:#f92672">=</span><span style="color:#ae81ff">6</span>  --publish target<span style="color:#f92672">=</span>80,published<span style="color:#f92672">=</span><span style="color:#ae81ff">80</span> --mount source<span style="color:#f92672">=</span>site_content,target<span style="color:#f92672">=</span>/var/html/www httpd:2.4
+fim71hxxnzic4pn9trwh77sjt
+overall progress: <span style="color:#ae81ff">6</span> out of <span style="color:#ae81ff">6</span> tasks
+1/6: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+2/6: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+3/6: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+4/6: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+5/6: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+6/6: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+verify: Service converged
+</code></pre></div><p>I created six replicas to show interesting thing - we have three node cluster - so it is highly probable that on some node will be more than one container.</p>
+<p>How many volumes will be created?</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host2 ~<span style="color:#f92672">]</span>$ docker container ls
+CONTAINER ID        IMAGE               COMMAND              CREATED             STATUS              PORTS               NAMES
+b5cb6f86ba06        httpd:2.4           <span style="color:#e6db74">&#34;httpd-foreground&#34;</span>   <span style="color:#ae81ff">16</span> seconds ago      Up <span style="color:#ae81ff">11</span> seconds       80/tcp              web_server.3.6b9hgq4cjz90aaufplpjt61er
+262af192ced6        httpd:2.4           <span style="color:#e6db74">&#34;httpd-foreground&#34;</span>   <span style="color:#ae81ff">16</span> seconds ago      Up <span style="color:#ae81ff">11</span> seconds       80/tcp              web_server.6.mmkia5wsc7trnaqv9ozil3h0b
+
+<span style="color:#f92672">[</span>lukas@docker-host2 ~<span style="color:#f92672">]</span>$ docker volume ls
+DRIVER              VOLUME NAME
+local               site_content
+</code></pre></div><p>Exactly one! Service assume that all containers in it do the same, if there will be more that one container per node - these containers will have common volume.</p>
+<p>It is important to remember about this behaviour.</p>
+<h3 id="connect-services-to-networks">Connect services to networks</h3>
+<p>Create network if you don&rsquo;t have one:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker network create --driver overlay management_network
+brgzvb0gxkb6y8q9mgb4rurwu
+<span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker network ls
+NETWORK ID          NAME                 DRIVER              SCOPE
+<span style="color:#f92672">[</span>...<span style="color:#f92672">]</span>
+tverx8ooqine        ingress              overlay             swarm
+brgzvb0gxkb6        management_network   overlay             swarm
+</code></pre></div><p>Create service with <code>--network</code> flag:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service create --with-registry-auth --name web_server --replicas<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>  --publish target<span style="color:#f92672">=</span>80,published<span style="color:#f92672">=</span><span style="color:#ae81ff">80</span> --network management_network httpd:2.4
+tbojbrsx89nukjh58vvknru1t
+overall progress: <span style="color:#ae81ff">2</span> out of <span style="color:#ae81ff">2</span> tasks
+1/2: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+2/2: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+verify: Service converged
+</code></pre></div><p>Check from node with one of containers that they are connected to additional network:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host2 ~<span style="color:#f92672">]</span>$ docker inspect b8c2037f5235
+<span style="color:#f92672">[</span>
+    <span style="color:#f92672">{</span>
+        <span style="color:#e6db74">&#34;Id&#34;</span>: <span style="color:#e6db74">&#34;b8c2037f5235515c464e2af9444ab252efd080e1fa23fc0595f22c4a201ef760&#34;</span>,
+        <span style="color:#e6db74">&#34;Created&#34;</span>: <span style="color:#e6db74">&#34;2020-04-27T14:29:57.718762759Z&#34;</span>,
+        <span style="color:#e6db74">&#34;Path&#34;</span>: <span style="color:#e6db74">&#34;httpd-foreground&#34;</span>,
+      <span style="color:#f92672">[</span>...<span style="color:#f92672">]</span>
+
+      <span style="color:#e6db74">&#34;Networks&#34;</span>: <span style="color:#f92672">{</span>
+        <span style="color:#f92672">[</span>...<span style="color:#f92672">]</span>
+
+      <span style="color:#e6db74">&#34;management_network&#34;</span>: <span style="color:#f92672">{</span>
+          <span style="color:#e6db74">&#34;IPAMConfig&#34;</span>: <span style="color:#f92672">{</span>
+              <span style="color:#e6db74">&#34;IPv4Address&#34;</span>: <span style="color:#e6db74">&#34;10.0.1.3&#34;</span>
+          <span style="color:#f92672">}</span>,
+          <span style="color:#e6db74">&#34;Links&#34;</span>: null,
+          <span style="color:#e6db74">&#34;Aliases&#34;</span>: <span style="color:#f92672">[</span>
+              <span style="color:#e6db74">&#34;b8c2037f5235&#34;</span>
+          <span style="color:#f92672">]</span>,
+          <span style="color:#e6db74">&#34;NetworkID&#34;</span>: <span style="color:#e6db74">&#34;brgzvb0gxkb6y8q9mgb4rurwu&#34;</span>,
+          <span style="color:#e6db74">&#34;EndpointID&#34;</span>: <span style="color:#e6db74">&#34;3b94e38428228bb764954b5619d928ad64a26a37cc06010741fcd7ddff9c7e61&#34;</span>,
+          <span style="color:#e6db74">&#34;Gateway&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+          <span style="color:#e6db74">&#34;IPAddress&#34;</span>: <span style="color:#e6db74">&#34;10.0.1.3&#34;</span>,
+          <span style="color:#e6db74">&#34;IPPrefixLen&#34;</span>: 24,
+          <span style="color:#e6db74">&#34;IPv6Gateway&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+          <span style="color:#e6db74">&#34;GlobalIPv6Address&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+          <span style="color:#e6db74">&#34;GlobalIPv6PrefixLen&#34;</span>: 0,
+          <span style="color:#e6db74">&#34;MacAddress&#34;</span>: <span style="color:#e6db74">&#34;02:42:0a:00:01:03&#34;</span>,
+          <span style="color:#e6db74">&#34;DriverOpts&#34;</span>: null
+</code></pre></div><hr>
+<p>For more information about network configuraion in Docker Swarm look at:</p>
+<p><a href="/posts/docker_network/">Docker Network - complete guide</a></p>
+<hr>
+<h3 id="global-service">Global service</h3>
+<p>By then we was creating services in replicated mode where we set exact number of replicas.</p>
+<p>If we want to have service containers on all available nodes of our cluster then we should run in with <code>--mode=global</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service create --with-registry-auth --name web_server --mode<span style="color:#f92672">=</span>global  --publish target<span style="color:#f92672">=</span>80,published<span style="color:#f92672">=</span><span style="color:#ae81ff">80</span> httpd:2.4
+wh27xrc33f515f8ccjkfqmhpw
+overall progress: <span style="color:#ae81ff">3</span> out of <span style="color:#ae81ff">3</span> tasks
+va779vfr6v11: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+nqe3eyk55lvm: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+x7mdjbmfz3tt: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+verify: Service converged
+<span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service ps wh27xrc33f515f8ccjkfqmhpw
+ID                  NAME                                   IMAGE               NODE                     DESIRED STATE       CURRENT STATE            ERROR               PORTS
+wop37gk76oy1        web_server.x7mdjbmfz3ttkxbvelriix4yz   httpd:2.4           docker-host1.lukas.int   Running             Running <span style="color:#ae81ff">21</span> seconds ago
+dfgkhs7js37r        web_server.va779vfr6v115025a15yvuntv   httpd:2.4           docker-host2.lukas.int   Running             Running <span style="color:#ae81ff">23</span> seconds ago
+wgsf8plhlghg        web_server.nqe3eyk55lvmwsmqy5lx8v8vx   httpd:2.4           docker-host3.lukas.int   Running             Running <span style="color:#ae81ff">23</span> seconds ago
+</code></pre></div><h5 id="test-global-service-bahaviour">Test global service bahaviour</h5>
+<p>Let&rsquo;s check what will happen when we remove node from cluster.<br>
+For simplicity I will set node into <code>drain</code> mode described earlier.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker node update --availability drain docker-host3.lukas.int
+docker-host3.lukas.int
+</code></pre></div><p>Check service status - container on drained node is shutdown state:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service ps wh27xrc33f515f8ccjkfqmhpw
+ID                  NAME                                   IMAGE               NODE                     DESIRED STATE       CURRENT STATE           ERROR               PORTS
+wop37gk76oy1        web_server.x7mdjbmfz3ttkxbvelriix4yz   httpd:2.4           docker-host1.lukas.int   Running             Running <span style="color:#ae81ff">3</span> minutes ago
+dfgkhs7js37r        web_server.va779vfr6v115025a15yvuntv   httpd:2.4           docker-host2.lukas.int   Running             Running <span style="color:#ae81ff">3</span> minutes ago
+wgsf8plhlghg        web_server.nqe3eyk55lvmwsmqy5lx8v8vx   httpd:2.4           docker-host3.lukas.int   Shutdown            Shutdown <span style="color:#ae81ff">1</span> second ago
+</code></pre></div><p>Now we can make our node available again:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker node update --availability active docker-host3.lukas.int
+docker-host3.lukas.int
+</code></pre></div><p>Check service - global service as soon as node became available start new container on it:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service ps wh27xrc33f515f8ccjkfqmhpw
+ID                  NAME                                   IMAGE               NODE                     DESIRED STATE       CURRENT STATE                    ERROR               PORTS
+k7l2nnjstjkn        web_server.nqe3eyk55lvmwsmqy5lx8v8vx   httpd:2.4           docker-host3.lukas.int   Running             Running less than a second ago
+wop37gk76oy1        web_server.x7mdjbmfz3ttkxbvelriix4yz   httpd:2.4           docker-host1.lukas.int   Running             Running <span style="color:#ae81ff">3</span> minutes ago
+dfgkhs7js37r        web_server.va779vfr6v115025a15yvuntv   httpd:2.4           docker-host2.lukas.int   Running             Running <span style="color:#ae81ff">3</span> minutes ago
+wgsf8plhlghg        web_server.nqe3eyk55lvmwsmqy5lx8v8vx   httpd:2.4           docker-host3.lukas.int   Shutdown            Shutdown <span style="color:#ae81ff">16</span> seconds ago
+</code></pre></div><h3 id="set-specified-nodes-for-containers">Set specified nodes for containers</h3>
+<p>If we have got couple of nodes in our cluster but want to run service on specific ones, we can use node labeling - placement constraints.</p>
+<p>Set label <code>workload_type=web</code> on node:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker node update --label-add workload_type<span style="color:#f92672">=</span>web docker-host3.lukas.int
+</code></pre></div><p>Check labels on node:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker node inspect --format <span style="color:#e6db74">&#39;{{ .Spec.Labels }}&#39;</span> docker-host1.lukas.int
+map<span style="color:#f92672">[</span>workload_type:web<span style="color:#f92672">]</span>
+</code></pre></div><hr>
+<p>For labeling, we can use any key and value that we want.<br>
+There is no dictionary of available keys.</p>
+<hr>
+<p>Run service with flag <code>--constraint node.labels.workload_type==web</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service create --with-registry-auth --name web_server --replicas<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>  --publish target<span style="color:#f92672">=</span>80,published<span style="color:#f92672">=</span><span style="color:#ae81ff">80</span> --constraint node.labels.workload_type<span style="color:#f92672">=</span><span style="color:#f92672">=</span>web httpd:2.4
+idj6xxlcndqztnaxz2fvn7n5k
+overall progress: <span style="color:#ae81ff">2</span> out of <span style="color:#ae81ff">2</span> tasks
+1/2: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+2/2: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+verify: Service converged
+</code></pre></div><p>We want replica mode service with two replicas. Only <code>docker-host3</code> has got label on it, so both replicas will be started on this node.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service ps idj6xxlcndqztnaxz2fvn7n5k
+ID                  NAME                IMAGE               NODE                     DESIRED STATE       CURRENT STATE            ERROR               PORTS
+2wrrvkgtbjks        web_server.1        httpd:2.4           docker-host3.lukas.int   Running             Running <span style="color:#ae81ff">13</span> seconds ago
+7z81ske7htq0        web_server.2        httpd:2.4           docker-host3.lukas.int   Running             Running <span style="color:#ae81ff">13</span> seconds ago
+</code></pre></div><h3 id="scale-service">Scale service</h3>
+<p>Update number of replicas:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service scale web_server<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>
+web_server scaled to <span style="color:#ae81ff">2</span>
+overall progress: <span style="color:#ae81ff">2</span> out of <span style="color:#ae81ff">2</span> tasks
+1/2: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+2/2: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+verify: Service converged
+</code></pre></div><h3 id="update-service">Update service</h3>
+<h4 id="set-update-preferences">Set update preferences</h4>
+<p>If you want to edit service with <code>docker service update</code> command docker will do that by restarting containers.</p>
+<p>You can configure how restarting procedure will look like with <code>docker service create</code> or <code>docker service update</code> flags:</p>
+<ul>
+<li><code>--update-delay</code> - time gap between restarting next containers batch</li>
+<li><code>--update-parallelism</code> - number of containers in batch - by default: 1</li>
+<li><code>--update-failure-action</code> - what to do on failure in container update process - by default: <code>pause</code> - we can set there <code>continue</code></li>
+<li><code>--update-max-failure-ratio</code> - value from 0 to 1 - how many containers can fail during update process - 0.1 is considered like 10%</li>
+</ul>
+<p>Setting some update preferences to service will not restart any containers.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service update --update-delay 5s --update-parallelism <span style="color:#ae81ff">2</span> web_server
+web_server
+overall progress: <span style="color:#ae81ff">6</span> out of <span style="color:#ae81ff">6</span> tasks
+1/6: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+2/6: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+3/6: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+4/6: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+5/6: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+6/6: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+verify: Service converged
+</code></pre></div><p>You can check current preferences with <code>docker service inspect</code> command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service inspect web_server
+<span style="color:#f92672">[</span>...<span style="color:#f92672">]</span>
+<span style="color:#e6db74">&#34;UpdateConfig&#34;</span>: <span style="color:#f92672">{</span>
+                <span style="color:#e6db74">&#34;Parallelism&#34;</span>: 2,
+                <span style="color:#e6db74">&#34;Delay&#34;</span>: 5000000000,
+                <span style="color:#e6db74">&#34;FailureAction&#34;</span>: <span style="color:#e6db74">&#34;pause&#34;</span>,
+                <span style="color:#e6db74">&#34;Monitor&#34;</span>: 5000000000,
+                <span style="color:#e6db74">&#34;MaxFailureRatio&#34;</span>: 0,
+                <span style="color:#e6db74">&#34;Order&#34;</span>: <span style="color:#e6db74">&#34;stop-first&#34;</span>
+            <span style="color:#f92672">}</span>, <span style="color:#f92672">[</span>...<span style="color:#f92672">]</span>
+</code></pre></div><h4 id="update-examples">Update examples</h4>
+<h5 id="add-port-publishing">Add port publishing</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service update --publish-add <span style="color:#ae81ff">80</span> web_server
+web_server
+overall progress: <span style="color:#ae81ff">2</span> out of <span style="color:#ae81ff">6</span> tasks
+1/6: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+2/6: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+3/6: ready     <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;            <span style="color:#f92672">]</span>
+4/6: ready     <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;            <span style="color:#f92672">]</span>
+5/6:
+6/6:
+</code></pre></div><h5 id="remove-port-publishing">Remove port publishing</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service update --publish-rm <span style="color:#ae81ff">80</span> web_server
+web_server
+overall progress: <span style="color:#ae81ff">0</span> out of <span style="color:#ae81ff">6</span> tasks
+1/6: ready     <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;            <span style="color:#f92672">]</span>
+2/6:
+3/6: ready     <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;            <span style="color:#f92672">]</span>
+4/6:
+5/6:
+6/6:
+</code></pre></div><h5 id="add-network">Add network</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service update --network-add management_network web_server
+web_server
+overall progress: <span style="color:#ae81ff">2</span> out of <span style="color:#ae81ff">6</span> tasks
+1/6: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+2/6: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+3/6: preparing <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;                 <span style="color:#f92672">]</span>
+4/6: ready     <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;            <span style="color:#f92672">]</span>
+5/6:
+6/6:
+</code></pre></div><h5 id="remove-network">Remove network</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service update --network-rm management_network web_server
+web_server
+overall progress: <span style="color:#ae81ff">0</span> out of <span style="color:#ae81ff">6</span> tasks
+1/6: ready     <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;            <span style="color:#f92672">]</span>
+2/6:
+3/6:
+4/6: ready     <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;            <span style="color:#f92672">]</span>
+5/6:
+6/6:
+</code></pre></div><h3 id="rollback-service">Rollback service</h3>
+<p>To rollback last change we can use <code>docker service update --rollback</code>.</p>
+<h5 id="rollback-example">Rollback example</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service update --rollback web_server
+web_server
+rollback: manually requested rollback
+overall progress: rolling back update: <span style="color:#ae81ff">0</span> out of <span style="color:#ae81ff">6</span> tasks
+1/6:
+2/6:
+3/6:
+4/6: starting  <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;                                             <span style="color:#f92672">]</span>
+5/6:
+6/6:
+</code></pre></div><h3 id="check-logs-for-service">Check logs for service</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service logs web_server
+web_server.1.ogwy5n7dgw6l@docker-host2.lukas.int    | AH00557: httpd: apr_sockaddr_info_get<span style="color:#f92672">(</span><span style="color:#f92672">)</span> failed <span style="color:#66d9ef">for</span> 2c910786bf88
+web_server.1.ogwy5n7dgw6l@docker-host2.lukas.int    | AH00558: httpd: Could not reliably determine the server<span style="color:#e6db74">&#39;s fully qualified domain name, using 127.0.0.1. Set the &#39;</span>ServerName<span style="color:#e6db74">&#39; directive globally to suppress this message
+</span><span style="color:#e6db74">web_server.1.ogwy5n7dgw6l@docker-host2.lukas.int    | AH00557: httpd: apr_sockaddr_info_get() failed for 2c910786bf88
+</span><span style="color:#e6db74">web_server.1.ogwy5n7dgw6l@docker-host2.lukas.int    | AH00558: httpd: Could not reliably determine the server&#39;</span>s fully qualified domain name, using 127.0.0.1. Set the <span style="color:#e6db74">&#39;ServerName&#39;</span> directive globally to suppress this message
+web_server.1.ogwy5n7dgw6l@docker-host2.lukas.int    | <span style="color:#f92672">[</span>Tue Apr <span style="color:#ae81ff">28</span> 11:53:36.436335 2020<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>mpm_event:notice<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>pid 1:tid 139739008033920<span style="color:#f92672">]</span> AH00489: Apache/2.4.43 <span style="color:#f92672">(</span>Unix<span style="color:#f92672">)</span> configured -- resuming normal operations
+web_server.1.ogwy5n7dgw6l@docker-host2.lukas.int    | <span style="color:#f92672">[</span>Tue Apr <span style="color:#ae81ff">28</span> 11:53:36.436683 2020<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>core:notice<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>pid 1:tid 139739008033920<span style="color:#f92672">]</span> AH00094: Command line: <span style="color:#e6db74">&#39;httpd -D FOREGROUND&#39;</span>
+web_server.2.kz0f5nire5az@docker-host3.lukas.int    | AH00557: httpd: apr_sockaddr_info_get<span style="color:#f92672">(</span><span style="color:#f92672">)</span> failed <span style="color:#66d9ef">for</span> e39d1978f0fc
+web_server.2.kz0f5nire5az@docker-host3.lukas.int    | AH00558: httpd: Could not reliably determine the server<span style="color:#e6db74">&#39;s fully qualified domain name, using 127.0.0.1. Set the &#39;</span>ServerName<span style="color:#e6db74">&#39; directive globally to suppress this message
+</span><span style="color:#e6db74">web_server.2.kz0f5nire5az@docker-host3.lukas.int    | AH00557: httpd: apr_sockaddr_info_get() failed for e39d1978f0fc
+</span><span style="color:#e6db74">web_server.2.kz0f5nire5az@docker-host3.lukas.int    | AH00558: httpd: Could not reliably determine the server&#39;</span>s fully qualified domain name, using 127.0.0.1. Set the <span style="color:#e6db74">&#39;ServerName&#39;</span> directive globally to suppress this message
+web_server.2.kz0f5nire5az@docker-host3.lukas.int    | <span style="color:#f92672">[</span>Tue Apr <span style="color:#ae81ff">28</span> 11:53:36.571678 2020<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>mpm_event:notice<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>pid 1:tid 140383257580672<span style="color:#f92672">]</span> AH00489: Apache/2.4.43 <span style="color:#f92672">(</span>Unix<span style="color:#f92672">)</span> configured -- resuming normal operations
+web_server.2.kz0f5nire5az@docker-host3.lukas.int    | <span style="color:#f92672">[</span>Tue Apr <span style="color:#ae81ff">28</span> 11:53:36.572014 2020<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>core:notice<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>pid 1:tid 140383257580672<span style="color:#f92672">]</span> AH00094: Command line: <span style="color:#e6db74">&#39;httpd -D FOREGROUND&#39;</span>
+</code></pre></div><h3 id="remove-service">Remove service</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service rm web_server
+web_server
+</code></pre></div>
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='categories'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
+  
+</svg>
+<span class='screen-reader-text'>Categories: </span><a class='category' href='/categories/docker/'>docker</a></div>
+<div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/docker-swarm/'>docker swarm</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/docker_volume_bind_mounts/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Docker volumes and bind mounts</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/posts/docker_install_upgrade/'>
+        <span class='screen-reader-text'>Next post: </span>Docker install and upgrade guide - CentOS and Ubuntu<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+  
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='mailto:itknowledgepill@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='https://linkedin.com/in/lbartnicki92' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Open Linkedin account in new tab</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+  <rect x="2" y="9" width="4" height="12"/>
+  <circle cx="4" cy="4" r="2"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p> &copy; 2020 Łukasz Bartnicki </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script src='/js/custom.js'></script>
+
+</body>
+
+</html>
+

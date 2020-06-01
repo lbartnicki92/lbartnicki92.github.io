@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on IT Knowledge Pill</title>
+    <link>http://lbartnicki92.github.io/tags/</link>
+    <description>Recent content in Tags on IT Knowledge Pill</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Thu, 14 May 2020 10:00:00 +0100</lastBuildDate>
+    
+	<atom:link href="http://lbartnicki92.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>docker enterprise</title>
+      <link>http://lbartnicki92.github.io/tags/docker-enterprise/</link>
+      <pubDate>Thu, 14 May 2020 10:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/docker-enterprise/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker network</title>
+      <link>http://lbartnicki92.github.io/tags/docker-network/</link>
+      <pubDate>Thu, 07 May 2020 10:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/docker-network/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>security</title>
+      <link>http://lbartnicki92.github.io/tags/security/</link>
+      <pubDate>Wed, 06 May 2020 10:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/security/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tls</title>
+      <link>http://lbartnicki92.github.io/tags/tls/</link>
+      <pubDate>Wed, 06 May 2020 10:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/tls/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker logs</title>
+      <link>http://lbartnicki92.github.io/tags/docker-logs/</link>
+      <pubDate>Tue, 05 May 2020 10:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/docker-logs/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>log-driver</title>
+      <link>http://lbartnicki92.github.io/tags/log-driver/</link>
+      <pubDate>Tue, 05 May 2020 10:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/log-driver/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker swarm</title>
+      <link>http://lbartnicki92.github.io/tags/docker-swarm/</link>
+      <pubDate>Tue, 28 Apr 2020 10:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/docker-swarm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker bind mount</title>
+      <link>http://lbartnicki92.github.io/tags/docker-bind-mount/</link>
+      <pubDate>Wed, 22 Apr 2020 10:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/docker-bind-mount/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker volume</title>
+      <link>http://lbartnicki92.github.io/tags/docker-volume/</link>
+      <pubDate>Wed, 22 Apr 2020 10:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/docker-volume/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>devicemapper</title>
+      <link>http://lbartnicki92.github.io/tags/devicemapper/</link>
+      <pubDate>Fri, 17 Apr 2020 14:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/devicemapper/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>graph driver</title>
+      <link>http://lbartnicki92.github.io/tags/graph-driver/</link>
+      <pubDate>Fri, 17 Apr 2020 14:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/graph-driver/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>lvm</title>
+      <link>http://lbartnicki92.github.io/tags/lvm/</link>
+      <pubDate>Fri, 17 Apr 2020 14:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/lvm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>aufs</title>
+      <link>http://lbartnicki92.github.io/tags/aufs/</link>
+      <pubDate>Fri, 17 Apr 2020 10:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/aufs/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>overlay2</title>
+      <link>http://lbartnicki92.github.io/tags/overlay2/</link>
+      <pubDate>Fri, 17 Apr 2020 10:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/overlay2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker registry</title>
+      <link>http://lbartnicki92.github.io/tags/docker-registry/</link>
+      <pubDate>Wed, 15 Apr 2020 10:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/docker-registry/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker login</title>
+      <link>http://lbartnicki92.github.io/tags/docker-login/</link>
+      <pubDate>Tue, 14 Apr 2020 10:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/docker-login/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker export</title>
+      <link>http://lbartnicki92.github.io/tags/docker-export/</link>
+      <pubDate>Fri, 10 Apr 2020 12:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/docker-export/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker import</title>
+      <link>http://lbartnicki92.github.io/tags/docker-import/</link>
+      <pubDate>Fri, 10 Apr 2020 12:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/docker-import/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker load</title>
+      <link>http://lbartnicki92.github.io/tags/docker-load/</link>
+      <pubDate>Fri, 10 Apr 2020 12:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/docker-load/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker save</title>
+      <link>http://lbartnicki92.github.io/tags/docker-save/</link>
+      <pubDate>Fri, 10 Apr 2020 12:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/docker-save/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker image</title>
+      <link>http://lbartnicki92.github.io/tags/docker-image/</link>
+      <pubDate>Wed, 08 Apr 2020 12:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/docker-image/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>KUBECONFIG</title>
+      <link>http://lbartnicki92.github.io/tags/kubeconfig/</link>
+      <pubDate>Thu, 12 Mar 2020 21:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/kubeconfig/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kubectl</title>
+      <link>http://lbartnicki92.github.io/tags/kubectl/</link>
+      <pubDate>Thu, 12 Mar 2020 21:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/kubectl/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker build</title>
+      <link>http://lbartnicki92.github.io/tags/docker-build/</link>
+      <pubDate>Fri, 28 Feb 2020 17:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/docker-build/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>dockerfile</title>
+      <link>http://lbartnicki92.github.io/tags/dockerfile/</link>
+      <pubDate>Fri, 28 Feb 2020 17:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/dockerfile/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>postgresql</title>
+      <link>http://lbartnicki92.github.io/tags/postgresql/</link>
+      <pubDate>Fri, 28 Feb 2020 17:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/tags/postgresql/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

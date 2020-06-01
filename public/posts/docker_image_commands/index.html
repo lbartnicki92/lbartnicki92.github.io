@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang='en'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Docker has got couple commands that allows us to manage images.
+List images Usage of docker image ls is described in another post: Docker image - list
+Remove images Let&rsquo;s check what images we have locally:
+[lukas@docker-host ~]# docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE postgres latest 9907cacf0c01 8 days ago 314MB alpine latest a187dde48cd2 2 weeks ago 5.6MB ubuntu 18.04 4e5021d210f6 2 weeks ago 64.2MB ubuntu latest 4e5021d210f6 2 weeks ago 64.'>
+<meta name='theme-color' content='#2ab55a'>
+
+<meta property='og:title' content='Docker image - commands • Łukasz Bartnicki'>
+<meta property='og:description' content='Docker has got couple commands that allows us to manage images.
+List images Usage of docker image ls is described in another post: Docker image - list
+Remove images Let&rsquo;s check what images we have locally:
+[lukas@docker-host ~]# docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE postgres latest 9907cacf0c01 8 days ago 314MB alpine latest a187dde48cd2 2 weeks ago 5.6MB ubuntu 18.04 4e5021d210f6 2 weeks ago 64.2MB ubuntu latest 4e5021d210f6 2 weeks ago 64.'>
+<meta property='og:url' content='http://lbartnicki92.github.io/posts/docker_image_commands/'>
+<meta property='og:site_name' content='IT Knowledge Pill'>
+<meta property='og:type' content='article'><meta property='og:image' content='http://lbartnicki92.github.io/images/docker_banner.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='docker image'><meta property='article:published_time' content='2020-04-08T12:00:00&#43;01:00'/><meta property='article:modified_time' content='2020-04-08T12:00:00&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta property='twitter:image' content='http://lbartnicki92.github.io/images/docker_banner.jpg'>
+
+<meta name="generator" content="Hugo 0.63.2" />
+
+  <title>Docker image - commands • Łukasz Bartnicki</title>
+  <link rel='canonical' href='http://lbartnicki92.github.io/posts/docker_image_commands/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.css'><style>
+:root{--color-accent:#2ab55a;}
+</style>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-163565265-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  
+
+  <script data-ad-client="ca-pub-3316601029431032" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+</head>
+<body class='page type-posts has-cover has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/images/logo.png'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      IT Knowledge Pill
+      </a>
+    </h2>
+    <div class='desc'>
+    Clear, practical and simple about IT technologies for DBA and DevOps
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><header>
+    <h4 class='title widget-title'>Menu</h4>
+  </header><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/categories/docker'>Docker</a></li><li class='item'>
+  <a href='/categories/kubernetes'>Kubernetes</a></li><li class='item'>
+  <a href='/categories/oracle'>Oracle</a></li><li class='item'>
+  <a href='/categories/postgresql'>PostgreSQL</a></li><li class='item'>
+  <a href='/posts'>All posts</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-sidebar_menu_about sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/about'>About me</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-search sep-after'>
+  <header>
+    <h4 class='title widget-title'>Search</h4>
+  </header>
+
+  <form action='/search' id='search-form' class='search-form'>
+    <label>
+      <span class='screen-reader-text'>Search</span>
+      <input id='search-term' class='search-term' type='search' name='q' placeholder='Search&hellip;'>
+    </label></form>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/aufs/' style='font-size:1em'>aufs</a>
+      </li><li>
+        <a href='/tags/devicemapper/' style='font-size:2em'>devicemapper</a>
+      </li><li>
+        <a href='/tags/docker-bind-mount/' style='font-size:1em'>docker bind mount</a>
+      </li><li>
+        <a href='/tags/docker-build/' style='font-size:1em'>docker build</a>
+      </li><li>
+        <a href='/tags/docker-enterprise/' style='font-size:1em'>docker enterprise</a>
+      </li><li>
+        <a href='/tags/docker-export/' style='font-size:1em'>docker export</a>
+      </li><li>
+        <a href='/tags/docker-image/' style='font-size:2em'>docker image</a>
+      </li><li>
+        <a href='/tags/docker-import/' style='font-size:1em'>docker import</a>
+      </li><li>
+        <a href='/tags/docker-load/' style='font-size:1em'>docker load</a>
+      </li><li>
+        <a href='/tags/docker-login/' style='font-size:1em'>docker login</a>
+      </li><li>
+        <a href='/tags/docker-logs/' style='font-size:1em'>docker logs</a>
+      </li><li>
+        <a href='/tags/docker-network/' style='font-size:1em'>docker network</a>
+      </li><li>
+        <a href='/tags/docker-registry/' style='font-size:2em'>docker registry</a>
+      </li><li>
+        <a href='/tags/docker-save/' style='font-size:1em'>docker save</a>
+      </li><li>
+        <a href='/tags/docker-swarm/' style='font-size:1em'>docker swarm</a>
+      </li><li>
+        <a href='/tags/docker-volume/' style='font-size:1em'>docker volume</a>
+      </li><li>
+        <a href='/tags/dockerfile/' style='font-size:1em'>dockerfile</a>
+      </li><li>
+        <a href='/tags/graph-driver/' style='font-size:2em'>graph driver</a>
+      </li><li>
+        <a href='/tags/kubeconfig/' style='font-size:1em'>KUBECONFIG</a>
+      </li><li>
+        <a href='/tags/kubectl/' style='font-size:1em'>kubectl</a>
+      </li><li>
+        <a href='/tags/log-driver/' style='font-size:1em'>log-driver</a>
+      </li><li>
+        <a href='/tags/lvm/' style='font-size:1em'>lvm</a>
+      </li><li>
+        <a href='/tags/overlay2/' style='font-size:1em'>overlay2</a>
+      </li><li>
+        <a href='/tags/postgresql/' style='font-size:1em'>postgresql</a>
+      </li><li>
+        <a href='/tags/security/' style='font-size:1em'>security</a>
+      </li><li>
+        <a href='/tags/tls/' style='font-size:1em'>tls</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button><div class='header-widgets'>
+        <div class='container'>
+    
+    <style>.widget-breadcrumbs li:after{content:'\2f '}</style>
+  <section class='widget widget-breadcrumbs sep-after'>
+    <nav id='breadcrumbs'>
+      <ol><li><a href='/'>IT Knowledge Pill</a></li><li><a href='/posts/'>Posts</a></li><li><span>Docker image - commands</span></li></ol>
+    </nav>
+  </section></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>IT Knowledge Pill</p><p class='desc site-desc'>Clear, practical and simple about IT technologies for DBA and DevOps</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Docker image - commands</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2020-04-08T12:00:00&#43;01:00'>08 Apr 2020</time>
+</span>
+
+  <span class='byline'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M21,21V20c0-2.76-4-5-9-5s-9,2.24-9,5v1"/>
+  <path d="M16,6.37A4,4,0,1,1,12.63,3,4,4,0,0,1,16,6.37Z"/>
+  
+</svg>
+<span class='screen-reader-text'> by </span><a href='/authors/lbartnicki'>Łukasz Bartnicki</a></span>
+  
+<span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/>
+  
+</svg>
+5 mins read
+</span>
+
+
+  <span class='entry-label'>
+  <span>Tested on: </span> Docker 18.09
+</span>
+</div>
+
+
+  </div>
+</header>
+
+  <div class='entry-cover'>
+  <figure class='container cover-normal'>
+    <img src='/images/docker_banner.jpg'/>
+    
+      
+    
+  </figure>
+</div>
+  
+
+  <div class='container entry-content'>
+  <p>Docker has got couple commands that allows us to manage images.</p>
+<h3 id="list-images">List images</h3>
+<p>Usage of <code>docker image ls</code> is described in another post: <a href="/posts/docker_image_listing/">Docker image - list</a></p>
+<h3 id="remove-images">Remove images</h3>
+<p>Let&rsquo;s check what images we have locally:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
+REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
+postgres                        latest              9907cacf0c01        <span style="color:#ae81ff">8</span> days ago          314MB
+alpine                          latest              a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
+ubuntu                          18.04               4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         64.2MB
+ubuntu                          latest              4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         64.2MB
+ubuntu                          19.04               c88ac1f841b7        <span style="color:#ae81ff">2</span> months ago        70MB
+schickling/postgres-backup-s3   latest              e8e41fa54edb        <span style="color:#ae81ff">21</span> months ago       117MB
+</code></pre></div><p>We have ubuntu image that has got two aliases: <code>ubuntu:latest</code> and <code>ubuntu:18.04</code><br>
+Let&rsquo;s remove one of it:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image rm ubuntu:18.04</span>
+Untagged: ubuntu:18.04
+
+<span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
+REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
+postgres                        latest              9907cacf0c01        <span style="color:#ae81ff">8</span> days ago          314MB
+alpine                          latest              a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
+ubuntu                          latest              4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         64.2MB
+ubuntu                          19.04               c88ac1f841b7        <span style="color:#ae81ff">2</span> months ago        70MB
+schickling/postgres-backup-s3   latest              e8e41fa54edb        <span style="color:#ae81ff">21</span> months ago       117MB
+</code></pre></div><p>As we saw <code>docker image rm</code> removed only alias - if we remove last image alias - image will be deleted also - precisely layers that are no longer needed:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image rm ubuntu:latest</span>
+Untagged: ubuntu:latest
+Untagged: ubuntu@sha256:bec5a2727be7fff3d308193cfde3491f8fba1a2ba392b7546b43a051853a341d
+Deleted: sha256:4e5021d210f65ebe915670c7089120120bc0a303b90208592851708c1b8c04bd
+Deleted: sha256:1d9112746e9d86157c23e426ce87cc2d7bced0ba2ec8ddbdfbcc3093e0769472
+Deleted: sha256:efcf4a93c18b5d01aa8e10a2e3b7e2b2eef0378336456d8653e2d123d6232c1e
+Deleted: sha256:1e1aa31289fdca521c403edd6b37317bf0a349a941c7f19b6d9d311f59347502
+Deleted: sha256:c8be1b8f4d60d99c281fc2db75e0f56df42a83ad2f0b091621ce19357e19d853
+</code></pre></div><p>Normally docker doesn&rsquo;t allow us to delete image from which containers are currently running. We can use <code>--force</code> in remove command, it will remove also containers running from images we are trying to delete.</p>
+<h3 id="remove-dandling-and-unused-images">Remove dandling and unused images</h3>
+<p>We can remove dandling(without repository and tag) images with <code>docker image prune</code>.
+In our example all images has got repository and tag so none of them will be removed.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
+REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
+postgres                        latest              9907cacf0c01        <span style="color:#ae81ff">8</span> days ago          314MB
+alpine                          latest              a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
+ubuntu                          18.04               4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         64.2MB
+ubuntu                          19.04               c88ac1f841b7        <span style="color:#ae81ff">2</span> months ago        70MB
+schickling/postgres-backup-s3   latest              e8e41fa54edb        <span style="color:#ae81ff">21</span> months ago       117MB
+<span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image prune</span>
+WARNING! This will remove all dangling images.
+Are you sure you want to <span style="color:#66d9ef">continue</span>? <span style="color:#f92672">[</span>y/N<span style="color:#f92672">]</span> y
+Total reclaimed space: 0B
+</code></pre></div><p>We can use <code>-a</code> parameter to remove all images not associated with containers.<br>
+I dont&rsquo; have any containers in example so all images should be deleted by this command.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image prune -a</span>
+WARNING! This will remove all images without at least one container associated to them.
+Are you sure you want to <span style="color:#66d9ef">continue</span>? <span style="color:#f92672">[</span>y/N<span style="color:#f92672">]</span> y
+Deleted Images:
+untagged: schickling/postgres-backup-s3:latest
+untagged: schickling/postgres-backup-s3@sha256:77fb08dff3a07d850ba88fd072e9f2938f8dd5e267411238fd9814ccec14a34f
+deleted: sha256:e8e41fa54edbb0e98f4ef20edfdca3f83732b084d4a7524ea87544ff030b4605
+<span style="color:#f92672">[</span>...<span style="color:#f92672">]</span>
+deleted: sha256:cd7100a72410606589a54b932cabd804a17f9ae5b42a1882bd56d263e02b6215
+untagged: ubuntu:18.04
+untagged: ubuntu@sha256:bec5a2727be7fff3d308193cfde3491f8fba1a2ba392b7546b43a051853a341d
+deleted: sha256:4e5021d210f65ebe915670c7089120120bc0a303b90208592851708c1b8c04bd
+<span style="color:#f92672">[</span>...<span style="color:#f92672">]</span>
+deleted: sha256:c8be1b8f4d60d99c281fc2db75e0f56df42a83ad2f0b091621ce19357e19d853
+untagged: postgres:latest
+untagged: postgres@sha256:d480b197ab8e01edced54cbbbba9707373473f42006468b60be04da07ce97823
+deleted: sha256:9907cacf0c01916f9cd5fef24ae0daf564098afe0f7904962b9cb99758823461
+deleted: sha256:736efdcf1e7318755b2ea260d89a859e8d7f8614f9746fcb092e8cbc66a0849f
+<span style="color:#f92672">[</span>...<span style="color:#f92672">]</span>
+deleted: sha256:c3a984abe8a88059915bb6c7a1d249fd1ccc16d931334ac8816540b0eb686b45
+untagged: alpine:latest
+untagged: alpine@sha256:b276d875eeed9c7d3f1cfa7edb06b22ed22b14219a7d67c52c56612330348239
+deleted: sha256:a187dde48cd289ac374ad8539930628314bc581a481cdb41409c9289419ddb72
+deleted: sha256:beee9f30bc1f711043e78d4a2be0668955d4b761d587d6f60c2c8dc081efb203
+untagged: ubuntu:19.04
+untagged: ubuntu@sha256:2adeae829bf27a3399a0e7db8ae38d5adb89bcaf1bbef378240bc0e6724e8344
+deleted: sha256:c88ac1f841b72add46f5a8b0e77c2ad6864d47e5603686ea64375acd55e27906
+<span style="color:#f92672">[</span>...<span style="color:#f92672">]</span>
+deleted: sha256:873cbe4bd21ee6f6ea264cfc50c0b35b0c3a00e2be3f82b30884c3b9da5db2db
+
+Total reclaimed space: 570.3MB
+</code></pre></div><p>Like in <code>docker image ls</code> <code>--filter</code> parameters works here, more about it in: <a href="/posts/docker_image_listing/">Docker image - list</a></p>
+<h3 id="check-image-build-steps">Check image build steps</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image history 4e5021d210f6</span>
+IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         /bin/sh -c <span style="color:#75715e">#(nop)  CMD [&#34;/bin/bash&#34;]            0B</span>
+&lt;missing&gt;           <span style="color:#ae81ff">2</span> weeks ago         /bin/sh -c mkdir -p /run/systemd <span style="color:#f92672">&amp;&amp;</span> echo <span style="color:#e6db74">&#39;do…   7B
+</span><span style="color:#e6db74">&lt;missing&gt;           2 weeks ago         /bin/sh -c set -xe   &amp;&amp; echo &#39;</span><span style="color:#75715e">#!/bin/sh&#39; &gt; /…   745B</span>
+&lt;missing&gt;           <span style="color:#ae81ff">2</span> weeks ago         /bin/sh -c <span style="color:#f92672">[</span> -z <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>apt-get indextargets<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">]</span>     987kB
+&lt;missing&gt;           <span style="color:#ae81ff">2</span> weeks ago         /bin/sh -c <span style="color:#75715e">#(nop) ADD file:594fa35cf803361e6…   63.2MB</span>
+</code></pre></div><p>We see that intermediate layers have got <code>&lt;missing&gt;</code> image id - this id&rsquo;s was removed because of moving image within different hosts. There are no longer by build cache.</p>
+<p>By default commands are truncated but it is possibility to extend them to full size by adding <code>--no-trunc</code> parameter.</p>
+<h3 id="inspect-images">Inspect images</h3>
+<p>To view metadata about image we can use <code>docker image inspect</code> command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+alpine              latest              a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
+ubuntu              latest              4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         64.2MB
+
+<span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image inspect a187dde48cd2</span>
+<span style="color:#f92672">[</span>
+    <span style="color:#f92672">{</span>
+        <span style="color:#e6db74">&#34;Id&#34;</span>: <span style="color:#e6db74">&#34;sha256:a187dde48cd289ac374ad8539930628314bc581a481cdb41409c9289419ddb72&#34;</span>,
+        <span style="color:#e6db74">&#34;RepoTags&#34;</span>: <span style="color:#f92672">[</span>
+            <span style="color:#e6db74">&#34;alpine:latest&#34;</span>
+        <span style="color:#f92672">]</span>,
+        <span style="color:#e6db74">&#34;RepoDigests&#34;</span>: <span style="color:#f92672">[</span>
+            <span style="color:#e6db74">&#34;alpine@sha256:b276d875eeed9c7d3f1cfa7edb06b22ed22b14219a7d67c52c56612330348239&#34;</span>
+        <span style="color:#f92672">]</span>,
+        <span style="color:#e6db74">&#34;Parent&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+        <span style="color:#e6db74">&#34;Comment&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+        <span style="color:#e6db74">&#34;Created&#34;</span>: <span style="color:#e6db74">&#34;2020-03-23T21:19:34.196162891Z&#34;</span>,
+        <span style="color:#e6db74">&#34;Container&#34;</span>: <span style="color:#e6db74">&#34;fb71ddde5f6411a82eb056a9190f0cc1c80d7f77a8509ee90a2054428edb0024&#34;</span>,
+        <span style="color:#e6db74">&#34;ContainerConfig&#34;</span>: <span style="color:#f92672">{</span>
+            <span style="color:#e6db74">&#34;Hostname&#34;</span>: <span style="color:#e6db74">&#34;fb71ddde5f64&#34;</span>,
+            <span style="color:#e6db74">&#34;Domainname&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+            <span style="color:#e6db74">&#34;User&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+            <span style="color:#e6db74">&#34;AttachStdin&#34;</span>: false,
+            <span style="color:#e6db74">&#34;AttachStdout&#34;</span>: false,
+            <span style="color:#e6db74">&#34;AttachStderr&#34;</span>: false,
+            <span style="color:#e6db74">&#34;Tty&#34;</span>: false,
+            <span style="color:#e6db74">&#34;OpenStdin&#34;</span>: false,
+            <span style="color:#e6db74">&#34;StdinOnce&#34;</span>: false,
+            <span style="color:#e6db74">&#34;Env&#34;</span>: <span style="color:#f92672">[</span>
+                <span style="color:#e6db74">&#34;PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&#34;</span>
+            <span style="color:#f92672">]</span>,
+            <span style="color:#e6db74">&#34;Cmd&#34;</span>: <span style="color:#f92672">[</span>
+                <span style="color:#e6db74">&#34;/bin/sh&#34;</span>,
+                <span style="color:#e6db74">&#34;-c&#34;</span>,
+                <span style="color:#e6db74">&#34;#(nop) &#34;</span>,
+                <span style="color:#e6db74">&#34;CMD [\&#34;/bin/sh\&#34;]&#34;</span>
+            <span style="color:#f92672">]</span>,
+            <span style="color:#e6db74">&#34;ArgsEscaped&#34;</span>: true,
+            <span style="color:#e6db74">&#34;Image&#34;</span>: <span style="color:#e6db74">&#34;sha256:74df73bb19fbfc7fb5ab9a8234b3d98ee2fb92df5b824496679802685205ab8c&#34;</span>,
+            <span style="color:#e6db74">&#34;Volumes&#34;</span>: null,
+            <span style="color:#e6db74">&#34;WorkingDir&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+            <span style="color:#e6db74">&#34;Entrypoint&#34;</span>: null,
+            <span style="color:#e6db74">&#34;OnBuild&#34;</span>: null,
+            <span style="color:#e6db74">&#34;Labels&#34;</span>: <span style="color:#f92672">{</span><span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>,
+        <span style="color:#e6db74">&#34;DockerVersion&#34;</span>: <span style="color:#e6db74">&#34;18.09.7&#34;</span>,
+        <span style="color:#e6db74">&#34;Author&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+        <span style="color:#e6db74">&#34;Config&#34;</span>: <span style="color:#f92672">{</span>
+            <span style="color:#e6db74">&#34;Hostname&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+            <span style="color:#e6db74">&#34;Domainname&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+            <span style="color:#e6db74">&#34;User&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+            <span style="color:#e6db74">&#34;AttachStdin&#34;</span>: false,
+            <span style="color:#e6db74">&#34;AttachStdout&#34;</span>: false,
+            <span style="color:#e6db74">&#34;AttachStderr&#34;</span>: false,
+            <span style="color:#e6db74">&#34;Tty&#34;</span>: false,
+            <span style="color:#e6db74">&#34;OpenStdin&#34;</span>: false,
+            <span style="color:#e6db74">&#34;StdinOnce&#34;</span>: false,
+            <span style="color:#e6db74">&#34;Env&#34;</span>: <span style="color:#f92672">[</span>
+                <span style="color:#e6db74">&#34;PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&#34;</span>
+            <span style="color:#f92672">]</span>,
+            <span style="color:#e6db74">&#34;Cmd&#34;</span>: <span style="color:#f92672">[</span>
+                <span style="color:#e6db74">&#34;/bin/sh&#34;</span>
+            <span style="color:#f92672">]</span>,
+            <span style="color:#e6db74">&#34;ArgsEscaped&#34;</span>: true,
+            <span style="color:#e6db74">&#34;Image&#34;</span>: <span style="color:#e6db74">&#34;sha256:74df73bb19fbfc7fb5ab9a8234b3d98ee2fb92df5b824496679802685205ab8c&#34;</span>,
+            <span style="color:#e6db74">&#34;Volumes&#34;</span>: null,
+            <span style="color:#e6db74">&#34;WorkingDir&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+            <span style="color:#e6db74">&#34;Entrypoint&#34;</span>: null,
+            <span style="color:#e6db74">&#34;OnBuild&#34;</span>: null,
+            <span style="color:#e6db74">&#34;Labels&#34;</span>: null
+        <span style="color:#f92672">}</span>,
+        <span style="color:#e6db74">&#34;Architecture&#34;</span>: <span style="color:#e6db74">&#34;amd64&#34;</span>,
+        <span style="color:#e6db74">&#34;Os&#34;</span>: <span style="color:#e6db74">&#34;linux&#34;</span>,
+        <span style="color:#e6db74">&#34;Size&#34;</span>: 5595566,
+        <span style="color:#e6db74">&#34;VirtualSize&#34;</span>: 5595566,
+        <span style="color:#e6db74">&#34;GraphDriver&#34;</span>: <span style="color:#f92672">{</span>
+            <span style="color:#e6db74">&#34;Data&#34;</span>: <span style="color:#f92672">{</span>
+                <span style="color:#e6db74">&#34;MergedDir&#34;</span>: <span style="color:#e6db74">&#34;/var/lib/docker/overlay2/d005a98ba83c1d08b18a3d1b22470146b1ccd6541e6132691d746441b3f378f2/merged&#34;</span>,
+                <span style="color:#e6db74">&#34;UpperDir&#34;</span>: <span style="color:#e6db74">&#34;/var/lib/docker/overlay2/d005a98ba83c1d08b18a3d1b22470146b1ccd6541e6132691d746441b3f378f2/diff&#34;</span>,
+                <span style="color:#e6db74">&#34;WorkDir&#34;</span>: <span style="color:#e6db74">&#34;/var/lib/docker/overlay2/d005a98ba83c1d08b18a3d1b22470146b1ccd6541e6132691d746441b3f378f2/work&#34;</span>
+            <span style="color:#f92672">}</span>,
+            <span style="color:#e6db74">&#34;Name&#34;</span>: <span style="color:#e6db74">&#34;overlay2&#34;</span>
+        <span style="color:#f92672">}</span>,
+        <span style="color:#e6db74">&#34;RootFS&#34;</span>: <span style="color:#f92672">{</span>
+            <span style="color:#e6db74">&#34;Type&#34;</span>: <span style="color:#e6db74">&#34;layers&#34;</span>,
+            <span style="color:#e6db74">&#34;Layers&#34;</span>: <span style="color:#f92672">[</span>
+                <span style="color:#e6db74">&#34;sha256:beee9f30bc1f711043e78d4a2be0668955d4b761d587d6f60c2c8dc081efb203&#34;</span>
+            <span style="color:#f92672">]</span>
+        <span style="color:#f92672">}</span>,
+        <span style="color:#e6db74">&#34;Metadata&#34;</span>: <span style="color:#f92672">{</span>
+            <span style="color:#e6db74">&#34;LastTagTime&#34;</span>: <span style="color:#e6db74">&#34;0001-01-01T00:00:00Z&#34;</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">]</span>
+</code></pre></div><h3 id="tag-images">Tag images</h3>
+<p>We can change image name(repository and tag) by <code>docker image tag</code> command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+alpine              latest              a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
+ubuntu              latest              4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         64.2MB
+
+<span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image tag alpine:latest alpine-lukas:1.0</span>
+
+<span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+alpine-lukas        1.0                 a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
+alpine              latest              a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
+ubuntu              latest              4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         64.2MB
+</code></pre></div><p>In previous example we create another image(it is alias because of smart storage management in Docker).</p>
+<p>If we want prepare image for sending remotely we can add repository name, later we can push this image to remote registry:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image tag alpine-lukas:1.0 registry.lukas.it/alpine-lukas:1.0</span>
+
+<span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
+REPOSITORY                       TAG                 IMAGE ID            CREATED             SIZE
+alpine-lukas                     1.0                 a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
+alpine                           latest              a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
+registry.lukas.it/alpine-lukas   1.0                 a187dde48cd2        <span style="color:#ae81ff">2</span> weeks ago         5.6MB
+ubuntu                           latest              4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         64.2MB
+</code></pre></div>
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='categories'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
+  
+</svg>
+<span class='screen-reader-text'>Categories: </span><a class='category' href='/categories/docker/'>docker</a></div>
+<div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/docker-image/'>docker image</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/docker_image_listing/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Docker image - list</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/posts/docker_save_load_export_import/'>
+        <span class='screen-reader-text'>Next post: </span>Docker container and image - export and save<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+  
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='mailto:itknowledgepill@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='https://linkedin.com/in/lbartnicki92' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Open Linkedin account in new tab</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+  <rect x="2" y="9" width="4" height="12"/>
+  <circle cx="4" cy="4" r="2"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p> &copy; 2020 Łukasz Bartnicki </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script src='/js/custom.js'></script>
+
+</body>
+
+</html>
+

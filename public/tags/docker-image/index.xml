@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>docker image on IT Knowledge Pill</title>
+    <link>http://lbartnicki92.github.io/tags/docker-image/</link>
+    <description>Recent content in docker image on IT Knowledge Pill</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Wed, 08 Apr 2020 12:00:00 +0100</lastBuildDate>
+    
+	<atom:link href="http://lbartnicki92.github.io/tags/docker-image/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Docker image - commands</title>
+      <link>http://lbartnicki92.github.io/posts/docker_image_commands/</link>
+      <pubDate>Wed, 08 Apr 2020 12:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/posts/docker_image_commands/</guid>
+      <description>Docker has got couple commands that allows us to manage images.
+List images Usage of docker image ls is described in another post: Docker image - list
+Remove images Let&amp;rsquo;s check what images we have locally:
+[lukas@docker-host ~]# docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE postgres latest 9907cacf0c01 8 days ago 314MB alpine latest a187dde48cd2 2 weeks ago 5.6MB ubuntu 18.04 4e5021d210f6 2 weeks ago 64.2MB ubuntu latest 4e5021d210f6 2 weeks ago 64.</description>
+    </item>
+    
+    <item>
+      <title>Docker image - list</title>
+      <link>http://lbartnicki92.github.io/posts/docker_image_listing/</link>
+      <pubDate>Mon, 06 Apr 2020 19:00:00 +0100</pubDate>
+      
+      <guid>http://lbartnicki92.github.io/posts/docker_image_listing/</guid>
+      <description>Docker has got couple commands that allows us to manage images. Mostly we are getting list of images.
+Basic listing Basic images listing with command: docker image ls.
+Size is cumulative value from all layers needed for image.
+Below images are local images without repository specified.
+[lukas@docker-host ~]# docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE postgres latest 9907cacf0c01 6 days ago 314MB alpine latest a187dde48cd2 2 weeks ago 5.</description>
+    </item>
+    
+  </channel>
+</rss>
