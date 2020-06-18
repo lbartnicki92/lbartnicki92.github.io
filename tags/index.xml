@@ -2,245 +2,245 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on IT Knowledge Pill</title>
-    <link>http://lbartnicki92.github.io/tags/</link>
+    <link>https://knowledgepill.it/tags/</link>
     <description>Recent content in Tags on IT Knowledge Pill</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Thu, 14 May 2020 10:00:00 +0100</lastBuildDate>
     
-	<atom:link href="http://lbartnicki92.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://knowledgepill.it/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>docker enterprise</title>
-      <link>http://lbartnicki92.github.io/tags/docker-enterprise/</link>
+      <link>https://knowledgepill.it/tags/docker-enterprise/</link>
       <pubDate>Thu, 14 May 2020 10:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/tags/docker-enterprise/</guid>
+      <guid>https://knowledgepill.it/tags/docker-enterprise/</guid>
       <description></description>
     </item>
     
     <item>
       <title>docker network</title>
-      <link>http://lbartnicki92.github.io/tags/docker-network/</link>
+      <link>https://knowledgepill.it/tags/docker-network/</link>
       <pubDate>Thu, 07 May 2020 10:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/tags/docker-network/</guid>
+      <guid>https://knowledgepill.it/tags/docker-network/</guid>
       <description></description>
     </item>
     
     <item>
       <title>security</title>
-      <link>http://lbartnicki92.github.io/tags/security/</link>
+      <link>https://knowledgepill.it/tags/security/</link>
       <pubDate>Wed, 06 May 2020 10:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/tags/security/</guid>
+      <guid>https://knowledgepill.it/tags/security/</guid>
       <description></description>
     </item>
     
     <item>
       <title>tls</title>
-      <link>http://lbartnicki92.github.io/tags/tls/</link>
+      <link>https://knowledgepill.it/tags/tls/</link>
       <pubDate>Wed, 06 May 2020 10:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/tags/tls/</guid>
+      <guid>https://knowledgepill.it/tags/tls/</guid>
       <description></description>
     </item>
     
     <item>
       <title>docker logs</title>
-      <link>http://lbartnicki92.github.io/tags/docker-logs/</link>
+      <link>https://knowledgepill.it/tags/docker-logs/</link>
       <pubDate>Tue, 05 May 2020 10:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/tags/docker-logs/</guid>
+      <guid>https://knowledgepill.it/tags/docker-logs/</guid>
       <description></description>
     </item>
     
     <item>
       <title>log-driver</title>
-      <link>http://lbartnicki92.github.io/tags/log-driver/</link>
+      <link>https://knowledgepill.it/tags/log-driver/</link>
       <pubDate>Tue, 05 May 2020 10:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/tags/log-driver/</guid>
+      <guid>https://knowledgepill.it/tags/log-driver/</guid>
       <description></description>
     </item>
     
     <item>
       <title>docker swarm</title>
-      <link>http://lbartnicki92.github.io/tags/docker-swarm/</link>
+      <link>https://knowledgepill.it/tags/docker-swarm/</link>
       <pubDate>Tue, 28 Apr 2020 10:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/tags/docker-swarm/</guid>
+      <guid>https://knowledgepill.it/tags/docker-swarm/</guid>
       <description></description>
     </item>
     
     <item>
       <title>docker bind mount</title>
-      <link>http://lbartnicki92.github.io/tags/docker-bind-mount/</link>
+      <link>https://knowledgepill.it/tags/docker-bind-mount/</link>
       <pubDate>Wed, 22 Apr 2020 10:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/tags/docker-bind-mount/</guid>
+      <guid>https://knowledgepill.it/tags/docker-bind-mount/</guid>
       <description></description>
     </item>
     
     <item>
       <title>docker volume</title>
-      <link>http://lbartnicki92.github.io/tags/docker-volume/</link>
+      <link>https://knowledgepill.it/tags/docker-volume/</link>
       <pubDate>Wed, 22 Apr 2020 10:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/tags/docker-volume/</guid>
+      <guid>https://knowledgepill.it/tags/docker-volume/</guid>
       <description></description>
     </item>
     
     <item>
       <title>devicemapper</title>
-      <link>http://lbartnicki92.github.io/tags/devicemapper/</link>
+      <link>https://knowledgepill.it/tags/devicemapper/</link>
       <pubDate>Fri, 17 Apr 2020 14:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/tags/devicemapper/</guid>
+      <guid>https://knowledgepill.it/tags/devicemapper/</guid>
       <description></description>
     </item>
     
     <item>
       <title>graph driver</title>
-      <link>http://lbartnicki92.github.io/tags/graph-driver/</link>
+      <link>https://knowledgepill.it/tags/graph-driver/</link>
       <pubDate>Fri, 17 Apr 2020 14:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/tags/graph-driver/</guid>
+      <guid>https://knowledgepill.it/tags/graph-driver/</guid>
       <description></description>
     </item>
     
     <item>
       <title>lvm</title>
-      <link>http://lbartnicki92.github.io/tags/lvm/</link>
+      <link>https://knowledgepill.it/tags/lvm/</link>
       <pubDate>Fri, 17 Apr 2020 14:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/tags/lvm/</guid>
+      <guid>https://knowledgepill.it/tags/lvm/</guid>
       <description></description>
     </item>
     
     <item>
       <title>aufs</title>
-      <link>http://lbartnicki92.github.io/tags/aufs/</link>
+      <link>https://knowledgepill.it/tags/aufs/</link>
       <pubDate>Fri, 17 Apr 2020 10:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/tags/aufs/</guid>
+      <guid>https://knowledgepill.it/tags/aufs/</guid>
       <description></description>
     </item>
     
     <item>
       <title>overlay2</title>
-      <link>http://lbartnicki92.github.io/tags/overlay2/</link>
+      <link>https://knowledgepill.it/tags/overlay2/</link>
       <pubDate>Fri, 17 Apr 2020 10:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/tags/overlay2/</guid>
+      <guid>https://knowledgepill.it/tags/overlay2/</guid>
       <description></description>
     </item>
     
     <item>
       <title>docker registry</title>
-      <link>http://lbartnicki92.github.io/tags/docker-registry/</link>
+      <link>https://knowledgepill.it/tags/docker-registry/</link>
       <pubDate>Wed, 15 Apr 2020 10:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/tags/docker-registry/</guid>
+      <guid>https://knowledgepill.it/tags/docker-registry/</guid>
       <description></description>
     </item>
     
     <item>
       <title>docker login</title>
-      <link>http://lbartnicki92.github.io/tags/docker-login/</link>
+      <link>https://knowledgepill.it/tags/docker-login/</link>
       <pubDate>Tue, 14 Apr 2020 10:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/tags/docker-login/</guid>
+      <guid>https://knowledgepill.it/tags/docker-login/</guid>
       <description></description>
     </item>
     
     <item>
       <title>docker export</title>
-      <link>http://lbartnicki92.github.io/tags/docker-export/</link>
+      <link>https://knowledgepill.it/tags/docker-export/</link>
       <pubDate>Fri, 10 Apr 2020 12:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/tags/docker-export/</guid>
+      <guid>https://knowledgepill.it/tags/docker-export/</guid>
       <description></description>
     </item>
     
     <item>
       <title>docker import</title>
-      <link>http://lbartnicki92.github.io/tags/docker-import/</link>
+      <link>https://knowledgepill.it/tags/docker-import/</link>
       <pubDate>Fri, 10 Apr 2020 12:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/tags/docker-import/</guid>
+      <guid>https://knowledgepill.it/tags/docker-import/</guid>
       <description></description>
     </item>
     
     <item>
       <title>docker load</title>
-      <link>http://lbartnicki92.github.io/tags/docker-load/</link>
+      <link>https://knowledgepill.it/tags/docker-load/</link>
       <pubDate>Fri, 10 Apr 2020 12:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/tags/docker-load/</guid>
+      <guid>https://knowledgepill.it/tags/docker-load/</guid>
       <description></description>
     </item>
     
     <item>
       <title>docker save</title>
-      <link>http://lbartnicki92.github.io/tags/docker-save/</link>
+      <link>https://knowledgepill.it/tags/docker-save/</link>
       <pubDate>Fri, 10 Apr 2020 12:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/tags/docker-save/</guid>
+      <guid>https://knowledgepill.it/tags/docker-save/</guid>
       <description></description>
     </item>
     
     <item>
       <title>docker image</title>
-      <link>http://lbartnicki92.github.io/tags/docker-image/</link>
+      <link>https://knowledgepill.it/tags/docker-image/</link>
       <pubDate>Wed, 08 Apr 2020 12:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/tags/docker-image/</guid>
+      <guid>https://knowledgepill.it/tags/docker-image/</guid>
       <description></description>
     </item>
     
     <item>
       <title>KUBECONFIG</title>
-      <link>http://lbartnicki92.github.io/tags/kubeconfig/</link>
+      <link>https://knowledgepill.it/tags/kubeconfig/</link>
       <pubDate>Thu, 12 Mar 2020 21:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/tags/kubeconfig/</guid>
+      <guid>https://knowledgepill.it/tags/kubeconfig/</guid>
       <description></description>
     </item>
     
     <item>
       <title>kubectl</title>
-      <link>http://lbartnicki92.github.io/tags/kubectl/</link>
+      <link>https://knowledgepill.it/tags/kubectl/</link>
       <pubDate>Thu, 12 Mar 2020 21:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/tags/kubectl/</guid>
+      <guid>https://knowledgepill.it/tags/kubectl/</guid>
       <description></description>
     </item>
     
     <item>
       <title>docker build</title>
-      <link>http://lbartnicki92.github.io/tags/docker-build/</link>
+      <link>https://knowledgepill.it/tags/docker-build/</link>
       <pubDate>Fri, 28 Feb 2020 17:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/tags/docker-build/</guid>
+      <guid>https://knowledgepill.it/tags/docker-build/</guid>
       <description></description>
     </item>
     
     <item>
       <title>dockerfile</title>
-      <link>http://lbartnicki92.github.io/tags/dockerfile/</link>
+      <link>https://knowledgepill.it/tags/dockerfile/</link>
       <pubDate>Fri, 28 Feb 2020 17:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/tags/dockerfile/</guid>
+      <guid>https://knowledgepill.it/tags/dockerfile/</guid>
       <description></description>
     </item>
     
     <item>
       <title>postgresql</title>
-      <link>http://lbartnicki92.github.io/tags/postgresql/</link>
+      <link>https://knowledgepill.it/tags/postgresql/</link>
       <pubDate>Fri, 28 Feb 2020 17:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/tags/postgresql/</guid>
+      <guid>https://knowledgepill.it/tags/postgresql/</guid>
       <description></description>
     </item>
     

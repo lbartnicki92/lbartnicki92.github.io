@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>docker login on IT Knowledge Pill</title>
-    <link>http://lbartnicki92.github.io/tags/docker-login/</link>
+    <link>https://knowledgepill.it/tags/docker-login/</link>
     <description>Recent content in docker login on IT Knowledge Pill</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Tue, 14 Apr 2020 10:00:00 +0100</lastBuildDate>
     
-	<atom:link href="http://lbartnicki92.github.io/tags/docker-login/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://knowledgepill.it/tags/docker-login/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Docker private registry - setup</title>
-      <link>http://lbartnicki92.github.io/posts/docker_private_registry_setup/</link>
+      <link>https://knowledgepill.it/posts/docker_private_registry_setup/</link>
       <pubDate>Tue, 14 Apr 2020 10:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/posts/docker_private_registry_setup/</guid>
+      <guid>https://knowledgepill.it/posts/docker_private_registry_setup/</guid>
       <description>It is very common to setup own Docker registry for our private images.
 Basic registry setup If we want basic setup without TLS and any access control for example for lab, we can create it with command:
 [lukas@docker-host ~]$ docker run -d -p 5000:5000 --restart=always --name registry registry:2 Unable to find image &amp;#39;registry:2&amp;#39; locally 2: Pulling from library/registry 486039affc0a: Pull complete ba51a3b098e6: Pull complete 8bb4c43d6c8e: Pull complete 6f5f453e5f2d: Pull complete 42bc10b72f42: Pull complete Digest: sha256:7d081088e4bfd632a88e3f3bcd9e007ef44a796fddfe3261407a3f9f04abe1e7 Status: Downloaded newer image for registry:2 8f0fec4813cd6dc1d6fc65b8530dd2c3ca413a4e42904debf3005843220bcdb3 [lukas@docker-host ~]$ docker container ls CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 8f0fec4813cd registry:2 &amp;#34;/entrypoint.</description>

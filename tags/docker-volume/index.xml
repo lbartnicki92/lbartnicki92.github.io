@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>docker volume on IT Knowledge Pill</title>
-    <link>http://lbartnicki92.github.io/tags/docker-volume/</link>
+    <link>https://knowledgepill.it/tags/docker-volume/</link>
     <description>Recent content in docker volume on IT Knowledge Pill</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Wed, 22 Apr 2020 10:00:00 +0100</lastBuildDate>
     
-	<atom:link href="http://lbartnicki92.github.io/tags/docker-volume/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://knowledgepill.it/tags/docker-volume/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Docker volumes and bind mounts</title>
-      <link>http://lbartnicki92.github.io/posts/docker_volume_bind_mounts/</link>
+      <link>https://knowledgepill.it/posts/docker_volume_bind_mounts/</link>
       <pubDate>Wed, 22 Apr 2020 10:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/posts/docker_volume_bind_mounts/</guid>
+      <guid>https://knowledgepill.it/posts/docker_volume_bind_mounts/</guid>
       <description>Storing persistent data in containers needs special storage. There is two options - volumes or bind mounts.
 How to use them?
 Volume vs bind mounts Bind mounts:

@@ -3,266 +3,266 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://lbartnicki92.github.io/authors/</loc>
+    <loc>https://knowledgepill.it/authors/</loc>
     <lastmod>2020-05-14T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/categories/</loc>
+    <loc>https://knowledgepill.it/categories/</loc>
     <lastmod>2020-05-14T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/categories/docker/</loc>
+    <loc>https://knowledgepill.it/categories/docker/</loc>
     <lastmod>2020-05-14T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/tags/docker-enterprise/</loc>
+    <loc>https://knowledgepill.it/tags/docker-enterprise/</loc>
     <lastmod>2020-05-14T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/posts/docker_enterprise_ucp_security/</loc>
+    <loc>https://knowledgepill.it/posts/docker_enterprise_ucp_security/</loc>
     <lastmod>2020-05-14T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/</loc>
+    <loc>https://knowledgepill.it/</loc>
     <lastmod>2020-05-14T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/authors/lbartnicki/</loc>
+    <loc>https://knowledgepill.it/authors/lbartnicki/</loc>
     <lastmod>2020-05-14T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/posts/</loc>
+    <loc>https://knowledgepill.it/posts/</loc>
     <lastmod>2020-05-14T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/tags/</loc>
+    <loc>https://knowledgepill.it/tags/</loc>
     <lastmod>2020-05-14T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/tags/docker-network/</loc>
+    <loc>https://knowledgepill.it/tags/docker-network/</loc>
     <lastmod>2020-05-07T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/posts/docker_network/</loc>
+    <loc>https://knowledgepill.it/posts/docker_network/</loc>
     <lastmod>2020-05-07T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/posts/docker_tls_secure_client_daemon/</loc>
+    <loc>https://knowledgepill.it/posts/docker_tls_secure_client_daemon/</loc>
     <lastmod>2020-05-06T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/tags/security/</loc>
+    <loc>https://knowledgepill.it/tags/security/</loc>
     <lastmod>2020-05-06T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/tags/tls/</loc>
+    <loc>https://knowledgepill.it/tags/tls/</loc>
     <lastmod>2020-05-06T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/posts/docker_logging_driver/</loc>
+    <loc>https://knowledgepill.it/posts/docker_logging_driver/</loc>
     <lastmod>2020-05-05T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/tags/docker-logs/</loc>
+    <loc>https://knowledgepill.it/tags/docker-logs/</loc>
     <lastmod>2020-05-05T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/tags/log-driver/</loc>
+    <loc>https://knowledgepill.it/tags/log-driver/</loc>
     <lastmod>2020-05-05T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/posts/docker_install_upgrade/</loc>
+    <loc>https://knowledgepill.it/posts/docker_install_upgrade/</loc>
     <lastmod>2020-05-04T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/tags/docker-swarm/</loc>
+    <loc>https://knowledgepill.it/tags/docker-swarm/</loc>
     <lastmod>2020-04-28T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/posts/docker_swarm_compendium/</loc>
+    <loc>https://knowledgepill.it/posts/docker_swarm_compendium/</loc>
     <lastmod>2020-04-28T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/tags/docker-bind-mount/</loc>
+    <loc>https://knowledgepill.it/tags/docker-bind-mount/</loc>
     <lastmod>2020-04-22T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/tags/docker-volume/</loc>
+    <loc>https://knowledgepill.it/tags/docker-volume/</loc>
     <lastmod>2020-04-22T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/posts/docker_volume_bind_mounts/</loc>
+    <loc>https://knowledgepill.it/posts/docker_volume_bind_mounts/</loc>
     <lastmod>2020-04-22T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/tags/devicemapper/</loc>
+    <loc>https://knowledgepill.it/tags/devicemapper/</loc>
     <lastmod>2020-04-17T14:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/posts/docker_configure_devicemapper/</loc>
+    <loc>https://knowledgepill.it/posts/docker_configure_devicemapper/</loc>
     <lastmod>2020-04-17T14:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/tags/graph-driver/</loc>
+    <loc>https://knowledgepill.it/tags/graph-driver/</loc>
     <lastmod>2020-04-17T14:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/tags/lvm/</loc>
+    <loc>https://knowledgepill.it/tags/lvm/</loc>
     <lastmod>2020-04-17T14:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/tags/aufs/</loc>
+    <loc>https://knowledgepill.it/tags/aufs/</loc>
     <lastmod>2020-04-17T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/posts/docker_storage_drivers/</loc>
+    <loc>https://knowledgepill.it/posts/docker_storage_drivers/</loc>
     <lastmod>2020-04-17T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/tags/overlay2/</loc>
+    <loc>https://knowledgepill.it/tags/overlay2/</loc>
     <lastmod>2020-04-17T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/tags/docker-registry/</loc>
+    <loc>https://knowledgepill.it/tags/docker-registry/</loc>
     <lastmod>2020-04-15T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/posts/docker_registry_api_operations/</loc>
+    <loc>https://knowledgepill.it/posts/docker_registry_api_operations/</loc>
     <lastmod>2020-04-15T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/tags/docker-login/</loc>
+    <loc>https://knowledgepill.it/tags/docker-login/</loc>
     <lastmod>2020-04-14T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/posts/docker_private_registry_setup/</loc>
+    <loc>https://knowledgepill.it/posts/docker_private_registry_setup/</loc>
     <lastmod>2020-04-14T10:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/posts/docker_save_load_export_import/</loc>
+    <loc>https://knowledgepill.it/posts/docker_save_load_export_import/</loc>
     <lastmod>2020-04-10T12:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/tags/docker-export/</loc>
+    <loc>https://knowledgepill.it/tags/docker-export/</loc>
     <lastmod>2020-04-10T12:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/tags/docker-import/</loc>
+    <loc>https://knowledgepill.it/tags/docker-import/</loc>
     <lastmod>2020-04-10T12:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/tags/docker-load/</loc>
+    <loc>https://knowledgepill.it/tags/docker-load/</loc>
     <lastmod>2020-04-10T12:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/tags/docker-save/</loc>
+    <loc>https://knowledgepill.it/tags/docker-save/</loc>
     <lastmod>2020-04-10T12:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/tags/docker-image/</loc>
+    <loc>https://knowledgepill.it/tags/docker-image/</loc>
     <lastmod>2020-04-08T12:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/posts/docker_image_commands/</loc>
+    <loc>https://knowledgepill.it/posts/docker_image_commands/</loc>
     <lastmod>2020-04-08T12:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/posts/docker_image_listing/</loc>
+    <loc>https://knowledgepill.it/posts/docker_image_listing/</loc>
     <lastmod>2020-04-06T19:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/tags/kubeconfig/</loc>
+    <loc>https://knowledgepill.it/tags/kubeconfig/</loc>
     <lastmod>2020-03-12T21:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/tags/kubectl/</loc>
+    <loc>https://knowledgepill.it/tags/kubectl/</loc>
     <lastmod>2020-03-12T21:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/posts/kubernetes_kubectl_client_config/</loc>
+    <loc>https://knowledgepill.it/posts/kubernetes_kubectl_client_config/</loc>
     <lastmod>2020-03-12T21:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/categories/kubernetes/</loc>
+    <loc>https://knowledgepill.it/categories/kubernetes/</loc>
     <lastmod>2020-03-12T21:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/tags/docker-build/</loc>
+    <loc>https://knowledgepill.it/tags/docker-build/</loc>
     <lastmod>2020-02-28T17:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/posts/docker_build_from_dockerfile/</loc>
+    <loc>https://knowledgepill.it/posts/docker_build_from_dockerfile/</loc>
     <lastmod>2020-02-28T17:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/tags/dockerfile/</loc>
+    <loc>https://knowledgepill.it/tags/dockerfile/</loc>
     <lastmod>2020-02-28T17:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/tags/postgresql/</loc>
+    <loc>https://knowledgepill.it/tags/postgresql/</loc>
     <lastmod>2020-02-28T17:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/about/</loc>
+    <loc>https://knowledgepill.it/about/</loc>
     <lastmod>2020-02-20T17:00:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/search/</loc>
+    <loc>https://knowledgepill.it/search/</loc>
   </url>
   
   <url>
-    <loc>http://lbartnicki92.github.io/series/</loc>
+    <loc>https://knowledgepill.it/series/</loc>
   </url>
   
 </urlset>

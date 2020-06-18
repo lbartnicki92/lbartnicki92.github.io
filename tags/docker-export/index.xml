@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>docker export on IT Knowledge Pill</title>
-    <link>http://lbartnicki92.github.io/tags/docker-export/</link>
+    <link>https://knowledgepill.it/tags/docker-export/</link>
     <description>Recent content in docker export on IT Knowledge Pill</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Fri, 10 Apr 2020 12:00:00 +0100</lastBuildDate>
     
-	<atom:link href="http://lbartnicki92.github.io/tags/docker-export/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://knowledgepill.it/tags/docker-export/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Docker container and image - export and save</title>
-      <link>http://lbartnicki92.github.io/posts/docker_save_load_export_import/</link>
+      <link>https://knowledgepill.it/posts/docker_save_load_export_import/</link>
       <pubDate>Fri, 10 Apr 2020 12:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/posts/docker_save_load_export_import/</guid>
+      <guid>https://knowledgepill.it/posts/docker_save_load_export_import/</guid>
       <description>From time to time we want export filesystem from container and make image from it.
 Also sometimes there is need for giving someone our container image in single file without repository usage - on for example pendrive.
 How to do this things?

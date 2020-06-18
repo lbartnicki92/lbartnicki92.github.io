@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>docker swarm on IT Knowledge Pill</title>
-    <link>http://lbartnicki92.github.io/tags/docker-swarm/</link>
+    <link>https://knowledgepill.it/tags/docker-swarm/</link>
     <description>Recent content in docker swarm on IT Knowledge Pill</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Tue, 28 Apr 2020 10:00:00 +0100</lastBuildDate>
     
-	<atom:link href="http://lbartnicki92.github.io/tags/docker-swarm/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://knowledgepill.it/tags/docker-swarm/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Docker swarm - setup and usage</title>
-      <link>http://lbartnicki92.github.io/posts/docker_swarm_compendium/</link>
+      <link>https://knowledgepill.it/posts/docker_swarm_compendium/</link>
       <pubDate>Tue, 28 Apr 2020 10:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/posts/docker_swarm_compendium/</guid>
+      <guid>https://knowledgepill.it/posts/docker_swarm_compendium/</guid>
       <description>For HA and easier management of our containers we can create swarm cluster.
 It is composed of couple nodes with docker engine installed.
 How to setup swarm and use it?

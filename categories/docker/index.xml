@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>docker on IT Knowledge Pill</title>
-    <link>http://lbartnicki92.github.io/categories/docker/</link>
+    <link>https://knowledgepill.it/categories/docker/</link>
     <description>Recent content in docker on IT Knowledge Pill</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Thu, 14 May 2020 10:00:00 +0100</lastBuildDate>
     
-	<atom:link href="http://lbartnicki92.github.io/categories/docker/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://knowledgepill.it/categories/docker/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Docker Production Environment - Enterprise Edition and security features</title>
-      <link>http://lbartnicki92.github.io/posts/docker_enterprise_ucp_security/</link>
+      <link>https://knowledgepill.it/posts/docker_enterprise_ucp_security/</link>
       <pubDate>Thu, 14 May 2020 10:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/posts/docker_enterprise_ucp_security/</guid>
+      <guid>https://knowledgepill.it/posts/docker_enterprise_ucp_security/</guid>
       <description>In production environment we should care about security, also we want easy of usage.
 So, it is good to know docker security options and Docker Enterprise Edition.
  This guide assume that we have got Docker Enterprise Edition installed on three node cluster. Most of features described here are paid ones, but we can get a trial of Docker Enterprise Edition for free - 30 day period.
@@ -24,10 +24,10 @@ How to do it?</description>
     
     <item>
       <title>Docker network - complete guide</title>
-      <link>http://lbartnicki92.github.io/posts/docker_network/</link>
+      <link>https://knowledgepill.it/posts/docker_network/</link>
       <pubDate>Thu, 07 May 2020 10:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/posts/docker_network/</guid>
+      <guid>https://knowledgepill.it/posts/docker_network/</guid>
       <description>Containers need to communicate with each other and outside world.
 Docker has wide network capabilities.
 What we can do with docker network? How to use it?
@@ -39,10 +39,10 @@ What we can do with docker CNM?</description>
     
     <item>
       <title>Docker TLS - secure client and daemon</title>
-      <link>http://lbartnicki92.github.io/posts/docker_tls_secure_client_daemon/</link>
+      <link>https://knowledgepill.it/posts/docker_tls_secure_client_daemon/</link>
       <pubDate>Wed, 06 May 2020 10:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/posts/docker_tls_secure_client_daemon/</guid>
+      <guid>https://knowledgepill.it/posts/docker_tls_secure_client_daemon/</guid>
       <description>By default after installing docker on our host we have client and server(daemon) locally speaking to each other by IPC socket. On Linux - /var/run/docker.sock.
 So what we should do when our daemon is in remote location? How to make connection secure?
 Example environment    Role Server IP     Client docker-host1.lukas.int 10.10.10.20   CA docker-host2.lukas.int 10.10.10.21   Daemon docker-host3.lukas.int 10.10.10.22    All hosts can reach each other by hostname.</description>
@@ -50,10 +50,10 @@ Example environment    Role Server IP     Client docker-host1.lukas.int 10.10.10
     
     <item>
       <title>Docker logging driver configuration - json-file and journald</title>
-      <link>http://lbartnicki92.github.io/posts/docker_logging_driver/</link>
+      <link>https://knowledgepill.it/posts/docker_logging_driver/</link>
       <pubDate>Tue, 05 May 2020 10:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/posts/docker_logging_driver/</guid>
+      <guid>https://knowledgepill.it/posts/docker_logging_driver/</guid>
       <description>Docker allows us to stream logs to different places with plugins called logging drivers.
 How to change logging driver? What&amp;rsquo;s the most popular ones?
 What is logging driver? Docker has got two types of logging drivers:
@@ -62,10 +62,10 @@ What is logging driver? Docker has got two types of logging drivers:
     
     <item>
       <title>Docker install and upgrade guide - CentOS and Ubuntu</title>
-      <link>http://lbartnicki92.github.io/posts/docker_install_upgrade/</link>
+      <link>https://knowledgepill.it/posts/docker_install_upgrade/</link>
       <pubDate>Mon, 04 May 2020 10:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/posts/docker_install_upgrade/</guid>
+      <guid>https://knowledgepill.it/posts/docker_install_upgrade/</guid>
       <description>Install and upgrade of Docker Engine is simple and straightforward process.
 In this post I will cover all important information in one place.
 Docker install requirements Minimum requirements
@@ -75,10 +75,10 @@ Docker install requirements Minimum requirements
     
     <item>
       <title>Docker swarm - setup and usage</title>
-      <link>http://lbartnicki92.github.io/posts/docker_swarm_compendium/</link>
+      <link>https://knowledgepill.it/posts/docker_swarm_compendium/</link>
       <pubDate>Tue, 28 Apr 2020 10:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/posts/docker_swarm_compendium/</guid>
+      <guid>https://knowledgepill.it/posts/docker_swarm_compendium/</guid>
       <description>For HA and easier management of our containers we can create swarm cluster.
 It is composed of couple nodes with docker engine installed.
 How to setup swarm and use it?
@@ -88,10 +88,10 @@ Example configuration and prerequisites In my lab environment I used three nodes
     
     <item>
       <title>Docker volumes and bind mounts</title>
-      <link>http://lbartnicki92.github.io/posts/docker_volume_bind_mounts/</link>
+      <link>https://knowledgepill.it/posts/docker_volume_bind_mounts/</link>
       <pubDate>Wed, 22 Apr 2020 10:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/posts/docker_volume_bind_mounts/</guid>
+      <guid>https://knowledgepill.it/posts/docker_volume_bind_mounts/</guid>
       <description>Storing persistent data in containers needs special storage. There is two options - volumes or bind mounts.
 How to use them?
 Volume vs bind mounts Bind mounts:
@@ -101,10 +101,10 @@ Volume vs bind mounts Bind mounts:
     
     <item>
       <title>Docker devicemapper - setup</title>
-      <link>http://lbartnicki92.github.io/posts/docker_configure_devicemapper/</link>
+      <link>https://knowledgepill.it/posts/docker_configure_devicemapper/</link>
       <pubDate>Fri, 17 Apr 2020 14:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/posts/docker_configure_devicemapper/</guid>
+      <guid>https://knowledgepill.it/posts/docker_configure_devicemapper/</guid>
       <description>If you are searching for better manageability of storage layer under your docker images and container you should consider devicemapper storage driver.
 It gives you ability to use block device instead of standard file based storage.
 Configure devicemapper with lvm as storage driver  Important! If you creating fresh docker installation and want to use only one block device as storage - from docker 17.06 you can use autoconfigure feature, simply by adding to /etc/docker/daemon.</description>
@@ -112,10 +112,10 @@ Configure devicemapper with lvm as storage driver  Important! If you creating fr
     
     <item>
       <title>Docker storage driver - setup</title>
-      <link>http://lbartnicki92.github.io/posts/docker_storage_drivers/</link>
+      <link>https://knowledgepill.it/posts/docker_storage_drivers/</link>
       <pubDate>Fri, 17 Apr 2020 10:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/posts/docker_storage_drivers/</guid>
+      <guid>https://knowledgepill.it/posts/docker_storage_drivers/</guid>
       <description>Each container except read only image space, consume also some writable space from storage layer.
 This writable and none writable space are managed together by storage driver.
 What is storage driver? Storage driver is a plugin for docker which is responsible for creating and maintaining union filesystem used by containers - for example: creating proper directory layout on filesystem.
@@ -124,10 +124,10 @@ It is important to notice that under storage driver we always have got regular f
     
     <item>
       <title>Docker registry - operations on API</title>
-      <link>http://lbartnicki92.github.io/posts/docker_registry_api_operations/</link>
+      <link>https://knowledgepill.it/posts/docker_registry_api_operations/</link>
       <pubDate>Wed, 15 Apr 2020 10:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/posts/docker_registry_api_operations/</guid>
+      <guid>https://knowledgepill.it/posts/docker_registry_api_operations/</guid>
       <description>Instead of using Docker CLI commands - we can communicate with Docker registry with GET/POST methods of Docker Registry HTTP API.
 Post include information for V2 of API.
 Example setup For our examples we use docker private registry in container. Currently we have got alpine image and couple of ubuntu images loaded in it.
@@ -136,10 +136,10 @@ Example setup For our examples we use docker private registry in container. Curr
     
     <item>
       <title>Docker private registry - setup</title>
-      <link>http://lbartnicki92.github.io/posts/docker_private_registry_setup/</link>
+      <link>https://knowledgepill.it/posts/docker_private_registry_setup/</link>
       <pubDate>Tue, 14 Apr 2020 10:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/posts/docker_private_registry_setup/</guid>
+      <guid>https://knowledgepill.it/posts/docker_private_registry_setup/</guid>
       <description>It is very common to setup own Docker registry for our private images.
 Basic registry setup If we want basic setup without TLS and any access control for example for lab, we can create it with command:
 [lukas@docker-host ~]$ docker run -d -p 5000:5000 --restart=always --name registry registry:2 Unable to find image &amp;#39;registry:2&amp;#39; locally 2: Pulling from library/registry 486039affc0a: Pull complete ba51a3b098e6: Pull complete 8bb4c43d6c8e: Pull complete 6f5f453e5f2d: Pull complete 42bc10b72f42: Pull complete Digest: sha256:7d081088e4bfd632a88e3f3bcd9e007ef44a796fddfe3261407a3f9f04abe1e7 Status: Downloaded newer image for registry:2 8f0fec4813cd6dc1d6fc65b8530dd2c3ca413a4e42904debf3005843220bcdb3 [lukas@docker-host ~]$ docker container ls CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES 8f0fec4813cd registry:2 &amp;#34;/entrypoint.</description>
@@ -147,10 +147,10 @@ Basic registry setup If we want basic setup without TLS and any access control f
     
     <item>
       <title>Docker container and image - export and save</title>
-      <link>http://lbartnicki92.github.io/posts/docker_save_load_export_import/</link>
+      <link>https://knowledgepill.it/posts/docker_save_load_export_import/</link>
       <pubDate>Fri, 10 Apr 2020 12:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/posts/docker_save_load_export_import/</guid>
+      <guid>https://knowledgepill.it/posts/docker_save_load_export_import/</guid>
       <description>From time to time we want export filesystem from container and make image from it.
 Also sometimes there is need for giving someone our container image in single file without repository usage - on for example pendrive.
 How to do this things?
@@ -160,10 +160,10 @@ This command will create output file with whole container filesystem - if we man
     
     <item>
       <title>Docker image - commands</title>
-      <link>http://lbartnicki92.github.io/posts/docker_image_commands/</link>
+      <link>https://knowledgepill.it/posts/docker_image_commands/</link>
       <pubDate>Wed, 08 Apr 2020 12:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/posts/docker_image_commands/</guid>
+      <guid>https://knowledgepill.it/posts/docker_image_commands/</guid>
       <description>Docker has got couple commands that allows us to manage images.
 List images Usage of docker image ls is described in another post: Docker image - list
 Remove images Let&amp;rsquo;s check what images we have locally:
@@ -172,10 +172,10 @@ Remove images Let&amp;rsquo;s check what images we have locally:
     
     <item>
       <title>Docker image - list</title>
-      <link>http://lbartnicki92.github.io/posts/docker_image_listing/</link>
+      <link>https://knowledgepill.it/posts/docker_image_listing/</link>
       <pubDate>Mon, 06 Apr 2020 19:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/posts/docker_image_listing/</guid>
+      <guid>https://knowledgepill.it/posts/docker_image_listing/</guid>
       <description>Docker has got couple commands that allows us to manage images. Mostly we are getting list of images.
 Basic listing Basic images listing with command: docker image ls.
 Size is cumulative value from all layers needed for image.
@@ -185,10 +185,10 @@ Below images are local images without repository specified.
     
     <item>
       <title>Docker build from dockerfile - compendium</title>
-      <link>http://lbartnicki92.github.io/posts/docker_build_from_dockerfile/</link>
+      <link>https://knowledgepill.it/posts/docker_build_from_dockerfile/</link>
       <pubDate>Fri, 28 Feb 2020 17:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/posts/docker_build_from_dockerfile/</guid>
+      <guid>https://knowledgepill.it/posts/docker_build_from_dockerfile/</guid>
       <description>All docker containers are started from an image.
 What&amp;rsquo;s an image? Image is a collection of read only layers with everything we need to run application. Commonly in image we have base layout of operating system we had choose and some necessary binaries to start our application.
 For exaple, for PostgreSQL container image could contain CentOS base filesystem template, PostgreSQL binaries and some configuration files.

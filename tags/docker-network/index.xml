@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>docker network on IT Knowledge Pill</title>
-    <link>http://lbartnicki92.github.io/tags/docker-network/</link>
+    <link>https://knowledgepill.it/tags/docker-network/</link>
     <description>Recent content in docker network on IT Knowledge Pill</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Thu, 07 May 2020 10:00:00 +0100</lastBuildDate>
     
-	<atom:link href="http://lbartnicki92.github.io/tags/docker-network/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://knowledgepill.it/tags/docker-network/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Docker network - complete guide</title>
-      <link>http://lbartnicki92.github.io/posts/docker_network/</link>
+      <link>https://knowledgepill.it/posts/docker_network/</link>
       <pubDate>Thu, 07 May 2020 10:00:00 +0100</pubDate>
       
-      <guid>http://lbartnicki92.github.io/posts/docker_network/</guid>
+      <guid>https://knowledgepill.it/posts/docker_network/</guid>
       <description>Containers need to communicate with each other and outside world.
 Docker has wide network capabilities.
 What we can do with docker network? How to use it?
