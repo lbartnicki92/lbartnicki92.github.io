@@ -334,7 +334,7 @@ text-align: center;
 
   <div class='container entry-content'>
   <p>It is very common to setup own Docker registry for our private images.</p>
-<h3 id="basic-registry-setup">Basic registry setup</h3>
+<h1 id="basic-registry-setup">Basic registry setup</h1>
 <p>If we want basic setup without TLS and any access control for example for lab, we can create it with command:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ docker run -d -p 5000:5000 --restart<span style="color:#f92672">=</span>always --name registry registry:2
 Unable to find image <span style="color:#e6db74">&#39;registry:2&#39;</span> locally
@@ -355,8 +355,8 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 Registry will be started with Docker host and will be restarted after every failure by <code>--restart=always</code> policy.</p>
 <p>We can operate on it with standard container commands like <code>docker stop</code>.<br>
 It is normal container with proper service in it.</p>
-<h3 id="testing-push-and-pull-to-private-registry">Testing push and pull to private registry</h3>
-<h5 id="push">Push</h5>
+<h1 id="testing-push-and-pull-to-private-registry">Testing push and pull to private registry</h1>
+<h2 id="push">Push</h2>
 <p>First tag our local image properly:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ docker image ls
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
@@ -370,7 +370,7 @@ registry            <span style="color:#ae81ff">2</span>                   708bc
 The push refers to repository <span style="color:#f92672">[</span>localhost:5000/alpine<span style="color:#f92672">]</span>
 beee9f30bc1f: Pushed
 latest: digest: sha256:cb8a924afdf0229ef7515d9e5b3024e23b3eb03ddbba287f4a19c6ac90b8d221 size: <span style="color:#ae81ff">528</span>
-</code></pre></div><h5 id="pull">Pull</h5>
+</code></pre></div><h2 id="pull">Pull</h2>
 <p>Remove image from local registry of Docker host:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ docker image rm localhost:5000/alpine
 Untagged: localhost:5000/alpine:latest
@@ -389,8 +389,8 @@ alpine                  latest              a187dde48cd2        <span style="col
 localhost:5000/alpine   latest              a187dde48cd2        <span style="color:#ae81ff">3</span> weeks ago         5.6MB
 ubuntu                  latest              4e5021d210f6        <span style="color:#ae81ff">3</span> weeks ago         64.2MB
 registry                <span style="color:#ae81ff">2</span>                   708bc6af7e5e        <span style="color:#ae81ff">2</span> months ago        25.8MB
-</code></pre></div><h3 id="advanced-registry-setup">Advanced registry setup</h3>
-<h5 id="check-storage-location-for-registry">Check storage location for registry</h5>
+</code></pre></div><h1 id="advanced-registry-setup">Advanced registry setup</h1>
+<h2 id="check-storage-location-for-registry">Check storage location for registry</h2>
 <p>By default registry container use volumes to store data.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ docker container ls
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
@@ -434,10 +434,10 @@ total <span style="color:#ae81ff">0</span>
 drwxr-xr-x. <span style="color:#ae81ff">3</span> root root <span style="color:#ae81ff">20</span> Apr <span style="color:#ae81ff">14</span> 13:54 .
 drwxr-xr-x. <span style="color:#ae81ff">4</span> root root <span style="color:#ae81ff">39</span> Apr <span style="color:#ae81ff">14</span> 13:54 ..
 drwxr-xr-x. <span style="color:#ae81ff">5</span> root root <span style="color:#ae81ff">55</span> Apr <span style="color:#ae81ff">14</span> 13:54 alpine
-</code></pre></div><h5 id="set-custom-storage">Set custom storage</h5>
+</code></pre></div><h2 id="set-custom-storage">Set custom storage</h2>
 <p>We can set custom volume location by adding parameter<br>
 <code>-v &lt;docker_host_dir&gt;:/var/lib/registry</code> to <code>docker run</code> command.</p>
-<h5 id="set-tls-to-expose-registry-wider-that-localhost">Set TLS to expose registry wider that localhost</h5>
+<h2 id="set-tls-to-expose-registry-wider-that-localhost">Set TLS to expose registry wider that localhost</h2>
 <p>If you want expose registry with dns name, to wider range of people and servers, configure TLS.</p>
 <p>To do so:</p>
 <ul>
@@ -457,7 +457,7 @@ drwxr-xr-x. <span style="color:#ae81ff">5</span> root root <span style="color:#a
 </code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ docker run -d   --restart<span style="color:#f92672">=</span>always   --name registry   -v <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>pwd<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>/certs:/certs   -e REGISTRY_HTTP_ADDR<span style="color:#f92672">=</span>0.0.0.0:443   -e REGISTRY_HTTP_TLS_CERTIFICATE<span style="color:#f92672">=</span>/certs/domain.crt   -e REGISTRY_HTTP_TLS_KEY<span style="color:#f92672">=</span>/certs/domain.key   -p 443:443   registry:2
 037409886c9505e5dd47a00fcd13a7684ae586b1133eb8273b0a95cd6a1a70a6
 </code></pre></div><p>With proper DNS setup you can now use your domain name for pointing private reposiory.</p>
-<h5 id="registry-restricted-access-setup">Registry restricted access setup</h5>
+<h2 id="registry-restricted-access-setup">Registry restricted access setup</h2>
 <p>If you want to restrict access to registry by setting login and password generate password file for user.<br>
 For example <code>lukas</code> username and <code>supersecreatpassword123</code> for password.</p>
 <p>Below command starts new registry container with modified <code>entrypoint</code> script that will generate hash from given username and password parameters.</p>
@@ -472,7 +472,7 @@ lukas:$2y$05$0fIUyTyXPFvJ573I3voFWuienv/Pf2DbclRg/2.ASZFq42hBY1yt6
 -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd
 </code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ docker run -d   -p 443:443   --restart<span style="color:#f92672">=</span>always   --name registry   -v <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>pwd<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>/auth:/auth   -e <span style="color:#e6db74">&#34;REGISTRY_AUTH=htpasswd&#34;</span>   -e <span style="color:#e6db74">&#34;REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm&#34;</span>   -e REGISTRY_HTTP_ADDR<span style="color:#f92672">=</span>0.0.0.0:443   -e REGISTRY_AUTH_HTPASSWD_PATH<span style="color:#f92672">=</span>/auth/htpasswd   -v <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>pwd<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>/certs:/certs   -e REGISTRY_HTTP_TLS_CERTIFICATE<span style="color:#f92672">=</span>/certs/domain.crt   -e REGISTRY_HTTP_TLS_KEY<span style="color:#f92672">=</span>/certs/domain.key   registry:2
 5fcd16c838c5aa2d7ce86c06304dee7890c0e7b1b62a0a36e5fb8811e201dab7
-</code></pre></div><h5 id="test-login">Test login</h5>
+</code></pre></div><h2 id="test-login">Test login</h2>
 <p>Without login we get failure:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ docker push localhost:443/alpine:latest
 The push refers to repository <span style="color:#f92672">[</span>localhost:443/alpine<span style="color:#f92672">]</span>

@@ -334,7 +334,7 @@ text-align: center;
   <p>For HA and easier management of our containers we can create swarm cluster.<br>
 It is composed of couple nodes with docker engine installed.</p>
 <p>How to setup swarm and use it?</p>
-<h3 id="example-configuration-and-prerequisites">Example configuration and prerequisites</h3>
+<h2 id="example-configuration-and-prerequisites">Example configuration and prerequisites</h2>
 <p>In my lab environment I used three nodes:</p>
 <table>
 <thead>
@@ -390,7 +390,7 @@ It is composed of couple nodes with docker engine installed.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="create-swarm-cluster">Create swarm cluster</h2>
+<h1 id="create-swarm-cluster">Create swarm cluster</h1>
 <p>Log in to manager node.</p>
 <p>Most importatnt parameters for <code>docker swarm init</code>:</p>
 <ul>
@@ -411,14 +411,14 @@ To add a worker to this swarm, run the following command:
 To add a manager to this swarm, run <span style="color:#e6db74">&#39;docker swarm join-token manager&#39;</span> and follow the instructions.
 </code></pre></div><p>In output we get command to add worker node to cluster.</p>
 <hr>
-<h3 id="get-tokens-for-adding-nodes-to-cluster">Get tokens for adding nodes to cluster</h3>
+<h2 id="get-tokens-for-adding-nodes-to-cluster">Get tokens for adding nodes to cluster</h2>
 <p>If we need tokens later and we didn&rsquo;t write them down we can get them from any manager node.</p>
-<h5 id="manager-token">Manager token</h5>
+<h3 id="manager-token">Manager token</h3>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker swarm join-token manager
 To add a manager to this swarm, run the following command:
 
     docker swarm join --token SWMTKN-1-0zwqchv43d2alvl99fgw2mh6cnv7xc8vakspd90yjh4i7eiwwx-956h96o5ivrekolr42k71bgqc 10.10.10.20:2377
-</code></pre></div><h5 id="worker-command">Worker command</h5>
+</code></pre></div><h4 id="worker-command">Worker command</h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker swarm join-token worker
 To add a worker to this swarm, run the following command:
 
@@ -433,13 +433,13 @@ To add a worker to this swarm, run the following command:
 
     docker swarm join --token SWMTKN-1-0zwqchv43d2alvl99fgw2mh6cnv7xc8vakspd90yjh4i7eiwwx-c7r78dy7kwho1zq3uq7w26xhl 10.10.10.20:2377
 </code></pre></div><hr>
-<h3 id="add-workers">Add workers</h3>
+<h1 id="add-workers">Add workers</h1>
 <p>I will add my <code>docker-host2</code> and <code>docker-host3</code> as workers.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host2 ~<span style="color:#f92672">]</span>$ docker swarm join --token SWMTKN-1-0zwqchv43d2alvl99fgw2mh6cnv7xc8vakspd90yjh4i7eiwwx-cn32plktlwjf8q25azk37ij5v 10.10.10.20:2377
 This node joined a swarm as a worker.
 </code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host3 ~<span style="color:#f92672">]</span>$ docker swarm join --token SWMTKN-1-0zwqchv43d2alvl99fgw2mh6cnv7xc8vakspd90yjh4i7eiwwx-cn32plktlwjf8q25azk37ij5v 10.10.10.20:2377
 This node joined a swarm as a worker.
-</code></pre></div><h3 id="list-nodes">List nodes</h3>
+</code></pre></div><h1 id="list-nodes">List nodes</h1>
 <p>We can see that manager node is named as <code>leader</code>.</p>
 <p>Listing is available only from manager node.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker node ls
@@ -447,8 +447,8 @@ ID                            HOSTNAME                 STATUS              AVAIL
 x7mdjbmfz3ttkxbvelriix4yz *   docker-host1.lukas.int   Ready               Active              Leader              19.03.8
 va779vfr6v115025a15yvuntv     docker-host2.lukas.int   Ready               Active                                  19.03.8
 k61h5c7sqzjepifp6lzjxpr95     docker-host3.lukas.int   Ready               Active                                  19.03.8
-</code></pre></div><h2 id="what-each-type-of-node-do">What each type of node do?</h2>
-<h5 id="manager">Manager</h5>
+</code></pre></div><h1 id="what-each-type-of-node-do">What each type of node do?</h1>
+<h2 id="manager">Manager</h2>
 <ul>
 <li>sends tasks to worker nodes(or manager nodes also if we allow container there)</li>
 <li>sends heartbeat to nodes in cluster to be current with cluster state</li>
@@ -456,10 +456,10 @@ k61h5c7sqzjepifp6lzjxpr95     docker-host3.lukas.int   Ready               Activ
 </ul>
 <p>It is strongly recommended to have at least three manager nodes in production cluster for HA. This configuration will survive lost of one manager node.<br>
 In such configuration still only one of managers will be leader, rest will replicates data from him and waits for his breakdown.</p>
-<h5 id="worker">Worker</h5>
+<h2 id="worker">Worker</h2>
 <p>This type of nodes only hosts scheduled containers.<br>
 It can by promoted to manager with <code>docker node promote</code> command.</p>
-<h3 id="inspect-node-details">Inspect node details</h3>
+<h1 id="inspect-node-details">Inspect node details</h1>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker node inspect docker-host2.lukas.int --pretty
 ID:			va779vfr6v115025a15yvuntv
 Hostname:              	docker-host2.lukas.int
@@ -488,13 +488,13 @@ TLS Info:
  Issuer Subject:	MBMxETAPBgNVBAMTCHN3YXJtLWNh
  Issuer Public Key:	&lt;public key here&gt;
 </code></pre></div><p>Without <code>--pretty</code> flag we get raw json describing node. We can get exact information from it with <code>--format</code> flag.</p>
-<h5 id="check-node-role">Check node role</h5>
+<h1 id="check-node-role">Check node role</h1>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker inspect docker-host1.lukas.int --format <span style="color:#e6db74">&#34;{{.Spec.Role}}&#34;</span>
 manager
-</code></pre></div><h5 id="check-node-status">Check node status</h5>
+</code></pre></div><h1 id="check-node-status">Check node status</h1>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker inspect docker-host1.lukas.int --format <span style="color:#e6db74">&#34;{{.Status.State}}&#34;</span>
 ready
-</code></pre></div><h2 id="changing-node-parameters">Changing node parameters</h2>
+</code></pre></div><h1 id="changing-node-parameters">Changing node parameters</h1>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker node update --availability drain docker-host3.lukas.int
 docker-host3.lukas.int
 
@@ -503,8 +503,8 @@ ID                            HOSTNAME                 STATUS              AVAIL
 x7mdjbmfz3ttkxbvelriix4yz *   docker-host1.lukas.int   Ready               Active              Leader              19.03.8
 va779vfr6v115025a15yvuntv     docker-host2.lukas.int   Ready               Active                                  19.03.8
 k61h5c7sqzjepifp6lzjxpr95     docker-host3.lukas.int   Ready               Drain                                   19.03.8
-</code></pre></div><h2 id="promotingdemoting-node">Promoting/demoting node</h2>
-<h5 id="promote">Promote</h5>
+</code></pre></div><h1 id="promotingdemoting-node">Promoting/demoting node</h1>
+<h2 id="promote">Promote</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker node promote docker-host3.lukas.int
 Node docker-host3.lukas.int promoted to a manager in the swarm.
 
@@ -513,10 +513,10 @@ ID                            HOSTNAME                 STATUS              AVAIL
 x7mdjbmfz3ttkxbvelriix4yz *   docker-host1.lukas.int   Ready               Active              Leader              19.03.8
 va779vfr6v115025a15yvuntv     docker-host2.lukas.int   Ready               Active                                  19.03.8
 nqe3eyk55lvmwsmqy5lx8v8vx     docker-host3.lukas.int   Ready               Active              Reachable           19.03.8
-</code></pre></div><h5 id="demote">Demote</h5>
+</code></pre></div><h2 id="demote">Demote</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker node demote docker-host3.lukas.int
 Manager docker-host3.lukas.int demoted in the swarm.
-</code></pre></div><h2 id="leave-cluster">Leave cluster</h2>
+</code></pre></div><h1 id="leave-cluster">Leave cluster</h1>
 <p>From leaving node:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host2 ~<span style="color:#f92672">]</span>$ docker swarm leave
 Node left the swarm.
@@ -524,11 +524,11 @@ Node left the swarm.
 <p>From manager - node that will be removed should be shutted down before:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker node rm docker-host2.lukas.int
 docker-host2.lukas.int
-</code></pre></div><h2 id="locking-swarm-cluster">Locking swarm cluster</h2>
+</code></pre></div><h1 id="locking-swarm-cluster">Locking swarm cluster</h1>
 <p>All managers of swarm has got copy of TLS encryption keys.</p>
 <p>If we want to protect these keys we can enable <code>autolock</code> feature.<br>
 When enabled, after node restart his configuration data needs to be decrypted with special key before starting any service on it.</p>
-<h5 id="enable-autolock">Enable autolock</h5>
+<h2 id="enable-autolock">Enable autolock</h2>
 <p>You can enable <code>autolock</code> at cluster initialization with <code>docker swarm init</code> or later with <code>docker swarm update</code>.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker swarm update --autolock<span style="color:#f92672">=</span>true
 Swarm updated.
@@ -539,7 +539,7 @@ command and provide the following key:
 
 Please remember to store this key in a password manager, since without it you
 will not be able to restart the manager.
-</code></pre></div><h5 id="testing-autolock">Testing autolock</h5>
+</code></pre></div><h2 id="testing-autolock">Testing autolock</h2>
 <p>I will promote <code>docker-host2.lukas.int</code> to manager.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker node promote docker-host2.lukas.int
 Node docker-host2.lukas.int promoted to a manager in the swarm.
@@ -562,7 +562,7 @@ ID                            HOSTNAME                 STATUS              AVAIL
 x7mdjbmfz3ttkxbvelriix4yz     docker-host1.lukas.int   Ready               Active              Leader              19.03.8
 va779vfr6v115025a15yvuntv *   docker-host2.lukas.int   Ready               Active              Reachable           19.03.8
 nqe3eyk55lvmwsmqy5lx8v8vx     docker-host3.lukas.int   Ready               Active                                  19.03.8
-</code></pre></div><h5 id="check-unlock-key">Check unlock key</h5>
+</code></pre></div><h1 id="check-unlock-key">Check unlock key</h1>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker swarm unlock-key
 To unlock a swarm manager after it restarts, run the <span style="color:#e6db74">`</span>docker swarm unlock<span style="color:#e6db74">`</span>
 command and provide the following key:
@@ -571,7 +571,7 @@ command and provide the following key:
 
 Please remember to store this key in a password manager, since without it you
 will not be able to restart the manager.
-</code></pre></div><h5 id="rotate-key">Rotate key</h5>
+</code></pre></div><h1 id="rotate-key">Rotate key</h1>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker swarm unlock-key --rotate
 Successfully rotated manager unlock key.
 
@@ -582,9 +582,9 @@ command and provide the following key:
 
 Please remember to store this key in a password manager, since without it you
 will not be able to restart the manager.
-</code></pre></div><h2 id="swarm-services">Swarm Services</h2>
+</code></pre></div><h1 id="swarm-services">Swarm Services</h1>
 <p>All operations on swarm services will be done from manager node.</p>
-<h3 id="create-service">Create service</h3>
+<h1 id="create-service">Create service</h1>
 <p>If you plan to create service with image from login-secured registry, you  should first login:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker login
 Login with your Docker ID to push and pull images from Docker Hub. If you don<span style="color:#960050;background-color:#1e0010">&#39;</span>t have a Docker ID, head over to https://hub.docker.com to create one.
@@ -621,7 +621,7 @@ verify: Service converged
 </ul>
 <p>Full list available with command <code>docker service create -h</code>.</p>
 <hr>
-<h5 id="templating-service">Templating service</h5>
+<h1 id="templating-service">Templating service</h1>
 <p>When creating service there is possibility to set some parameters to contaiers based on service metadata.</p>
 <p>Parameters that we can use with templates:</p>
 <ul>
@@ -656,16 +656,16 @@ verify: Service converged
 root@va779vfr6v115025a15yvuntv-web_server:/usr/local/apache2# hostname
 va779vfr6v115025a15yvuntv-web_server
 </code></pre></div><hr>
-<h3 id="list-services">List services</h3>
+<h1 id="list-services">List services</h1>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service ls
 ID                  NAME                MODE                REPLICAS            IMAGE               PORTS
 h6ttr4yuoukc        web_server          replicated          2/2                 httpd:2.4           *:80-&gt;80/tcp
-</code></pre></div><h5 id="list-service-details">List service details</h5>
+</code></pre></div><h2 id="list-service-details">List service details</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service ps h6ttr4yuoukc
 ID                  NAME                IMAGE               NODE                     DESIRED STATE       CURRENT STATE                ERROR               PORTS
 zdv7uqomaz29        web_server.1        httpd:2.4           docker-host3.lukas.int   Running             Running about a minute ago
 fe36zt5e5zsz        web_server.2        httpd:2.4           docker-host2.lukas.int   Running             Running <span style="color:#ae81ff">59</span> seconds ago
-</code></pre></div><h3 id="check-service-response---ingress-mode">Check service response - ingress mode</h3>
+</code></pre></div><h2 id="check-service-response---ingress-mode">Check service response - ingress mode</h2>
 <p>We can easily test apache with <code>curl</code> and GET method.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ curl -X GET 127.0.0.1:80
 &lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;
@@ -674,7 +674,7 @@ fe36zt5e5zsz        web_server.2        httpd:2.4           docker-host2.lukas.i
 </code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host3 ~<span style="color:#f92672">]</span>$ curl -X GET 127.0.0.1:80
 &lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;
 </code></pre></div><p>As we see despite that containers are only on <code>docker-host2</code> and <code>docker-host3</code> machines - service that they serve is available on every node in cluster at port 80. This is default called <code>ingress</code> mode - all calls on port 80 on every node in swarm cluster are redirected automatically to nodes with containers serving service.</p>
-<h3 id="set-port-publishing-in-host-mode">Set port publishing in host mode</h3>
+<h1 id="set-port-publishing-in-host-mode">Set port publishing in host mode</h1>
 <p>If you want to publish ports of service only on nodes where containers from services resides you should deploy it with <code>mode=host</code> parameter in <code>--publish</code> flag.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service create --with-registry-auth --name web_server --replicas<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>  --publish mode<span style="color:#f92672">=</span>host,target<span style="color:#f92672">=</span>80,published<span style="color:#f92672">=</span><span style="color:#ae81ff">80</span> httpd:2.4
 s7qjpd70u19ttk49jbgu647p5
@@ -695,7 +695,7 @@ curl: <span style="color:#f92672">(</span>7<span style="color:#f92672">)</span> 
 </code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host3 ~<span style="color:#f92672">]</span>$ curl -X GET 127.0.0.1:80
 &lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;
 </code></pre></div><p>As we see, ports are available only on nodes with containers.</p>
-<h3 id="mount-volumes">Mount volumes</h3>
+<h1 id="mount-volumes">Mount volumes</h1>
 <p>As in standard container, in swarm we can create volumes with <code>--mount</code> flag.<br>
 We mount <code>site_content</code> in <code>/var/html/www</code> location in every container.<br>
 This volume was not created earlier so docker will create it by himself.</p>
@@ -721,7 +721,7 @@ DRIVER              VOLUME NAME
 local               site_content
 </code></pre></div><p>Exactly one! Service assume that all containers in it do the same, if there will be more that one container per node - these containers will have common volume.</p>
 <p>It is important to remember about this behaviour.</p>
-<h3 id="connect-services-to-networks">Connect services to networks</h3>
+<h1 id="connect-services-to-networks">Connect services to networks</h1>
 <p>Create network if you don&rsquo;t have one:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker network create --driver overlay management_network
 brgzvb0gxkb6y8q9mgb4rurwu
@@ -771,7 +771,7 @@ verify: Service converged
 <p>For more information about network configuraion in Docker Swarm look at:</p>
 <p><a href="/posts/docker_network/">Docker Network - complete guide</a></p>
 <hr>
-<h3 id="global-service">Global service</h3>
+<h1 id="global-service">Global service</h1>
 <p>By then we was creating services in replicated mode where we set exact number of replicas.</p>
 <p>If we want to have service containers on all available nodes of our cluster then we should run in with <code>--mode=global</code>.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service create --with-registry-auth --name web_server --mode<span style="color:#f92672">=</span>global  --publish target<span style="color:#f92672">=</span>80,published<span style="color:#f92672">=</span><span style="color:#ae81ff">80</span> httpd:2.4
@@ -786,7 +786,7 @@ ID                  NAME                                   IMAGE               N
 wop37gk76oy1        web_server.x7mdjbmfz3ttkxbvelriix4yz   httpd:2.4           docker-host1.lukas.int   Running             Running <span style="color:#ae81ff">21</span> seconds ago
 dfgkhs7js37r        web_server.va779vfr6v115025a15yvuntv   httpd:2.4           docker-host2.lukas.int   Running             Running <span style="color:#ae81ff">23</span> seconds ago
 wgsf8plhlghg        web_server.nqe3eyk55lvmwsmqy5lx8v8vx   httpd:2.4           docker-host3.lukas.int   Running             Running <span style="color:#ae81ff">23</span> seconds ago
-</code></pre></div><h5 id="test-global-service-bahaviour">Test global service bahaviour</h5>
+</code></pre></div><h2 id="test-global-service-bahaviour">Test global service bahaviour</h2>
 <p>Let&rsquo;s check what will happen when we remove node from cluster.<br>
 For simplicity I will set node into <code>drain</code> mode described earlier.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker node update --availability drain docker-host3.lukas.int
@@ -807,7 +807,7 @@ k7l2nnjstjkn        web_server.nqe3eyk55lvmwsmqy5lx8v8vx   httpd:2.4           d
 wop37gk76oy1        web_server.x7mdjbmfz3ttkxbvelriix4yz   httpd:2.4           docker-host1.lukas.int   Running             Running <span style="color:#ae81ff">3</span> minutes ago
 dfgkhs7js37r        web_server.va779vfr6v115025a15yvuntv   httpd:2.4           docker-host2.lukas.int   Running             Running <span style="color:#ae81ff">3</span> minutes ago
 wgsf8plhlghg        web_server.nqe3eyk55lvmwsmqy5lx8v8vx   httpd:2.4           docker-host3.lukas.int   Shutdown            Shutdown <span style="color:#ae81ff">16</span> seconds ago
-</code></pre></div><h3 id="set-specified-nodes-for-containers">Set specified nodes for containers</h3>
+</code></pre></div><h1 id="set-specified-nodes-for-containers">Set specified nodes for containers</h1>
 <p>If we have got couple of nodes in our cluster but want to run service on specific ones, we can use node labeling - placement constraints.</p>
 <p>Set label <code>workload_type=web</code> on node:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker node update --label-add workload_type<span style="color:#f92672">=</span>web docker-host3.lukas.int
@@ -830,7 +830,7 @@ verify: Service converged
 ID                  NAME                IMAGE               NODE                     DESIRED STATE       CURRENT STATE            ERROR               PORTS
 2wrrvkgtbjks        web_server.1        httpd:2.4           docker-host3.lukas.int   Running             Running <span style="color:#ae81ff">13</span> seconds ago
 7z81ske7htq0        web_server.2        httpd:2.4           docker-host3.lukas.int   Running             Running <span style="color:#ae81ff">13</span> seconds ago
-</code></pre></div><h3 id="scale-service">Scale service</h3>
+</code></pre></div><h1 id="scale-service">Scale service</h1>
 <p>Update number of replicas:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service scale web_server<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>
 web_server scaled to <span style="color:#ae81ff">2</span>
@@ -838,8 +838,8 @@ overall progress: <span style="color:#ae81ff">2</span> out of <span style="color
 1/2: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
 2/2: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
 verify: Service converged
-</code></pre></div><h3 id="update-service">Update service</h3>
-<h4 id="set-update-preferences">Set update preferences</h4>
+</code></pre></div><h1 id="update-service">Update service</h1>
+<h2 id="set-update-preferences">Set update preferences</h2>
 <p>If you want to edit service with <code>docker service update</code> command docker will do that by restarting containers.</p>
 <p>You can configure how restarting procedure will look like with <code>docker service create</code> or <code>docker service update</code> flags:</p>
 <ul>
@@ -870,8 +870,8 @@ verify: Service converged
                 <span style="color:#e6db74">&#34;MaxFailureRatio&#34;</span>: 0,
                 <span style="color:#e6db74">&#34;Order&#34;</span>: <span style="color:#e6db74">&#34;stop-first&#34;</span>
             <span style="color:#f92672">}</span>, <span style="color:#f92672">[</span>...<span style="color:#f92672">]</span>
-</code></pre></div><h4 id="update-examples">Update examples</h4>
-<h5 id="add-port-publishing">Add port publishing</h5>
+</code></pre></div><h1 id="update-examples">Update examples</h1>
+<h2 id="add-port-publishing">Add port publishing</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service update --publish-add <span style="color:#ae81ff">80</span> web_server
 web_server
 overall progress: <span style="color:#ae81ff">2</span> out of <span style="color:#ae81ff">6</span> tasks
@@ -881,7 +881,7 @@ overall progress: <span style="color:#ae81ff">2</span> out of <span style="color
 4/6: ready     <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;            <span style="color:#f92672">]</span>
 5/6:
 6/6:
-</code></pre></div><h5 id="remove-port-publishing">Remove port publishing</h5>
+</code></pre></div><h2 id="remove-port-publishing">Remove port publishing</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service update --publish-rm <span style="color:#ae81ff">80</span> web_server
 web_server
 overall progress: <span style="color:#ae81ff">0</span> out of <span style="color:#ae81ff">6</span> tasks
@@ -891,7 +891,7 @@ overall progress: <span style="color:#ae81ff">0</span> out of <span style="color
 4/6:
 5/6:
 6/6:
-</code></pre></div><h5 id="add-network">Add network</h5>
+</code></pre></div><h2 id="add-network">Add network</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service update --network-add management_network web_server
 web_server
 overall progress: <span style="color:#ae81ff">2</span> out of <span style="color:#ae81ff">6</span> tasks
@@ -901,7 +901,7 @@ overall progress: <span style="color:#ae81ff">2</span> out of <span style="color
 4/6: ready     <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;            <span style="color:#f92672">]</span>
 5/6:
 6/6:
-</code></pre></div><h5 id="remove-network">Remove network</h5>
+</code></pre></div><h2 id="remove-network">Remove network</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service update --network-rm management_network web_server
 web_server
 overall progress: <span style="color:#ae81ff">0</span> out of <span style="color:#ae81ff">6</span> tasks
@@ -911,9 +911,9 @@ overall progress: <span style="color:#ae81ff">0</span> out of <span style="color
 4/6: ready     <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;            <span style="color:#f92672">]</span>
 5/6:
 6/6:
-</code></pre></div><h3 id="rollback-service">Rollback service</h3>
+</code></pre></div><h1 id="rollback-service">Rollback service</h1>
 <p>To rollback last change we can use <code>docker service update --rollback</code>.</p>
-<h5 id="rollback-example">Rollback example</h5>
+<h2 id="rollback-example">Rollback example</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service update --rollback web_server
 web_server
 rollback: manually requested rollback
@@ -924,7 +924,7 @@ overall progress: rolling back update: <span style="color:#ae81ff">0</span> out 
 4/6: starting  <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;                                             <span style="color:#f92672">]</span>
 5/6:
 6/6:
-</code></pre></div><h3 id="check-logs-for-service">Check logs for service</h3>
+</code></pre></div><h1 id="check-logs-for-service">Check logs for service</h1>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service logs web_server
 web_server.1.ogwy5n7dgw6l@docker-host2.lukas.int    | AH00557: httpd: apr_sockaddr_info_get<span style="color:#f92672">(</span><span style="color:#f92672">)</span> failed <span style="color:#66d9ef">for</span> 2c910786bf88
 web_server.1.ogwy5n7dgw6l@docker-host2.lukas.int    | AH00558: httpd: Could not reliably determine the server<span style="color:#e6db74">&#39;s fully qualified domain name, using 127.0.0.1. Set the &#39;</span>ServerName<span style="color:#e6db74">&#39; directive globally to suppress this message
@@ -938,7 +938,7 @@ web_server.2.kz0f5nire5az@docker-host3.lukas.int    | AH00558: httpd: Could not 
 </span><span style="color:#e6db74">web_server.2.kz0f5nire5az@docker-host3.lukas.int    | AH00558: httpd: Could not reliably determine the server&#39;</span>s fully qualified domain name, using 127.0.0.1. Set the <span style="color:#e6db74">&#39;ServerName&#39;</span> directive globally to suppress this message
 web_server.2.kz0f5nire5az@docker-host3.lukas.int    | <span style="color:#f92672">[</span>Tue Apr <span style="color:#ae81ff">28</span> 11:53:36.571678 2020<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>mpm_event:notice<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>pid 1:tid 140383257580672<span style="color:#f92672">]</span> AH00489: Apache/2.4.43 <span style="color:#f92672">(</span>Unix<span style="color:#f92672">)</span> configured -- resuming normal operations
 web_server.2.kz0f5nire5az@docker-host3.lukas.int    | <span style="color:#f92672">[</span>Tue Apr <span style="color:#ae81ff">28</span> 11:53:36.572014 2020<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>core:notice<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>pid 1:tid 140383257580672<span style="color:#f92672">]</span> AH00094: Command line: <span style="color:#e6db74">&#39;httpd -D FOREGROUND&#39;</span>
-</code></pre></div><h3 id="remove-service">Remove service</h3>
+</code></pre></div><h1 id="remove-service">Remove service</h1>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker service rm web_server
 web_server
 </code></pre></div>

@@ -340,8 +340,8 @@ text-align: center;
   <p>From time to time we want export filesystem from container and make image from it.<br>
 Also sometimes there is need for giving someone our container image in single file without repository usage - on for example pendrive.</p>
 <p>How to do this things?</p>
-<h3 id="export-and-import-container-filesystem">Export and import container filesystem</h3>
-<h5 id="export">Export</h5>
+<h1 id="export-and-import-container-filesystem">Export and import container filesystem</h1>
+<h2 id="export">Export</h2>
 <p>To export container filesystem we use command <code>docker export</code>.<br>
 This command will create output file with whole container filesystem - if we manually uncompress it - we will get directory structure like in <code>/</code> on Linux OS.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
@@ -373,7 +373,7 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 total <span style="color:#ae81ff">65024</span>
 -rw-------. <span style="color:#ae81ff">1</span> lukas lukas <span style="color:#ae81ff">66584064</span> Apr <span style="color:#ae81ff">10</span> 20:59 ubuntu-export.tar
 </code></pre></div><p>Now we have our container filesystem exported into file which we can give to someone!</p>
-<h5 id="import">Import</h5>
+<h2 id="import">Import</h2>
 <p>From tar file we can now create(import) new image by <code>docker import</code> command.</p>
 <p>It is important to notice that we will create from container export file docker image, not container!<br>
 Import command can take as input network directory also.</p>
@@ -408,10 +408,10 @@ IMAGE               CREATED             CREATED BY                              
 IMAGE               CREATED             CREATED BY          SIZE                COMMENT
 c794b94e40a2        <span style="color:#ae81ff">31</span> seconds ago                          64.2MB              Imported from -
 </code></pre></div><hr>
-<h3 id="save-and-load-docker-image">Save and load docker image</h3>
+<h1 id="save-and-load-docker-image">Save and load docker image</h1>
 <p>Save and load operates only on images, it has nothing to do with containers.<br>
 So we save image to file, give it to someone, he or she can load image into his repository.</p>
-<h5 id="save-image">Save image</h5>
+<h2 id="save-image">Save image</h2>
 <p><code>docker save</code> will create file with layers and metadata about them instead of filesystem snapshot like in <code>docker export</code>.</p>
 <p>Let&rsquo;s save some image!</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
@@ -449,7 +449,7 @@ repositories
 </code></pre></div><p>In random matedata json file, we will see all metadata about layer:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># vi ubuntu/d3bc4608f672143c84e7f1e0db9a00e5067213562f22fcd5b601a920d23859a2/json</span>
 <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;id&#34;</span>:<span style="color:#e6db74">&#34;d3bc4608f672143c84e7f1e0db9a00e5067213562f22fcd5b601a920d23859a2&#34;</span>,<span style="color:#e6db74">&#34;parent&#34;</span>:<span style="color:#e6db74">&#34;a514b8e33bd194200e62e981fa0e9bb3c13c6cd04ff82e91f3e8f11bd4f3500c&#34;</span>,<span style="color:#e6db74">&#34;created&#34;</span>:<span style="color:#e6db74">&#34;1970-01-01T01:00:00+01:00&#34;</span>,<span style="color:#e6db74">&#34;container_config&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;Hostname&#34;</span>:<span style="color:#e6db74">&#34;&#34;</span>,<span style="color:#e6db74">&#34;Domainname&#34;</span>:<span style="color:#e6db74">&#34;&#34;</span>,<span style="color:#e6db74">&#34;User&#34;</span>:<span style="color:#e6db74">&#34;&#34;</span>,<span style="color:#e6db74">&#34;AttachStdin&#34;</span>:false,<span style="color:#e6db74">&#34;AttachStdout&#34;</span>:false,<span style="color:#e6db74">&#34;AttachStderr&#34;</span>:false,<span style="color:#e6db74">&#34;Tty&#34;</span>:false,<span style="color:#e6db74">&#34;OpenStdin&#34;</span>:false,<span style="color:#e6db74">&#34;StdinOnce&#34;</span>:false,<span style="color:#e6db74">&#34;Env&#34;</span>:null,<span style="color:#e6db74">&#34;Cmd&#34;</span>:null,<span style="color:#e6db74">&#34;Image&#34;</span>:<span style="color:#e6db74">&#34;&#34;</span>,<span style="color:#e6db74">&#34;Volumes&#34;</span>:null,<span style="color:#e6db74">&#34;WorkingDir&#34;</span>:<span style="color:#e6db74">&#34;&#34;</span>,<span style="color:#e6db74">&#34;Entrypoint&#34;</span>:null,<span style="color:#e6db74">&#34;OnBuild&#34;</span>:null,<span style="color:#e6db74">&#34;Labels&#34;</span>:null<span style="color:#f92672">}</span>,<span style="color:#e6db74">&#34;os&#34;</span>:<span style="color:#e6db74">&#34;linux&#34;</span><span style="color:#f92672">}</span>
-</code></pre></div><h5 id="load-image">Load image</h5>
+</code></pre></div><h2 id="load-image">Load image</h2>
 <p>First, we remove ubuntu image from out local repository:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image rm ubuntu</span>
 Untagged: ubuntu:latest

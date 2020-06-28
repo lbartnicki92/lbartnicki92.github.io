@@ -337,11 +337,11 @@ text-align: center;
   <div class='container entry-content'>
   <p>Each container except read only image space, consume also some writable space from storage layer.<br>
 This writable and none writable space are managed together by storage driver.</p>
-<h3 id="what-is-storage-driver">What is storage driver?</h3>
+<h1 id="what-is-storage-driver">What is storage driver?</h1>
 <p>Storage driver is a plugin for docker which is responsible for creating and maintaining union filesystem used by containers - for example: creating proper directory layout on filesystem.<br>
 It is important to notice that under storage driver we always have got regular filesystem like ext4, zfs or vfs.</p>
 <p>Storage drivers in docker language are called graph drivers.</p>
-<h3 id="what-storage-driver-to-choose">What storage driver to choose?</h3>
+<h1 id="what-storage-driver-to-choose">What storage driver to choose?</h1>
 <p>For all currently supported Linux distributions preferred storage driver is overlay2. After installing docker it is set by default if kernel supports it.</p>
 <p>If we want use another driver it is good to follow bellow rules:</p>
 <ul>
@@ -353,7 +353,7 @@ It is important to notice that under storage driver we always have got regular f
 <li>btrfs or zfs as backing filesystem - btrfs or zfs</li>
 <li>no copy on write can be used - vfs</li>
 </ul>
-<h3 id="backing-filesystem---varlibdocker">Backing Filesystem - /var/lib/docker</h3>
+<h1 id="backing-filesystem---varlibdocker">Backing Filesystem - /var/lib/docker</h1>
 <ul>
 <li>overlay2, overlay -&gt; xfs with ftype=1, ext4</li>
 <li>aufs	-&gt; xfs, ext4</li>
@@ -362,7 +362,7 @@ It is important to notice that under storage driver we always have got regular f
 <li>zfs -&gt; zfs</li>
 <li>vfs -&gt; any filesystem</li>
 </ul>
-<h3 id="checking-currently-used-storage-driver">Checking currently used storage driver</h3>
+<h1 id="checking-currently-used-storage-driver">Checking currently used storage driver</h1>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ docker system info
 Client:
  Debug Mode: false
@@ -378,7 +378,7 @@ Server:
   Backing Filesystem: xfs
   Supports d_type: true
   Native Overlay Diff: true
-</code></pre></div><h3 id="changing-storage-driver">Changing storage driver</h3>
+</code></pre></div><h1 id="changing-storage-driver">Changing storage driver</h1>
 <hr>
 <h5 id="important">Important!</h5>
 <p>Best option is to set storage driver once when we setting up our docker host and not changing it later.<br>
@@ -444,7 +444,7 @@ drwx--x--x. <span style="color:#ae81ff">16</span> root root <span style="color:#
 </code></pre></div><p>We also not seeing our images and containers:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-</code></pre></div><h3 id="revert-back-to-default-overlay2">Revert back to default overlay2</h3>
+</code></pre></div><h1 id="revert-back-to-default-overlay2">Revert back to default overlay2</h1>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># systemctl stop docker</span>
 
 <span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># rm -rf /etc/docker/daemon.json</span>

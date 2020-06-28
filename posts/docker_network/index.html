@@ -344,7 +344,7 @@ text-align: center;
   <p>Containers need to communicate with each other and outside world.<br>
 Docker has wide network capabilities.</p>
 <p>What we can do with docker network? How to use it?</p>
-<h2 id="docker-network-theory">Docker Network Theory</h2>
+<h1 id="docker-network-theory">Docker Network Theory</h1>
 <p>What elements we have in docker network?</p>
 <ul>
 <li>CNM</li>
@@ -373,7 +373,7 @@ Also we get auto service discovery for our containers.</li>
 <li>overlay</li>
 <li>macvlan</li>
 </ul>
-<h2 id="single-host-network-bridge">Single-host network bridge</h2>
+<h1 id="single-host-network-bridge">Single-host network bridge</h1>
 <p>By default docker creates one brigde after instalation.</p>
 <p>All containers are by default connected to it unless we override it.<br>
 To set another non-default network we use <code>--network</code> flag for <code>docker run</code>.</p>
@@ -433,7 +433,7 @@ NETWORK ID          NAME                DRIVER              SCOPE
 </code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># ip link show docker0</span>
 3: docker0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu <span style="color:#ae81ff">1500</span> qdisc noqueue state DOWN mode DEFAULT group default
     link/ether 02:42:9d:73:fa:48 brd ff:ff:ff:ff:ff:ff
-</code></pre></div><h3 id="creating-network-bridge">Creating network bridge</h3>
+</code></pre></div><h2 id="creating-network-bridge">Creating network bridge</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker network create -d bridge lukas-bridge</span>
 3836e34c6950d80e032e322f915935b51472059ea19cfd65c409263c74ba2b45
 </code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># ip a</span>
@@ -443,13 +443,13 @@ NETWORK ID          NAME                DRIVER              SCOPE
     inet 172.19.0.1/16 brd 172.19.255.255 scope global br-6c8ad698150b
        valid_lft forever preferred_lft forever
 </code></pre></div><p>As we see there is new bridge at OS level with name coresponding to ID of our newly created docker bridge.</p>
-<h3 id="starting-container-connected-to-new-bridge">Starting container connected to new bridge</h3>
+<h2 id="starting-container-connected-to-new-bridge">Starting container connected to new bridge</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker container run -d --name web_server --network lukas-bridge httpd</span>
 08e885099d0ebca6ab5b533bffd0245dccfaab79149657ad9161fe26c370b879
-</code></pre></div><h3 id="list-containers-connected-to-network">List containers connected to network</h3>
+</code></pre></div><h2 id="list-containers-connected-to-network">List containers connected to network</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker network inspect lukas-bridge --format &#34;{{json .Containers}}&#34;</span>
 <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;08e885099d0ebca6ab5b533bffd0245dccfaab79149657ad9161fe26c370b879&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;Name&#34;</span>:<span style="color:#e6db74">&#34;web_server&#34;</span>,<span style="color:#e6db74">&#34;EndpointID&#34;</span>:<span style="color:#e6db74">&#34;ade95c4b553f8cebfbf8f24338b6d0f9e7b2d41744c501816ac734d1bb8ccc1f&#34;</span>,<span style="color:#e6db74">&#34;MacAddress&#34;</span>:<span style="color:#e6db74">&#34;02:42:ac:14:00:02&#34;</span>,<span style="color:#e6db74">&#34;IPv4Address&#34;</span>:<span style="color:#e6db74">&#34;172.20.0.2/16&#34;</span>,<span style="color:#e6db74">&#34;IPv6Address&#34;</span>:<span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">}</span><span style="color:#f92672">}</span>
-</code></pre></div><h3 id="test-connection-between-containers-connected-to-bridge">Test connection between containers connected to bridge</h3>
+</code></pre></div><h2 id="test-connection-between-containers-connected-to-bridge">Test connection between containers connected to bridge</h2>
 <p>If we use <code>--name</code> flag when creating container we can use docker built-in DNS feature.
 Containers automatically know hostname to ip mapping of other containers.</p>
 <p>Create second container:</p>
@@ -463,7 +463,7 @@ PING web_server <span style="color:#f92672">(</span>172.20.0.2<span style="color
 <span style="color:#ae81ff">64</span> bytes from web_server <span style="color:#f92672">(</span>172.20.0.2<span style="color:#f92672">)</span>: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">64</span> time<span style="color:#f92672">=</span>0.712 ms
 <span style="color:#ae81ff">64</span> bytes from web_server <span style="color:#f92672">(</span>172.20.0.2<span style="color:#f92672">)</span>: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">64</span> time<span style="color:#f92672">=</span>0.649 ms
 ^C
-</code></pre></div><h2 id="changing-dns-in-container">Changing DNS in container</h2>
+</code></pre></div><h1 id="changing-dns-in-container">Changing DNS in container</h1>
 <p>We can add DNS to container - this DNS will be queired when Docker built-in DNS won&rsquo;t be able to resolve request.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker run -d --dns 8.8.8.8 httpd</span>
 4bde944868b492a5cef84676de1cfb1a211069c67c494d4ab742115d4fc17ee9
@@ -472,17 +472,17 @@ PING web_server <span style="color:#f92672">(</span>172.20.0.2<span style="color
 root@4bde944868b4:/usr/local/apache2# cat /etc/resolv.conf
 search lukas.int
 nameserver 8.8.8.8
-</code></pre></div><h2 id="port-mapping">Port mapping</h2>
+</code></pre></div><h1 id="port-mapping">Port mapping</h1>
 <p>We can tell docker to expose port from container on docker host port that other server or clients can access service running in container.<br>
 We can achive this with <code>--publish</code> flag.</p>
-<h3 id="start-container-with-port-published">Start container with port published</h3>
+<h2 id="start-container-with-port-published">Start container with port published</h2>
 <p>We start container with <code>httpd</code> service which expose port 80 - to connect to this port in container we can connect to docker host on port 1234.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker run -d --name web_server --network lukas-bridge --publish published=1234,target=80  httpd</span>
 304ddf53a801763c769545eb91c6c5522fc2eedf7cf5f4d252bace1d5e0b8a37
-</code></pre></div><h3 id="check-what-ports-are-published-from-container">Check what ports are published from container</h3>
+</code></pre></div><h2 id="check-what-ports-are-published-from-container">Check what ports are published from container</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker port web_server</span>
 80/tcp -&gt; 0.0.0.0:1234
-</code></pre></div><h2 id="connecting-container-directly-to-host-network-stack">Connecting container directly to host network stack</h2>
+</code></pre></div><h1 id="connecting-container-directly-to-host-network-stack">Connecting container directly to host network stack</h1>
 <p>Docker gives us possibility to integrate container network stack into host stack.<br>
 In such situation container will not get his own IP address and MAC(neither externally from docker host network, neither internally from network created by docker engine) - he will be reachable as he will be normal software running on our host.</p>
 <p>This is good solution if we want to run some software that use network but we want to have full isolation of process(pid), mount(mnt), user and IPC namespaces.</p>
@@ -514,7 +514,7 @@ dedc6c9e1c05ccb3621fa4272975036f7b9266371a20221f3ba9dbc237eff3b0
 </code></pre></div><p>Apache server is listening correctly:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># curl -X GET 127.0.0.1:80</span>
 &lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;
-</code></pre></div><h2 id="connecting-container-directly-to-host-network---macvlan">Connecting container directly to host network - MACVLAN</h2>
+</code></pre></div><h1 id="connecting-container-directly-to-host-network---macvlan">Connecting container directly to host network - MACVLAN</h1>
 <p>If we want to expose our container to world but it is important for us that container has got own IP and MAC adress from network where docker host is connected, we can use MACVLAN network driver. It allows also to connect to certain VLAN.</p>
 <p>It will create for us docker network - all containers connected to this network will be visible in docker host network as they were normal separate from docker host that host them machines.</p>
 <p>Remember that:</p>
@@ -579,7 +579,7 @@ PING 10.10.10.128 <span style="color:#f92672">(</span>10.10.10.128<span style="c
 <span style="color:#ae81ff">2</span> packets transmitted, <span style="color:#ae81ff">2</span> received, 0% packet loss, time 60ms
 rtt min/avg/max/mdev <span style="color:#f92672">=</span> 0.514/0.608/0.703/0.097 ms
 </code></pre></div><p>This feature gives us possibility to connect to multiple VLAN&rsquo;s - we can have our containers in diffrent external networks all trunking with single network card of our docker host.</p>
-<h2 id="overlay-network---multi-host---docker-swarm">Overlay network - multi-host - Docker Swarm</h2>
+<h1 id="overlay-network---multi-host---docker-swarm">Overlay network - multi-host - Docker Swarm</h1>
 <p>Overlay network allows us to set communication between containers deployed on multiple nodes. We use this type of network in Swarm Clusters.</p>
 <hr>
 <p>For more information about Docker Swarm look at:</p>
@@ -607,11 +607,11 @@ rtt min/avg/max/mdev <span style="color:#f92672">=</span> 0.514/0.608/0.703/0.09
 </tr>
 </tbody>
 </table>
-<h3 id="create-overlay-network">Create overlay network</h3>
+<h2 id="create-overlay-network">Create overlay network</h2>
 <p>Creating new network - we optionally use <code>-o encrypted</code> to make data in network secure</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker network create -d overlay -o encrypted lukas-overnet</span>
 fyb4s4ydv3vnl6cjhq62ojdo6
-</code></pre></div><h3 id="check-overlay-network">Check overlay network</h3>
+</code></pre></div><h2 id="check-overlay-network">Check overlay network</h2>
 <p>On manager node:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker network ls</span>
 NETWORK ID          NAME                DRIVER              SCOPE
@@ -646,7 +646,7 @@ b905ff175794        docker_gwbridge     bridge              local
 di48hsm4e4fw        ingress             overlay             swarm
 l4hcqght8ulh        lukas-overnet       overlay             swarm
 cde72e9ea1c3        none                null                local
-</code></pre></div><h3 id="inspect-overlay-network">Inspect overlay network</h3>
+</code></pre></div><h2 id="inspect-overlay-network">Inspect overlay network</h2>
 <p>We can see that created network adressation not match any of docker host networks.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker network inspect lukas-overnet</span>
 <span style="color:#f92672">[</span>
@@ -666,10 +666,10 @@ cde72e9ea1c3        none                null                local
                     <span style="color:#e6db74">&#34;Gateway&#34;</span>: <span style="color:#e6db74">&#34;10.0.2.1&#34;</span>
                 <span style="color:#f92672">}</span>
   <span style="color:#f92672">[</span>...<span style="color:#f92672">]</span>
-</code></pre></div><h3 id="check-container-ip-address">Check container IP address</h3>
+</code></pre></div><h2 id="check-container-ip-address">Check container IP address</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker container inspect 71b279ce322b --format &#34;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}&#34;</span>
 10.0.2.3
-</code></pre></div><h3 id="test-connection-in-overlay-network">Test connection in overlay network</h3>
+</code></pre></div><h2 id="test-connection-in-overlay-network">Test connection in overlay network</h2>
 <p>Connection works with IP and container name also:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">root@25d3dea663a0:/usr/local/apache2# ping 10.0.2.3
 PING 10.0.2.3 <span style="color:#f92672">(</span>10.0.2.3<span style="color:#f92672">)</span> 56<span style="color:#f92672">(</span>84<span style="color:#f92672">)</span> bytes of data.

@@ -335,7 +335,7 @@ text-align: center;
   <div class='container entry-content'>
   <p>If you are searching for better manageability of storage layer under your docker images and container you should consider devicemapper storage driver.</p>
 <p>It gives you ability to use block device instead of standard file based storage.</p>
-<h3 id="configure-devicemapper-with-lvm-as-storage-driver">Configure devicemapper with lvm as storage driver</h3>
+<h1 id="configure-devicemapper-with-lvm-as-storage-driver">Configure devicemapper with lvm as storage driver</h1>
 <hr>
 <h5 id="important">Important!</h5>
 <p>If you creating fresh docker installation and want to use only one block device as storage - from docker 17.06 you can use autoconfigure feature, simply by adding to <code>/etc/docker/daemon.json</code> following:</p>
@@ -352,7 +352,7 @@ text-align: center;
 <span style="color:#f92672">}</span>
 </code></pre></div><p>All magic will be done for you.<br>
 Despite that I advice to do manual configuration by yourself.</p>
-<h5 id="what-parameters-mean">What parameters mean?</h5>
+<h2 id="what-parameters-mean">What parameters mean?</h2>
 <ul>
 <li>thinp_percent - max space in % allocated for data in Volume Group</li>
 <li>max space in % allocated for metadata in Volume Group</li>
@@ -484,8 +484,8 @@ Server:
   Deferred Deletion Enabled: true
   Deferred Deleted Device Count: <span style="color:#ae81ff">0</span>
   Library Version: 1.02.163-RHEL8 <span style="color:#f92672">(</span>2019-06-15<span style="color:#f92672">)</span>
-</code></pre></div><h3 id="devicemapper-configuration-maintenance">Devicemapper configuration maintenance</h3>
-<h5 id="add-new-device-to-thinpool">Add new device to thinpool</h5>
+</code></pre></div><h1 id="devicemapper-configuration-maintenance">Devicemapper configuration maintenance</h1>
+<h2 id="add-new-device-to-thinpool">Add new device to thinpool</h2>
 <ul>
 <li>Add device to Volume Group</li>
 </ul>
@@ -546,7 +546,7 @@ Server:
   Deferred Deletion Enabled: true
   Deferred Deleted Device Count: <span style="color:#ae81ff">0</span>
   Library Version: 1.02.163-RHEL8 <span style="color:#f92672">(</span>2019-06-15<span style="color:#f92672">)</span>
-</code></pre></div><h5 id="restart-lvm-after-reboot">Restart LVM after reboot</h5>
+</code></pre></div><h2 id="restart-lvm-after-reboot">Restart LVM after reboot</h2>
 <p><code>lvchange -ay docker/thinpool</code></p>
 
 </div>

@@ -339,7 +339,7 @@ text-align: center;
   <div class='container entry-content'>
   <p>Install and upgrade of Docker Engine is simple and straightforward process.</p>
 <p>In this post I will cover all important information in one place.</p>
-<h2 id="docker-install-requirements">Docker install requirements</h2>
+<h1 id="docker-install-requirements">Docker install requirements</h1>
 <p>Minimum requirements</p>
 <ul>
 <li>8GB RAM per manager node</li>
@@ -366,7 +366,7 @@ Docker engine will set it by default.</p>
 <h5 id="important">Important</h5>
 <p>If you plan to use Docker Enterprise with multiple nodes or Swarm - remember to set up time synchro between nodes - use NTP for that.</p>
 <hr>
-<h2 id="docker-install-centos">Docker install CentOS</h2>
+<h1 id="docker-install-centos">Docker install CentOS</h1>
 <ul>
 <li>Ensure that <code>centos-extras</code> repo is enabled</li>
 <li>Install <code>yum-utils</code>:</li>
@@ -395,7 +395,7 @@ systemctl enable docker
 </code></pre></div><hr>
 <p>For installing Docker Enterprise Edition you have to set up repo on your OS after getting from <a href="https://hub.docker.com/my-content">Docker Hub Account</a> Docker EE Repo Adress.</p>
 <hr>
-<h2 id="docker-install-ubuntu">Docker install Ubuntu</h2>
+<h1 id="docker-install-ubuntu">Docker install Ubuntu</h1>
 <ul>
 <li>Update system and install important packages</li>
 </ul>
@@ -428,8 +428,8 @@ apt-get install docker-ce docker-ce-cli containerd.io
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">apt-cache madison docker-ce
 </code></pre></div><p>And install specific one:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">apt-get install docker-ce<span style="color:#f92672">=</span>&lt;VERSION_STRING&gt; docker-ce-cli<span style="color:#f92672">=</span>&lt;VERSION_STRING&gt; containerd.io
-</code></pre></div><h2 id="docker-upgrade">Docker upgrade</h2>
-<h3 id="live-restore">Live restore</h3>
+</code></pre></div><h1 id="docker-upgrade">Docker upgrade</h1>
+<h2 id="live-restore">Live restore</h2>
 <p>If you want that running containers won&rsquo;t stop with docker daemon you can enable live restore feature. After enabling it you can perform upgrade of docker engine without stopping running containers.</p>
 <p>In <code>/etc/docker/daemon.json</code> set:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">{</span>

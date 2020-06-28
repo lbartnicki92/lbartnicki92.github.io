@@ -336,9 +336,9 @@ text-align: center;
 
   <div class='container entry-content'>
   <p>Docker has got couple commands that allows us to manage images.</p>
-<h3 id="list-images">List images</h3>
+<h1 id="list-images">List images</h1>
 <p>Usage of <code>docker image ls</code> is described in another post: <a href="/posts/docker_image_listing/">Docker image - list</a></p>
-<h3 id="remove-images">Remove images</h3>
+<h1 id="remove-images">Remove images</h1>
 <p>Let&rsquo;s check what images we have locally:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
 REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
@@ -370,7 +370,7 @@ Deleted: sha256:efcf4a93c18b5d01aa8e10a2e3b7e2b2eef0378336456d8653e2d123d6232c1e
 Deleted: sha256:1e1aa31289fdca521c403edd6b37317bf0a349a941c7f19b6d9d311f59347502
 Deleted: sha256:c8be1b8f4d60d99c281fc2db75e0f56df42a83ad2f0b091621ce19357e19d853
 </code></pre></div><p>Normally docker doesn&rsquo;t allow us to delete image from which containers are currently running. We can use <code>--force</code> in remove command, it will remove also containers running from images we are trying to delete.</p>
-<h3 id="remove-dandling-and-unused-images">Remove dandling and unused images</h3>
+<h1 id="remove-dandling-and-unused-images">Remove dandling and unused images</h1>
 <p>We can remove dandling(without repository and tag) images with <code>docker image prune</code>.
 In our example all images has got repository and tag so none of them will be removed.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
@@ -418,7 +418,7 @@ deleted: sha256:873cbe4bd21ee6f6ea264cfc50c0b35b0c3a00e2be3f82b30884c3b9da5db2db
 
 Total reclaimed space: 570.3MB
 </code></pre></div><p>Like in <code>docker image ls</code> <code>--filter</code> parameters works here, more about it in: <a href="/posts/docker_image_listing/">Docker image - list</a></p>
-<h3 id="check-image-build-steps">Check image build steps</h3>
+<h1 id="check-image-build-steps">Check image build steps</h1>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image history 4e5021d210f6</span>
 IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
 4e5021d210f6        <span style="color:#ae81ff">2</span> weeks ago         /bin/sh -c <span style="color:#75715e">#(nop)  CMD [&#34;/bin/bash&#34;]            0B</span>
@@ -428,7 +428,7 @@ IMAGE               CREATED             CREATED BY                              
 &lt;missing&gt;           <span style="color:#ae81ff">2</span> weeks ago         /bin/sh -c <span style="color:#75715e">#(nop) ADD file:594fa35cf803361e6…   63.2MB</span>
 </code></pre></div><p>We see that intermediate layers have got <code>&lt;missing&gt;</code> image id - this id&rsquo;s was removed because of moving image within different hosts. There are no longer by build cache.</p>
 <p>By default commands are truncated but it is possibility to extend them to full size by adding <code>--no-trunc</code> parameter.</p>
-<h3 id="inspect-images">Inspect images</h3>
+<h1 id="inspect-images">Inspect images</h1>
 <p>To view metadata about image we can use <code>docker image inspect</code> command:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
@@ -525,7 +525,7 @@ ubuntu              latest              4e5021d210f6        <span style="color:#
         <span style="color:#f92672">}</span>
     <span style="color:#f92672">}</span>
 <span style="color:#f92672">]</span>
-</code></pre></div><h3 id="tag-images">Tag images</h3>
+</code></pre></div><h1 id="tag-images">Tag images</h1>
 <p>We can change image name(repository and tag) by <code>docker image tag</code> command:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE

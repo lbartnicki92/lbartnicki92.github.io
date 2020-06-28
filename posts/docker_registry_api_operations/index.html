@@ -337,13 +337,13 @@ text-align: center;
   <div class='container entry-content'>
   <p>Instead of using Docker CLI commands - we can communicate with Docker registry with GET/POST methods of Docker Registry HTTP API.<br>
 Post include information for V2 of API.</p>
-<h3 id="example-setup">Example setup</h3>
+<h1 id="example-setup">Example setup</h1>
 <p>For our examples we use docker private registry in container. Currently we have got alpine image and couple of ubuntu images loaded in it.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ docker container ls
 CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS                    NAMES
 f628491a985a        registry:2          <span style="color:#e6db74">&#34;/entrypoint.sh /etc…&#34;</span>   About a minute ago   Up About a minute   0.0.0.0:5000-&gt;5000/tcp   registry
 </code></pre></div><p>If you want to use secure connections - look at <code>curl --help</code> and use parameters associated with CA and certificates like <code>--cacert</code>.</p>
-<h3 id="check-connection-with-repository">Check connection with repository</h3>
+<h1 id="check-connection-with-repository">Check connection with repository</h1>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ curl  -X GET http://localhost:5000/v2/ -v
 Note: Unnecessary use of -X or --request, GET is already inferred.
 *   Trying ::1...
@@ -363,14 +363,14 @@ Note: Unnecessary use of -X or --request, GET is already inferred.
 &lt;
 * Connection <span style="color:#75715e">#0 to host localhost left intact</span>
 <span style="color:#f92672">{</span><span style="color:#f92672">}</span><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$
-</code></pre></div><h3 id="list-images-in-registry">List images in registry</h3>
+</code></pre></div><h1 id="list-images-in-registry">List images in registry</h1>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ curl  -X GET http://localhost:5000/v2/_catalog
 <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;repositories&#34;</span>:<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;alpine&#34;</span>,<span style="color:#e6db74">&#34;ubuntu&#34;</span><span style="color:#f92672">]</span><span style="color:#f92672">}</span>
-</code></pre></div><h3 id="get-available-tags-for-image">Get available tags for image</h3>
+</code></pre></div><h1 id="get-available-tags-for-image">Get available tags for image</h1>
 <p>Check tags for ubuntu image:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ curl  -X GET http://localhost:5000/v2/ubuntu/tags/list
 <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;ubuntu&#34;</span>,<span style="color:#e6db74">&#34;tags&#34;</span>:<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;latest&#34;</span>,<span style="color:#e6db74">&#34;19.10&#34;</span>,<span style="color:#e6db74">&#34;19.04&#34;</span>,<span style="color:#e6db74">&#34;18.10&#34;</span><span style="color:#f92672">]</span><span style="color:#f92672">}</span>
-</code></pre></div><h3 id="check-if-manifest-exists">Check if manifest exists</h3>
+</code></pre></div><h1 id="check-if-manifest-exists">Check if manifest exists</h1>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ubuntu-19.10<span style="color:#f92672">]</span>$ curl -I  http://localhost:5000/v2/ubuntu/manifests/19.10
 HTTP/1.1 <span style="color:#ae81ff">200</span> OK
 Content-Length: <span style="color:#ae81ff">5568</span>
@@ -380,7 +380,7 @@ Docker-Distribution-Api-Version: registry/2.0
 Etag: <span style="color:#e6db74">&#34;sha256:84328f1bc9d8105cb4e5f014cac3eeafda161b58128fb87ea7541f0ec1710669&#34;</span>
 X-Content-Type-Options: nosniff
 Date: Wed, <span style="color:#ae81ff">15</span> Apr <span style="color:#ae81ff">2020</span> 14:30:43 GMT
-</code></pre></div><h3 id="pull-image-manifest">Pull image manifest</h3>
+</code></pre></div><h1 id="pull-image-manifest">Pull image manifest</h1>
 <p>Get metadata for Ubuntu 19.10 image:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ curl  -X GET http://localhost:5000/v2/ubuntu/manifests/19.10
 <span style="color:#f92672">{</span>
@@ -439,7 +439,7 @@ Date: Wed, <span style="color:#ae81ff">15</span> Apr <span style="color:#ae81ff"
       <span style="color:#f92672">}</span>
    <span style="color:#f92672">]</span>
 <span style="color:#f92672">}</span>
-</code></pre></div><h3 id="download-image-layer-via-api">Download image layer via API</h3>
+</code></pre></div><h1 id="download-image-layer-via-api">Download image layer via API</h1>
 <p>From manifest file we get list of layers - <code>fsLayers</code> section - with sha256 hashes we can download each layers of image:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ubuntu-19.10<span style="color:#f92672">]</span>$ curl  -X GET http://localhost:5000/v2/ubuntu/blobs/sha256:eeacba527962683a1b026af611fe162d35281159762b699172caa48c69480f79 --output sha256:eeacba527962683a1b026af611fe162d35281159762b699172caa48c69480f79
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
@@ -453,7 +453,7 @@ total <span style="color:#ae81ff">27660</span>
 -rw-rw-r--. <span style="color:#ae81ff">1</span> lukas lukas      <span style="color:#ae81ff">163</span> Apr <span style="color:#ae81ff">15</span> 16:07 sha256:9460de83957c509dd234ede9ea96d4d03b7f9cd252ef1497844f8450dedb6570
 -rw-rw-r--. <span style="color:#ae81ff">1</span> lukas lukas       <span style="color:#ae81ff">32</span> Apr <span style="color:#ae81ff">15</span> 16:07 sha256:a3ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4
 -rw-rw-r--. <span style="color:#ae81ff">1</span> lukas lukas <span style="color:#ae81ff">28276050</span> Apr <span style="color:#ae81ff">15</span> 16:08 sha256:eeacba527962683a1b026af611fe162d35281159762b699172caa48c69480f79
-</code></pre></div><h3 id="delete-image-via-api">Delete image via API</h3>
+</code></pre></div><h1 id="delete-image-via-api">Delete image via API</h1>
 <p>By default deleting images is not allowed.<br>
 If you want allow deleting start registry container with variable <code>-e REGISTRY_STORAGE_DELETE_ENABLED=true</code></p>
 <p>Delete command only accepts digest hash as reference to image - tags are not supported - we get this digest when we uploading image into repository:</p>

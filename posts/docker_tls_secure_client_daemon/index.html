@@ -333,7 +333,7 @@ text-align: center;
   <div class='container entry-content'>
   <p>By default after installing docker on our host we have client and server(daemon) locally speaking to each other by IPC socket. On Linux - <code>/var/run/docker.sock</code>.</p>
 <p>So what we should do when our daemon is in remote location? How to make connection secure?</p>
-<h3 id="example-environment">Example environment</h3>
+<h2 id="example-environment">Example environment</h2>
 <table>
 <thead>
 <tr>
@@ -361,14 +361,14 @@ text-align: center;
 </tbody>
 </table>
 <p>All hosts can reach each other by hostname.</p>
-<h2 id="tls">TLS</h2>
+<h1 id="tls">TLS</h1>
 <p>Docker uses TLS for securing connection over network between client and daemon.<br>
 We will set this from both sides:</p>
 <ul>
 <li>Daemon will want to talk only to clients with proper certificate</li>
 <li>Client will want to talk only to daemon with proper certificate also</li>
 </ul>
-<h2 id="self-signed-cert---if-we-dont-have-cert-from-ca">Self-signed cert - if we don&rsquo;t have cert from CA</h2>
+<h1 id="self-signed-cert---if-we-dont-have-cert-from-ca">Self-signed cert - if we don&rsquo;t have cert from CA</h1>
 <ul>
 <li>Private key for CA</li>
 </ul>
@@ -398,7 +398,7 @@ Organization Name <span style="color:#f92672">(</span>eg, company<span style="co
 Organizational Unit Name <span style="color:#f92672">(</span>eg, section<span style="color:#f92672">)</span> <span style="color:#f92672">[</span><span style="color:#f92672">]</span>:BlogSite
 Common Name <span style="color:#f92672">(</span>eg, your name or your server<span style="color:#960050;background-color:#1e0010">&#39;</span>s hostname<span style="color:#f92672">)</span> <span style="color:#f92672">[</span><span style="color:#f92672">]</span>:docker-host2.lukas.int
 
-</code></pre></div><h3 id="generate-key-and-certificate-for-daemon">Generate key and certificate for daemon</h3>
+</code></pre></div><h2 id="generate-key-and-certificate-for-daemon">Generate key and certificate for daemon</h2>
 <ul>
 <li>Generate private key for daemon</li>
 </ul>
@@ -426,7 +426,7 @@ Signature ok
 subject<span style="color:#f92672">=</span>CN <span style="color:#f92672">=</span> docker-host3
 Getting CA Private Key
 Enter pass phrase <span style="color:#66d9ef">for</span> ca-key.pem:
-</code></pre></div><h3 id="generate-key-and-cert-for-client">Generate key and cert for client</h3>
+</code></pre></div><h2 id="generate-key-and-cert-for-client">Generate key and cert for client</h2>
 <ul>
 <li>Generate private key for client</li>
 </ul>
@@ -453,7 +453,7 @@ Signature ok
 subject<span style="color:#f92672">=</span>CN <span style="color:#f92672">=</span> docker-host1
 Getting CA Private Key
 Enter pass phrase <span style="color:#66d9ef">for</span> ca-key.pem:
-</code></pre></div><h3 id="send-generated-keys-and-certificates">Send generated keys and certificates</h3>
+</code></pre></div><h2 id="send-generated-keys-and-certificates">Send generated keys and certificates</h2>
 <p>I moved generated files to correct machines:</p>
 <ul>
 <li>client - docker-host1
@@ -472,8 +472,8 @@ Enter pass phrase <span style="color:#66d9ef">for</span> ca-key.pem:
 </li>
 </ul>
 <p>It is important to change names properly as shown above.</p>
-<h2 id="configure-tls">Configure TLS</h2>
-<h3 id="daemon">Daemon</h3>
+<h1 id="configure-tls">Configure TLS</h1>
+<h2 id="daemon">Daemon</h2>
 <p>On <code>docker-host3</code> that will be daemon host - set TLS parameters in <code>/etc/docker/daemon.json</code> config file</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host3 ~<span style="color:#f92672">]</span><span style="color:#75715e"># vi /etc/docker/daemon.json</span>
 
@@ -513,7 +513,7 @@ Client: Docker Engine - Community
  OS/Arch:           linux/amd64
  Experimental:      false
 Error response from daemon: Client sent an HTTP request to an HTTPS server.
-</code></pre></div><h3 id="client">Client</h3>
+</code></pre></div><h2 id="client">Client</h2>
 <p>Set remote daemon location and check that without TLS we can&rsquo;t connect</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># export DOCKER_HOST=tcp://docker-host3:2376</span>
 

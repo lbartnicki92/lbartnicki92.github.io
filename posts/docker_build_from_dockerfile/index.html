@@ -336,10 +336,10 @@ text-align: center;
 
   <div class='container entry-content'>
   <p>All docker containers are started from an image.</p>
-<h3 id="whats-an-image">What&rsquo;s an image?</h3>
+<h1 id="whats-an-image">What&rsquo;s an image?</h1>
 <p>Image is a collection of read only layers with everything we need to run application. Commonly in image we have base layout of operating system we had choose and some necessary binaries to start our application.</p>
 <p>For exaple, for PostgreSQL container image could contain CentOS base filesystem template, PostgreSQL binaries and some configuration files.</p>
-<h3 id="how-we-build-image">How we build image?</h3>
+<h1 id="how-we-build-image">How we build image?</h1>
 <p>We build image by issuing command <code>docker build</code>, but before we use it we need to create a Docker
 file.</p>
 <p>Simplest-minimal command to build image:</p>
@@ -355,10 +355,10 @@ Dot at the end means that for build context we choose current dir - we could spe
 </ul>
 <p>For complete list check <code>docker build -h</code></p>
 <p>Before we use below command first we have to prepair Dockerfile.</p>
-<h3 id="what-is-a-dockerfile">What is a Dockerfile?</h3>
+<h1 id="what-is-a-dockerfile">What is a Dockerfile?</h1>
 <p>Dockerfile is text file with all commands needed to create environment for our application. We can easly define what files we want to include in our image, what binaries will run in container or what ports we want to expose from it. Using Dockerfile gives us possibility to fast create multiple enviroments just by modifying file and reissuing <code>docker build</code>.</p>
 <p>Assume that we have our java application in 0.1 version currently running - we get from dev team 0.2. Only thing we have to do is to change in Dockerfile path to jar file(or if we put app version in variable use parameter <code>--build-arg</code> - later about it in sample) and issue <code>docker build</code> - of course we should provide proper name for new image which will reflect app version. After image build we can start container with new application.</p>
-<h3 id="sample-dockerfile">Sample Dockerfile</h3>
+<h2 id="sample-dockerfile">Sample Dockerfile</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> centos:7</span><span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">LABEL</span> maintainer<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;lukas@mail.com&#34;</span><span style="color:#960050;background-color:#1e0010">
@@ -413,8 +413,8 @@ Dot at the end means that for build context we choose current dir - we could spe
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;/usr/local/bin/docker-entrypoint.sh&#34;</span>]<span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">EXPOSE</span><span style="color:#e6db74"> 5432</span><span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><h3 id="what-commands-in-dockerfile-we-have">What commands in Dockerfile we have?</h3>
-<h4 id="from">FROM</h4>
+</span></code></pre></div><h1 id="what-commands-in-dockerfile-we-have">What commands in Dockerfile we have?</h1>
+<h2 id="from">FROM</h2>
 <p><code>FROM [--platform=&lt;platform&gt;] &lt;image&gt;[:&lt;tag&gt;] [AS &lt;name&gt;]</code></p>
 <p><code>FROM centos7</code></p>
 <p><code>FROM</code> tells Docker Engine which image it has to use as base image for current build.</p>
@@ -423,7 +423,7 @@ Dot at the end means that for build context we choose current dir - we could spe
 <p>In example we use CentOS operating system, we didn&rsquo;t specified any tag because we want newest CentOS image for version 7.</p>
 <p>Every command under <code>FROM</code> directive will be run on base image. It&rsquo;s important to notice that we don&rsquo;t have to use as base images OS image. We can use any correctly build image, and build on top of it.</p>
 <p>It is possible to parametrize image version specified in <code>FROM</code> clause with <code>ARG</code> and <code>--build-arg</code>.</p>
-<h4 id="arg">ARG</h4>
+<h2 id="arg">ARG</h2>
 <p><code>ARG &lt;name&gt;[=&lt;default value&gt;]</code></p>
 <p><code>ARG PG_MAJOR</code><br>
 <code>ARG PG_MINOR</code></p>
@@ -431,7 +431,7 @@ Dot at the end means that for build context we choose current dir - we could spe
 We can pass parameters for it with <code>--build-arg</code> for <code>docker build</code> also we can specify default value for it in case of omitting in <code>--build-arg</code> by doing like <code>ARG PG_MINOR=11</code>.</p>
 <p>This variables are available only at build time!</p>
 <p>In our example we user <code>ARG</code> for PostgreSQL version. By doing so, we can build from one Dockerfile multiple images with different PostgreSQL engines. We can use <code>ARG</code> before <code>FROM</code> for parametrizing version of base image.</p>
-<h4 id="env">ENV</h4>
+<h2 id="env">ENV</h2>
 <p><code>ENV &lt;key&gt; &lt;value&gt;</code></p>
 <p><code>ENV PG_PORT 5432</code></p>
 <p><code>ENV</code> clause define runtime variable.<br>
@@ -448,13 +448,13 @@ In our example, we want to modify version of PostgreSQL which we will use at bui
 <p>To persist this variables and make them available in running container we make <code>ARG</code> variables without default.
 Later we use them to set <code>ENV</code>'s. Also we move default values set to ENV(shell syntax for setting default value).</p>
 <p>Now we can manipulate values with <code>docker build --build-arg</code>, but we also have them available after build at running container.</p>
-<h4 id="label">LABEL</h4>
+<h2 id="label">LABEL</h2>
 <p><code>LABEL &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt;</code></p>
 <p><code>LABEL maintainer=&quot;lukas@mail.com&quot;</code></p>
 <p><code>LABEL</code> is used for adding some metadata to image which we will be visible in <code>docker inspect</code> output.<br>
 In example we add info about image building person.<br>
 We can specify multiple labels - in multiple or one line.</p>
-<h4 id="run">RUN</h4>
+<h2 id="run">RUN</h2>
 <p><code>RUN &lt;command&gt;</code><br>
 <code>RUN [&quot;exec&quot;, &quot;param1&quot;, &quot;param2&quot;]</code></p>
 <p><code>RUN chmod u+x /usr/local/bin/docker-entrypoint.sh</code></p>
@@ -464,7 +464,7 @@ If you use <code>[]</code>(JSON form) it will execute command in raw mode - with
 <p>Each <code>RUN</code> command creates new layer in image. Lesser layers, the better. Always try to merge multiple commands making some logical unit of work into one <code>RUN</code> statement.<br>
 For example, appending to file, moving it and changing permissions.<br>
 Use for it shell syntax like <code>RUN &lt;command&gt;; &lt;command2&gt;; &lt;command3&gt;</code> in Linux.</p>
-<h4 id="copy--add">COPY &amp; ADD</h4>
+<h2 id="copy--add">COPY &amp; ADD</h2>
 <p><code>ADD [--chown=&lt;user&gt;:&lt;group&gt;] &lt;src&gt;... &lt;dest&gt;</code><br>
 <code>COPY [--chown=&lt;user&gt;:&lt;group&gt;] &lt;src&gt;... &lt;dest&gt;</code></p>
 <p><code>COPY my-yum-repo.repo /etc/yum.repos.d/</code></p>
@@ -474,11 +474,11 @@ In most cases <code>COPY</code> is command you need.
 <p>In both cases build context is your &ldquo;root&rdquo; path from which you can use relative paths like <code>somefolder/somefolder2/somefile</code></p>
 <p>In both cases you can use wildcards like <code>*</code> or <code>?</code>.</p>
 <p>In both cases you can use <code>[--chown=&lt;user&gt;:&lt;group&gt;]</code> parameter to set owner and group for things that you place into image.</p>
-<h4 id="volume">VOLUME</h4>
+<h2 id="volume">VOLUME</h2>
 <p><code>VOLUME [&quot;&lt;path&gt;&quot;]</code></p>
 <p><code>VOLUME ${PG_DIR}</code></p>
 <p><code>VOLUME</code> creates mount point in filesystem of container for external volumes.</p>
-<h4 id="entrypoint--command">ENTRYPOINT &amp; COMMAND</h4>
+<h2 id="entrypoint--command">ENTRYPOINT &amp; COMMAND</h2>
 <p><code>ENTRYPOINT [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]</code></p>
 <p><code>ENTRYPOINT [&quot;/usr/local/bin/docker-entrypoint.sh&quot;]</code></p>
 <p><code>ENTRYPOINT</code> defines binary or shell script which will start immediately after starting container.<br>
@@ -487,17 +487,17 @@ We can pass arguments to <code>ENTRYPOINT</code> by adding it to <code>docker ru
 <p><code>COMMAND</code> clause will be support command for <code>ENTRYPOINT</code> - it will hold default parameters for binary started in <code>ENTRYPOINT</code> in case when they are must exists and we do not pass anything to <code>docker run</code>.
 In our example there isn&rsquo;t need for using <code>COMMAND</code>.</p>
 <p>It is possible to override <code>ENTRYPOINT</code> when starting container with <code>docker run --entrypoint</code> parameter.</p>
-<h4 id="expose">EXPOSE</h4>
+<h2 id="expose">EXPOSE</h2>
 <p><code>EXPOSE &lt;port&gt; [&lt;port&gt;/&lt;protocol&gt;]</code></p>
 <p><code>EXPOSE 5432</code></p>
 <p><code>EXPOSE</code> is documentation command that shows at which ports services in container will listen.</p>
-<h4 id="user">USER</h4>
+<h2 id="user">USER</h2>
 <p><code>USER &lt;user&gt;[:&lt;group&gt;]</code></p>
 <p><code>USER</code> instruction will set user from which all <code>RUN</code>, <code>CMD</code> and <code>ENTRYPOINT</code> commands will run.</p>
-<h4 id="workdir">WORKDIR</h4>
+<h2 id="workdir">WORKDIR</h2>
 <p><code>WORKDIR &lt;path&gt;</code></p>
 <p><code>WORKDIR</code> will set current working directory for all <code>RUN</code>, <code>CMD</code>, <code>ENTRYPOINT</code>, <code>COPY</code> and <code>ADD</code> commands.</p>
-<h4 id="onbuild">ONBUILD</h4>
+<h2 id="onbuild">ONBUILD</h2>
 <p><code>ONBUILD &lt;dockerfile_command&gt;</code></p>
 <p><code>ONBUILD</code> will trigger only if current image will be used as base image to build a new one. After <code>ONBUILD</code> we can specify any of the instructions explained below.</p>
 <h3 id="example-build-process-for-our-dockerfile">Example Build process for our Dockerfile</h3>
