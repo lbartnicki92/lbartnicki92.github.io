@@ -2,17 +2,11 @@
 <html lang='en'><head>
   <meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
-<meta name='description' content='Each container except read only image space, consume also some writable space from storage layer.
-This writable and none writable space are managed together by storage driver.
-What is storage driver? Storage driver is a plugin for docker which is responsible for creating and maintaining union filesystem used by containers - for example: creating proper directory layout on filesystem.
-It is important to notice that under storage driver we always have got regular filesystem like ext4, zfs or vfs.'>
+<meta name='description' content='How to change default storage driver? What are supported drivers on different systems?'>
 <meta name='theme-color' content='#2ab55a'>
 
 <meta property='og:title' content='Docker storage driver - setup • Łukasz Bartnicki'>
-<meta property='og:description' content='Each container except read only image space, consume also some writable space from storage layer.
-This writable and none writable space are managed together by storage driver.
-What is storage driver? Storage driver is a plugin for docker which is responsible for creating and maintaining union filesystem used by containers - for example: creating proper directory layout on filesystem.
-It is important to notice that under storage driver we always have got regular filesystem like ext4, zfs or vfs.'>
+<meta property='og:description' content='How to change default storage driver? What are supported drivers on different systems?'>
 <meta property='og:url' content='https://knowledgepill.it/posts/docker_storage_drivers/'>
 <meta property='og:site_name' content='IT Knowledge Pill'>
 <meta property='og:type' content='article'><meta property='og:image' content='https://knowledgepill.it/images/docker_banner.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='graph driver'><meta property='article:tag' content='overlay2'><meta property='article:tag' content='aufs'><meta property='article:tag' content='devicemapper'><meta property='article:published_time' content='2020-04-17T10:00:00&#43;01:00'/><meta property='article:modified_time' content='2020-04-17T10:00:00&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta property='twitter:image' content='https://knowledgepill.it/images/docker_banner.jpg'>
@@ -238,6 +232,8 @@ if (!doNotTrack) {
     <div class='header-info'>
       <h1 class='title'>Docker storage driver - setup</h1>
       
+<p class='desc'>How to change default storage driver? What are supported drivers on different systems?</p>
+
 
     </div>
     <div class='entry-meta'>
