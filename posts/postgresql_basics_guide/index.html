@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang='en'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='First time with PostgreSQL? Let&#39;s look how to move around running PostgreSQL database.'>
+<meta name='theme-color' content='#2ab55a'>
+
+<meta property='og:title' content='PostgreSQL beginner guide - connecting, remote access, psql CLI and troubleshooting connection • Łukasz Bartnicki'>
+<meta property='og:description' content='First time with PostgreSQL? Let&#39;s look how to move around running PostgreSQL database.'>
+<meta property='og:url' content='https://knowledgepill.it/posts/postgresql_basics_guide/'>
+<meta property='og:site_name' content='IT Knowledge Pill'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://knowledgepill.it/images/postgresql_banner.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='psql'><meta property='article:tag' content='pg_hba'><meta property='article:published_time' content='2020-06-30T20:00:00&#43;01:00'/><meta property='article:modified_time' content='2020-06-30T20:00:00&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta property='twitter:image' content='https://knowledgepill.it/images/postgresql_banner.jpg'>
+
+<meta name="generator" content="Hugo 0.63.2" />
+
+  <title>PostgreSQL beginner guide - connecting, remote access, psql CLI and troubleshooting connection • Łukasz Bartnicki</title>
+  <link rel='canonical' href='https://knowledgepill.it/posts/postgresql_basics_guide/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.css'><style>
+:root{--color-accent:#2ab55a;}
+</style>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-163565265-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  
+
+  <script data-ad-client="ca-pub-3316601029431032" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+</head>
+<body class='page type-posts has-cover has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/images/logo.png'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      IT Knowledge Pill
+      </a>
+    </h2>
+    <div class='desc'>
+    Clear, practical and simple about IT technologies for DBA and DevOps
+    </div>
+  </header>
+
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v7.0" nonce="zvZkhAja"></script>
+<div class="fb-like" data-href="https://www.facebook.com/ITKnowledgePill-113441330420148/" data-width="" data-layout="button_count" data-action="like" data-size="large" data-share="false"></div>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><header>
+    <h4 class='title widget-title'>Menu</h4>
+  </header><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/categories/docker'>Docker</a></li><li class='item'>
+  <a href='/categories/kubernetes'>Kubernetes</a></li><li class='item'>
+  <a href='/categories/oracle'>Oracle</a></li><li class='item'>
+  <a href='/categories/postgresql'>PostgreSQL</a></li><li class='item'>
+  <a href='/posts'>All posts</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-sidebar_menu_about sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/about'>About me</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-search sep-after'>
+  <header>
+    <h4 class='title widget-title'>Search</h4>
+  </header>
+
+  <form action='/search' id='search-form' class='search-form'>
+    <label>
+      <span class='screen-reader-text'>Search</span>
+      <input id='search-term' class='search-term' type='search' name='q' placeholder='Search&hellip;'>
+    </label></form>
+
+</section>
+<section class='widget widget-search sep-after'>
+
+<link href="//cdn-images.mailchimp.com/embedcode/slim-10_7.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+	#mc_embed_signup{background:#fff; clear:left; font:18px Helvetica,Arial,sans-serif; }
+	 
+</style>
+<div id="mc_embed_signup">
+<form style="border:2px solid #228B22;padding:5px;text-align:center;" action="https://knowledgepill.us10.list-manage.com/subscribe/post?u=4f81eae9982fbb2adb23e27fc&amp;id=e147e9888e" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+    <div id="mc_embed_signup_scroll">
+	<label for="mce-EMAIL">Subscribe to ITKnowledgePill Newsletter! </label><br>
+	<input type="email" style="text-align: center;width:160px;" value="" name="EMAIL"  id="mce-EMAIL" placeholder="email address" required><br><br>
+    
+    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_4f81eae9982fbb2adb23e27fc_e147e9888e" tabindex="-1" value=""></div>
+    <div class="clear"><input type="submit" style="background-color:darkgreen;color:white;"  value="Subscribe" name="subscribe" id="mc-embedded-subscribe"></div>
+    </div>
+</form>
+</div>
+
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/aufs/' style='font-size:1em'>aufs</a>
+      </li><li>
+        <a href='/tags/devicemapper/' style='font-size:2em'>devicemapper</a>
+      </li><li>
+        <a href='/tags/docker-bind-mount/' style='font-size:1em'>docker bind mount</a>
+      </li><li>
+        <a href='/tags/docker-build/' style='font-size:1em'>docker build</a>
+      </li><li>
+        <a href='/tags/docker-enterprise/' style='font-size:1em'>docker enterprise</a>
+      </li><li>
+        <a href='/tags/docker-export/' style='font-size:1em'>docker export</a>
+      </li><li>
+        <a href='/tags/docker-image/' style='font-size:2em'>docker image</a>
+      </li><li>
+        <a href='/tags/docker-import/' style='font-size:1em'>docker import</a>
+      </li><li>
+        <a href='/tags/docker-load/' style='font-size:1em'>docker load</a>
+      </li><li>
+        <a href='/tags/docker-login/' style='font-size:1em'>docker login</a>
+      </li><li>
+        <a href='/tags/docker-logs/' style='font-size:1em'>docker logs</a>
+      </li><li>
+        <a href='/tags/docker-network/' style='font-size:1em'>docker network</a>
+      </li><li>
+        <a href='/tags/docker-registry/' style='font-size:2em'>docker registry</a>
+      </li><li>
+        <a href='/tags/docker-save/' style='font-size:1em'>docker save</a>
+      </li><li>
+        <a href='/tags/docker-swarm/' style='font-size:1em'>docker swarm</a>
+      </li><li>
+        <a href='/tags/docker-volume/' style='font-size:1em'>docker volume</a>
+      </li><li>
+        <a href='/tags/dockerfile/' style='font-size:1em'>dockerfile</a>
+      </li><li>
+        <a href='/tags/graph-driver/' style='font-size:2em'>graph driver</a>
+      </li><li>
+        <a href='/tags/kubeconfig/' style='font-size:1em'>KUBECONFIG</a>
+      </li><li>
+        <a href='/tags/kubectl/' style='font-size:1em'>kubectl</a>
+      </li><li>
+        <a href='/tags/log-driver/' style='font-size:1em'>log-driver</a>
+      </li><li>
+        <a href='/tags/lvm/' style='font-size:1em'>lvm</a>
+      </li><li>
+        <a href='/tags/overlay2/' style='font-size:1em'>overlay2</a>
+      </li><li>
+        <a href='/tags/pg_hba/' style='font-size:1em'>pg_hba</a>
+      </li><li>
+        <a href='/tags/postgresql/' style='font-size:1em'>postgresql</a>
+      </li><li>
+        <a href='/tags/psql/' style='font-size:1em'>psql</a>
+      </li><li>
+        <a href='/tags/security/' style='font-size:1em'>security</a>
+      </li><li>
+        <a href='/tags/tls/' style='font-size:1em'>tls</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button><div class='header-widgets'>
+        <div class='container'>
+    
+    <style>.widget-breadcrumbs li:after{content:'\2f '}</style>
+  <section class='widget widget-breadcrumbs sep-after'>
+    <nav id='breadcrumbs'>
+      <ol><li><a href='/'>IT Knowledge Pill</a></li><li><a href='/posts/'>Posts</a></li><li><span>PostgreSQL beginner guide - connecting, remote access, psql CLI and troubleshooting connection</span></li></ol>
+    </nav>
+  </section></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>IT Knowledge Pill</p><p class='desc site-desc'>Clear, practical and simple about IT technologies for DBA and DevOps</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>PostgreSQL beginner guide - connecting, remote access, psql CLI and troubleshooting connection</h1>
+      
+<p class='desc'>First time with PostgreSQL? Let&#39;s look how to move around running PostgreSQL database.</p>
+
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2020-06-30T20:00:00&#43;01:00'>30 Jun 2020</time>
+</span>
+
+  <span class='byline'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M21,21V20c0-2.76-4-5-9-5s-9,2.24-9,5v1"/>
+  <path d="M16,6.37A4,4,0,1,1,12.63,3,4,4,0,0,1,16,6.37Z"/>
+  
+</svg>
+<span class='screen-reader-text'> by </span><a href='/authors/lbartnicki'>Łukasz Bartnicki</a></span>
+  
+<span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/>
+  
+</svg>
+10 mins read
+</span>
+
+
+  <span class='entry-label'>
+  <span>Tested on: </span> PostgreSQL 12
+</span>
+</div>
+
+
+  </div>
+</header>
+
+  
+
+<style>
+#share-buttons {display: inline-block; vertical-align: middle; }
+#share-buttons:after {content: ""; display: block; clear: both;}
+#share-buttons > div {
+position: relative;
+text-align: left;
+height: 48px;
+width: 120px;
+float: left;
+text-align: center;
+}
+#share-buttons > div > svg {height: 16px; fill: #d5d5d5; margin-top: 10px;}
+#share-buttons > div:hover {cursor: pointer;}
+#share-buttons > div.facebook:hover > svg {fill: #3B5998;}
+#share-buttons > div.twitter:hover > svg {fill: #55ACEE;}
+#share-buttons > div.linkedin:hover > svg {fill: #0077b5;}
+#share-buttons > div.pinterest:hover > svg {fill: #CB2027;}
+#share-buttons > div.gplus:hover > svg {fill: #dd4b39;}
+#share-buttons > div.mail:hover > svg {fill: #7D7D7D;}
+#share-buttons > div.instagram:hover > svg {fill: #C73B92;}
+#share-buttons > div.hackernews:hover > svg {fill: #FF4500;}
+#share-buttons > div.reddit:hover > svg {fill: #FF4500;}
+#share-buttons > div.facebook > svg {height: 35px; margin-top: 10px;}
+#share-buttons > div.twitter > svg {height: 35px; margin-top: 10px;}
+#share-buttons > div.linkedin > svg {height: 35px; margin-top: 10px;}
+#share-buttons > div.pinterest > svg {height: 35px; margin-top: 10px;}
+#share-buttons > div.gplus > svg {height: 35px; margin-top: 10px; position: relative; left: 1px;}
+#share-buttons > div.mail > svg {height: 35px; margin-top: 10px;}
+#share-buttons > div.hackernews > svg {height: 35px; margin-top: 10px;}
+#share-buttons > div.reddit > svg {height: 35px; margin-top: 10px;}
+</style>
+
+<div id="share-buttons">
+<div style="color: green;margin-top: 12px;">Share on: </div>
+<div class="facebook" title="Share this on Facebook" onclick="window.open('http://www.facebook.com/share.php?u=https:\/\/knowledgepill.it\/posts\/postgresql_basics_guide\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+<div class="twitter" title="Share this on Twitter" onclick="window.open('https://twitter.com/intent/tweet?text=https:\/\/knowledgepill.it\/posts\/postgresql_basics_guide\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+<div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https:\/\/knowledgepill.it\/posts\/postgresql_basics_guide\/&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+<div class="reddit" title="Share this on Reddit" onclick="window.open('http://www.reddit.com/submit?url=https:\/\/knowledgepill.it\/posts\/postgresql_basics_guide\/&title=PostgreSQL beginner guide - connecting, remote access, psql CLI and troubleshooting connection');"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 11.779c0-1.459-1.192-2.645-2.657-2.645-.715 0-1.363.286-1.84.746-1.81-1.191-4.259-1.949-6.971-2.046l1.483-4.669 4.016.941-.006.058c0 1.193.975 2.163 2.174 2.163 1.198 0 2.172-.97 2.172-2.163s-.975-2.164-2.172-2.164c-.92 0-1.704.574-2.021 1.379l-4.329-1.015c-.189-.046-.381.063-.44.249l-1.654 5.207c-2.838.034-5.409.798-7.3 2.025-.474-.438-1.103-.712-1.799-.712-1.465 0-2.656 1.187-2.656 2.646 0 .97.533 1.811 1.317 2.271-.052.282-.086.567-.086.857 0 3.911 4.808 7.093 10.719 7.093s10.72-3.182 10.72-7.093c0-.274-.029-.544-.075-.81.832-.447 1.405-1.312 1.405-2.318zm-17.224 1.816c0-.868.71-1.575 1.582-1.575.872 0 1.581.707 1.581 1.575s-.709 1.574-1.581 1.574-1.582-.706-1.582-1.574zm9.061 4.669c-.797.793-2.048 1.179-3.824 1.179l-.013-.003-.013.003c-1.777 0-3.028-.386-3.824-1.179-.145-.144-.145-.379 0-.523.145-.145.381-.145.526 0 .65.647 1.729.961 3.298.961l.013.003.013-.003c1.569 0 2.648-.315 3.298-.962.145-.145.381-.144.526 0 .145.145.145.379 0 .524zm-.189-3.095c-.872 0-1.581-.706-1.581-1.574 0-.868.709-1.575 1.581-1.575s1.581.707 1.581 1.575-.709 1.574-1.581 1.574z"/></svg></div>
+<div class="hackernews" title="Share this on Hacker News" onclick="window.open('https://news.ycombinator.com/submitlink?u=https:\/\/knowledgepill.it\/posts\/postgresql_basics_guide\/&t=PostgreSQL beginner guide - connecting, remote access, psql CLI and troubleshooting connection');"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zM21.2 229.2H21c.1-.1.2-.3.3-.4 0 .1 0 .3-.1.4zm218 53.9V384h-31.4V281.3L128 128h37.3c52.5 98.3 49.2 101.2 59.3 125.6 12.3-27 5.8-24.4 60.6-125.6H320l-80.8 155.1z"/></svg>
+</div>
+</div>
+
+  <div class='entry-cover'>
+  <figure class='container cover-normal'>
+    <img src='/images/postgresql_banner.jpg'/>
+    
+      
+    
+  </figure>
+</div>
+  
+
+  <div class='container entry-content'>
+  <h1 id="configure-remote-access---listen-address">Configure remote access - listen address</h1>
+<p>By default after instalation and creting database cluster PostgreSQL will listner only on localhost. No remote access will be allowed.</p>
+<hr>
+<p><a href="/posts/postgresql_installation/">PostgreSQL installation on Linux - with database creation</a></p>
+<hr>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>postgres@postgres-lab ~<span style="color:#f92672">]</span>$ netstat -lptnu | grep post
+<span style="color:#f92672">(</span>Not all processes could be identified, non-owned process info
+ will not be shown, you would have to be root to see it all.<span style="color:#f92672">)</span>
+tcp        <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> 127.0.0.1:5432          0.0.0.0:*               LISTEN      1977/postmaster     
+tcp6       <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> ::1:5432                :::*                    LISTEN      1977/postmaster     
+</code></pre></div><p>To change listen address we have to configure parameter in <code>postgresql.conf</code></p>
+<p>Check <code>PGDATA</code> - after <code>-D</code> parameter:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>postgres@postgres-lab ~<span style="color:#f92672">]</span>$ ps aux | grep postgres
+postgres  <span style="color:#ae81ff">1977</span>  0.0  2.5 <span style="color:#ae81ff">286388</span> <span style="color:#ae81ff">14864</span> ?        Ss   Jun28   0:02 /usr/pgsql-12/bin/postmaster -D /postgresql/data
+postgres  <span style="color:#ae81ff">1979</span>  0.0  0.2 <span style="color:#ae81ff">140768</span>  <span style="color:#ae81ff">1360</span> ?        Ss   Jun28   0:00 postgres: logger   
+postgres  <span style="color:#ae81ff">1981</span>  0.0  0.5 <span style="color:#ae81ff">286504</span>  <span style="color:#ae81ff">3028</span> ?        Ss   Jun28   0:00 postgres: checkpointer   
+postgres  <span style="color:#ae81ff">1982</span>  0.0  0.2 <span style="color:#ae81ff">286388</span>  <span style="color:#ae81ff">1696</span> ?        Ss   Jun28   0:03 postgres: background writer   
+postgres  <span style="color:#ae81ff">1983</span>  0.0  0.9 <span style="color:#ae81ff">286388</span>  <span style="color:#ae81ff">5676</span> ?        Ss   Jun28   0:03 postgres: walwriter   
+postgres  <span style="color:#ae81ff">1984</span>  0.0  0.4 <span style="color:#ae81ff">286924</span>  <span style="color:#ae81ff">2688</span> ?        Ss   Jun28   0:02 postgres: autovacuum launcher  
+</code></pre></div><p>Locate the file:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>postgres@postgres-lab ~<span style="color:#f92672">]</span>$ cd /postgresql/data/
+<span style="color:#f92672">[</span>postgres@postgres-lab data<span style="color:#f92672">]</span>$ ls -lah postgresql.conf
+-rw-------. <span style="color:#ae81ff">1</span> postgres postgres 26K Jun <span style="color:#ae81ff">28</span> 21:44 postgresql.conf
+</code></pre></div><p>Change in <code>postgresql.conf</code> parameter <code>listen_addresses</code> to your server IP or <code>*</code> to listen on all IP&rsquo;s available on server:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>postgres@postgres-lab data<span style="color:#f92672">]</span>$ vi postgresql.conf
+
+<span style="color:#75715e">#------------------------------------------------------------------------------</span>
+<span style="color:#75715e"># CONNECTIONS AND AUTHENTICATION</span>
+<span style="color:#75715e">#------------------------------------------------------------------------------</span>
+
+<span style="color:#75715e"># - Connection Settings -</span>
+
+listen_addresses <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;*&#39;</span>          <span style="color:#75715e"># what IP address(es) to listen on;</span>
+                                        <span style="color:#75715e"># comma-separated list of addresses;</span>
+                                        <span style="color:#75715e"># defaults to &#39;localhost&#39;; use &#39;*&#39; for all</span>
+</code></pre></div><p>Restart PostgreSQL to apply changes - you can do that with <code>systemctl</code> from <code>root</code> os user  service or with <code>pg_ctl -D PGDATA restart</code> from <code>postgres</code> os user:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@postgres-lab ~<span style="color:#f92672">]</span><span style="color:#75715e"># systemctl restart postgresql-12.service</span>
+</code></pre></div><p>Check whre PostgreSQL is listening now:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>postgres@postgres-lab ~<span style="color:#f92672">]</span>$ netstat -lptnu | grep post
+<span style="color:#f92672">(</span>Not all processes could be identified, non-owned process info
+ will not be shown, you would have to be root to see it all.<span style="color:#f92672">)</span>
+tcp        <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> 0.0.0.0:5432            0.0.0.0:*               LISTEN      30161/postmaster    
+tcp6       <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> :::5432                 :::*                    LISTEN      30161/postmaster  
+</code></pre></div><h1 id="configure-remote-access---pg_hbaconf">Configure remote access - pg_hba.conf</h1>
+<p>PostgreSQL instance has got restricted access by <code>pg_hba.conf</code> file(host based authentication file).</p>
+<p>We can provide in it information from which <code>ADDRESS</code> to which <code>DATABASE</code> on which <code>USER</code> by what <code>METHOD</code> we allow connecting. Additionaly we have to provide <code>TYPE</code> of connection.</p>
+<p>This file resides in same place where <code>postgresql.conf</code>(we can alter this behavior by setting <code>pg_hba</code> parameter in <code>postgresql.conf</code>):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>postgres@postgres-lab ~<span style="color:#f92672">]</span>$ cd /postgresql/data/
+
+<span style="color:#f92672">[</span>postgres@postgres-lab data<span style="color:#f92672">]</span>$ vi pg_hba.conf
+<span style="color:#75715e"># TYPE  DATABASE        USER            ADDRESS                 METHOD</span>
+
+<span style="color:#75715e"># &#34;local&#34; is for Unix domain socket connections only</span>
+local   all             all                                     trust
+<span style="color:#75715e"># IPv4 local connections:</span>
+host    all             all             127.0.0.1/32            trust
+<span style="color:#75715e"># IPv6 local connections:</span>
+host    all             all             ::1/128                 trust
+</code></pre></div><p>Allowed <code>TYPE</code>'s:</p>
+<ul>
+<li><code>local</code> - socket connection - needed to connect from shell on database server</li>
+<li><code>host</code> - standard TCP/IP connection over the network - bnost SSL and no SSL</li>
+<li><code>hostssl</code> - TCP/IP connection but only with SSL</li>
+<li><code>hostnossl</code> - TCP/IP only without SSL</li>
+<li><code>hostgssenc</code> - TCP/IP only GSSAPI</li>
+<li><code>hostnogssenc</code> - TCP/IP only without GSSAPI</li>
+</ul>
+<p>With <code>DATABASE</code> we can specify database name or use special value <code>sameuser</code> if database name should be same as name of user that is connecting.</p>
+<p>With <code>USER</code> we can specify user or role - role name should be preceded by <code>+</code> sign.</p>
+<p><code>ADDRESS</code> field could be - hostname, IP range in CIDR format or special words:</p>
+<ul>
+<li><code>samehost</code> - which correspond to all IP adresses of database server</li>
+<li><code>samenet</code> - which correspond to all IP in database server subnet</li>
+</ul>
+<p>With <code>METHOD</code> field we can set one of authentication methods - most important ones are:</p>
+<ul>
+<li><code>trust</code> - allow connection without password - moslty set for local connections from database server itself</li>
+<li><code>reject</code> - reject connections</li>
+<li><code>md5</code> - allow connections after getting from user password - encrypted</li>
+<li><code>password</code> - allow connection after getting plain password - DO NOT USE in untrusted networks - better -&gt; never use this option</li>
+<li><code>ldap</code> - getting account authorization data from LDAP server</li>
+</ul>
+<p>In <code>DATABASE</code> and <code>USER</code> fields you can specify special word <code>all</code> if you don&rsquo;t want to create any restrictions here.</p>
+<p>There can be situation when we must use additional field named <code>auth-options</code> for specyfying details for example for <code>hostssl</code> connection type. This topic will be covered in another post.</p>
+<h2 id="sample-pg_hba-record---allow-all-users-connect-to-any-db-from-all-ip-addresses---only-with-password">Sample pg_hba record - allow all users connect to any DB from all IP addresses - only with password</h2>
+<p>Add in <code>pg_hba.conf</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># Network access</span>
+host    all             all             0.0.0.0/0               md5
+</code></pre></div><p>Reload(online operation) PostgreSQL that it can use <code>pg_hba.conf</code> changes:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>postgres@postgres-lab data<span style="color:#f92672">]</span>$ /usr/pgsql-12/bin/pg_ctl -D /postgresql/data reload
+server signaled
+</code></pre></div><h1 id="connecting-to-postgresql">Connecting to PostgreSQL</h1>
+<h2 id="local-from-server">Local from server</h2>
+<p>It will work without password because we have <code>trust</code> in <code>pg_hba.conf</code> for <code>local</code> connections:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>postgres@postgres-lab ~<span style="color:#f92672">]</span>$ psql
+psql <span style="color:#f92672">(</span>12.3<span style="color:#f92672">)</span>
+Type <span style="color:#e6db74">&#34;help&#34;</span> <span style="color:#66d9ef">for</span> help.
+</code></pre></div><h2 id="remote-machine">Remote machine</h2>
+<p>Default URI syntax - you can connect like this:<br>
+<code>psql postgresql://user:passwd@host:5432/dbame</code><br>
+or by more common method:<br>
+Connect to remote database from <code>psql</code> with connections details provided in parameters(it will ask for password because of <code>md5</code> method in <code>pg_hba.conf</code> for connections from <code>0.0.0.0/0</code>):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>postgres@postgres-lab data<span style="color:#f92672">]</span>$ psql -h 10.128.0.2 -p <span style="color:#ae81ff">5432</span>
+Password <span style="color:#66d9ef">for</span> user postgres:
+psql <span style="color:#f92672">(</span>12.3<span style="color:#f92672">)</span>
+Type <span style="color:#e6db74">&#34;help&#34;</span> <span style="color:#66d9ef">for</span> help.
+
+postgres<span style="color:#f92672">=</span>#
+</code></pre></div><p>We can also use parameter <code>-U</code> to specify username different than OS username we currently are using.</p>
+<p>Also all this parameters can be taken from shell variables which names are self descriptive - if we set all of them we can just use plain <code>psql</code> command to connect:</p>
+<ul>
+<li><code>PGHOST</code></li>
+<li><code>PGPORT</code></li>
+<li><code>PGDATABASE</code></li>
+<li><code>PGUSER</code></li>
+<li><code>PGPASSWORD</code></li>
+</ul>
+<h2 id="check-connected-database">Check connected database</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">postgres<span style="color:#f92672">=</span><span style="color:#75715e"># select current_database();</span>
+ current_database
+------------------
+ postgres
+<span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> row<span style="color:#f92672">)</span>
+</code></pre></div><h2 id="check-current-user">Check current user</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">postgres<span style="color:#f92672">=</span><span style="color:#75715e"># select current_user;</span>
+ current_user
+--------------
+ postgres
+<span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> row<span style="color:#f92672">)</span>
+</code></pre></div><h2 id="check-ip-and-port-used-for-connection">Check IP and port used for connection</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">postgres<span style="color:#f92672">=</span><span style="color:#75715e"># select inet_server_addr(), inet_server_port();</span>
+ inet_server_addr | inet_server_port
+------------------+------------------
+ 10.128.0.2       |             <span style="color:#ae81ff">5432</span>
+<span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> row<span style="color:#f92672">)</span>
+</code></pre></div><h2 id="check-postgresql-version">Check PostgreSQL version</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">postgres<span style="color:#f92672">=</span><span style="color:#75715e"># select version();</span>
+                                                version                                                 
+--------------------------------------------------------------------------------------------------------
+ PostgreSQL 12.3 on x86_64-pc-linux-gnu, compiled by gcc <span style="color:#f92672">(</span>GCC<span style="color:#f92672">)</span> 8.3.1 <span style="color:#ae81ff">20191121</span> <span style="color:#f92672">(</span>Red Hat 8.3.1-5<span style="color:#f92672">)</span>, 64-bit
+<span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> row<span style="color:#f92672">)</span>
+</code></pre></div><h2 id="check-connection-info">Check connection info</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">postgres<span style="color:#f92672">=</span><span style="color:#75715e"># \conninfo</span>
+You are connected to database <span style="color:#e6db74">&#34;postgres&#34;</span> as user <span style="color:#e6db74">&#34;postgres&#34;</span> on host <span style="color:#e6db74">&#34;10.128.0.2&#34;</span> at port <span style="color:#e6db74">&#34;5432&#34;</span>.
+</code></pre></div><h1 id="executing-commands-from-shell">Executing commands from shell</h1>
+<h2 id="execute-single-command-from-shell">Execute single command from shell</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>postgres@postgres-lab ~<span style="color:#f92672">]</span>$ psql -c <span style="color:#e6db74">&#34;select current_time&#34;</span>
+    current_time    
+--------------------
+ 14:09:19.854598+00
+<span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> row<span style="color:#f92672">)</span>
+</code></pre></div><h2 id="exacute-sql-script-from-shell">Exacute sql script from shell</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>postgres@postgres-lab ~<span style="color:#f92672">]</span>$ psql -f create_user.sql
+CREATE ROLE
+CREATE ROLE
+CREATE ROLE
+</code></pre></div><h2 id="combine-single-command-with-sql-script-from-shell">Combine single command with sql script from shell</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>postgres@postgres-lab ~<span style="color:#f92672">]</span>$ psql -c <span style="color:#e6db74">&#34;select current_time&#34;</span> -f create_user.sql -c <span style="color:#e6db74">&#34;select current_time&#34;</span>
+    current_time    
+--------------------
+ 14:14:26.922453+00
+<span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> row<span style="color:#f92672">)</span>
+
+CREATE ROLE
+CREATE ROLE
+CREATE ROLE
+    current_time    
+--------------------
+ 14:14:26.926545+00
+<span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> row<span style="color:#f92672">)</span>
+</code></pre></div><h1 id="psql-metacommands">psql metacommands</h1>
+<h2 id="check-all-available-metacommands">Check all available metacommands</h2>
+<p>Do it yourself to see all available commands - output trimmed to important ones!</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">postgres<span style="color:#f92672">=</span><span style="color:#75715e"># \?</span>
+General
+  <span style="color:#ae81ff">\c</span>opyright             show PostgreSQL usage and distribution terms
+  <span style="color:#ae81ff">\c</span>rosstabview <span style="color:#f92672">[</span>COLUMNS<span style="color:#f92672">]</span> execute query and display results in crosstab
+  <span style="color:#ae81ff">\e</span>rrverbose            show most recent error message at maximum verbosity
+  <span style="color:#ae81ff">\g</span> <span style="color:#f92672">[</span>FILE<span style="color:#f92672">]</span> or ;         execute query <span style="color:#f92672">(</span>and send results to file or |pipe<span style="color:#f92672">)</span>
+  <span style="color:#ae81ff">\g</span>desc                 describe result of query, without executing it
+  <span style="color:#ae81ff">\g</span>exec                 execute query, <span style="color:#66d9ef">then</span> execute each value in its result
+  <span style="color:#ae81ff">\g</span>set <span style="color:#f92672">[</span>PREFIX<span style="color:#f92672">]</span>         execute query and store results in psql variables
+  <span style="color:#ae81ff">\g</span>x <span style="color:#f92672">[</span>FILE<span style="color:#f92672">]</span>             as <span style="color:#ae81ff">\g</span>, but forces expanded output mode
+  <span style="color:#ae81ff">\q</span>                     quit psql
+  <span style="color:#ae81ff">\w</span>atch <span style="color:#f92672">[</span>SEC<span style="color:#f92672">]</span>           execute query every SEC seconds
+
+  Query Buffer
+    <span style="color:#ae81ff">\e</span> <span style="color:#f92672">[</span>FILE<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>LINE<span style="color:#f92672">]</span>       edit the query buffer <span style="color:#f92672">(</span>or file<span style="color:#f92672">)</span> with external editor
+    <span style="color:#ae81ff">\e</span>f <span style="color:#f92672">[</span>FUNCNAME <span style="color:#f92672">[</span>LINE<span style="color:#f92672">]</span><span style="color:#f92672">]</span>  edit <span style="color:#66d9ef">function</span> definition with external editor
+    <span style="color:#ae81ff">\e</span>v <span style="color:#f92672">[</span>VIEWNAME <span style="color:#f92672">[</span>LINE<span style="color:#f92672">]</span><span style="color:#f92672">]</span>  edit view definition with external editor
+    <span style="color:#ae81ff">\p</span>                     show the contents of the query buffer
+    <span style="color:#ae81ff">\r</span>                     reset <span style="color:#f92672">(</span>clear<span style="color:#f92672">)</span> the query buffer
+    <span style="color:#ae81ff">\s</span> <span style="color:#f92672">[</span>FILE<span style="color:#f92672">]</span>              display history or save it to file
+    <span style="color:#ae81ff">\w</span> FILE                write query buffer to file
+
+</code></pre></div><h2 id="list-objects-in-psql">List objects in psql</h2>
+<ul>
+<li>\d[S+]          -       list tables, views, and sequences</li>
+<li>\d[S+]  NAME     -      describe table, view, sequence, or index</li>
+<li>\da[S]  [PATTERN] -     list aggregates</li>
+<li>\dA[+]  [PATTERN]  -    list access methods</li>
+<li>\db[+]  [PATTERN]   -   list tablespaces</li>
+<li>\dc[S+] [PATTERN]    -  list conversions</li>
+<li>\dC[+]  [PATTERN]     - list casts</li>
+<li>\dd[S]  [PATTERN]     - show object descriptions not displayed elsewhere</li>
+<li>\dD[S+] [PATTERN]     - list domains</li>
+<li>\ddp    [PATTERN]     - list default privileges</li>
+<li>\dE[S+] [PATTERN]     - list foreign tables</li>
+<li>\det[+] [PATTERN]     - list foreign tables</li>
+<li>\des[+] [PATTERN]     - list foreign servers</li>
+<li>\deu[+] [PATTERN]     - list user mappings</li>
+<li>\dew[+] [PATTERN]     - list foreign-data wrappers</li>
+<li>\df[anptw][S+] [PATRN]- list [only agg/normal/procedures/trigger/window] functions</li>
+<li>\dF[+]  [PATTERN]     - list text search configurations</li>
+<li>\dFd[+] [PATTERN]     - list text search dictionaries</li>
+<li>\dFp[+] [PATTERN]     - list text search parsers</li>
+<li>\dFt[+] [PATTERN]     - list text search templates</li>
+<li>\dg[S+] [PATTERN]     - list roles</li>
+<li>\di[S+] [PATTERN]     - list indexes</li>
+<li>\dl                   - list large objects, same as \lo_list</li>
+<li>\dL[S+] [PATTERN]     - list procedural languages</li>
+<li>\dm[S+] [PATTERN]     - list materialized views</li>
+<li>\dn[S+] [PATTERN]     - list schemas</li>
+<li>\do[S]  [PATTERN]     - list operators</li>
+<li>\dO[S+] [PATTERN]     - list collations</li>
+<li>\dp     [PATTERN]     - list table, view, and sequence access privileges</li>
+<li>\dP[itn+] [PATTERN]   - list [only index/table] partitioned relations [n=nested]</li>
+<li>\drds [PATRN1 [PATRN2]] - list per-database role settings</li>
+<li>\dRp[+] [PATTERN]     - list replication publications</li>
+<li>\dRs[+] [PATTERN]     - list replication subscriptions</li>
+<li>\ds[S+] [PATTERN]     - list sequences</li>
+<li>\dt[S+] [PATTERN]     - list tables</li>
+<li>\dT[S+] [PATTERN]     - list data types</li>
+<li>\du[S+] [PATTERN]     - list roles</li>
+</ul>
+<h2 id="check-syntax-for-sql-statement">Check syntax for SQL statement</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">postgres-# <span style="color:#ae81ff">\h</span> SELECT
+Command:     SELECT
+Description: retrieve rows from a table or view
+Syntax:
+<span style="color:#f92672">[</span> WITH <span style="color:#f92672">[</span> RECURSIVE <span style="color:#f92672">]</span> with_query <span style="color:#f92672">[</span>, ...<span style="color:#f92672">]</span> <span style="color:#f92672">]</span>
+SELECT <span style="color:#f92672">[</span> ALL | DISTINCT <span style="color:#f92672">[</span> ON <span style="color:#f92672">(</span> expression <span style="color:#f92672">[</span>, ...<span style="color:#f92672">]</span> <span style="color:#f92672">)</span> <span style="color:#f92672">]</span> <span style="color:#f92672">]</span>
+    <span style="color:#f92672">[</span> * | expression <span style="color:#f92672">[</span> <span style="color:#f92672">[</span> AS <span style="color:#f92672">]</span> output_name <span style="color:#f92672">]</span> <span style="color:#f92672">[</span>, ...<span style="color:#f92672">]</span> <span style="color:#f92672">]</span>
+    <span style="color:#f92672">[</span> FROM from_item <span style="color:#f92672">[</span>, ...<span style="color:#f92672">]</span> <span style="color:#f92672">]</span>
+    <span style="color:#f92672">[</span> WHERE condition <span style="color:#f92672">]</span>
+    <span style="color:#f92672">[</span> GROUP BY grouping_element <span style="color:#f92672">[</span>, ...<span style="color:#f92672">]</span> <span style="color:#f92672">]</span>
+    <span style="color:#f92672">[</span> HAVING condition <span style="color:#f92672">[</span>, ...<span style="color:#f92672">]</span> <span style="color:#f92672">]</span>
+    <span style="color:#f92672">[</span> WINDOW window_name AS <span style="color:#f92672">(</span> window_definition <span style="color:#f92672">)</span> <span style="color:#f92672">[</span>, ...<span style="color:#f92672">]</span> <span style="color:#f92672">]</span>
+    <span style="color:#f92672">[</span>...<span style="color:#f92672">]</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">postgres-# <span style="color:#ae81ff">\h</span> UPDATE
+Command:     UPDATE
+Description: update rows of a table
+Syntax:
+<span style="color:#f92672">[</span> WITH <span style="color:#f92672">[</span> RECURSIVE <span style="color:#f92672">]</span> with_query <span style="color:#f92672">[</span>, ...<span style="color:#f92672">]</span> <span style="color:#f92672">]</span>
+UPDATE <span style="color:#f92672">[</span> ONLY <span style="color:#f92672">]</span> table_name <span style="color:#f92672">[</span> * <span style="color:#f92672">]</span> <span style="color:#f92672">[</span> <span style="color:#f92672">[</span> AS <span style="color:#f92672">]</span> alias <span style="color:#f92672">]</span>
+    SET <span style="color:#f92672">{</span> column_name <span style="color:#f92672">=</span> <span style="color:#f92672">{</span> expression | DEFAULT <span style="color:#f92672">}</span> |
+          <span style="color:#f92672">(</span> column_name <span style="color:#f92672">[</span>, ...<span style="color:#f92672">]</span> <span style="color:#f92672">)</span> <span style="color:#f92672">=</span> <span style="color:#f92672">[</span> ROW <span style="color:#f92672">]</span> <span style="color:#f92672">(</span> <span style="color:#f92672">{</span> expression | DEFAULT <span style="color:#f92672">}</span> <span style="color:#f92672">[</span>, ...<span style="color:#f92672">]</span> <span style="color:#f92672">)</span> |
+          <span style="color:#f92672">(</span> column_name <span style="color:#f92672">[</span>, ...<span style="color:#f92672">]</span> <span style="color:#f92672">)</span> <span style="color:#f92672">=</span> <span style="color:#f92672">(</span> sub-SELECT <span style="color:#f92672">)</span>
+        <span style="color:#f92672">}</span> <span style="color:#f92672">[</span>, ...<span style="color:#f92672">]</span>
+    <span style="color:#f92672">[</span> FROM from_item <span style="color:#f92672">[</span>, ...<span style="color:#f92672">]</span> <span style="color:#f92672">]</span>
+    <span style="color:#f92672">[</span> WHERE condition | WHERE CURRENT OF cursor_name <span style="color:#f92672">]</span>
+    <span style="color:#f92672">[</span> RETURNING * | output_expression <span style="color:#f92672">[</span> <span style="color:#f92672">[</span> AS <span style="color:#f92672">]</span> output_name <span style="color:#f92672">]</span> <span style="color:#f92672">[</span>, ...<span style="color:#f92672">]</span> <span style="color:#f92672">]</span>
+
+URL: https://www.postgresql.org/docs/12/sql-update.html
+
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">postgres-# <span style="color:#ae81ff">\h</span> ALTER SYSTEM
+Command:     ALTER SYSTEM
+Description: change a server configuration parameter
+Syntax:
+ALTER SYSTEM SET configuration_parameter <span style="color:#f92672">{</span> TO | <span style="color:#f92672">=</span> <span style="color:#f92672">}</span> <span style="color:#f92672">{</span> value | <span style="color:#e6db74">&#39;value&#39;</span> | DEFAULT <span style="color:#f92672">}</span>
+
+ALTER SYSTEM RESET configuration_parameter
+ALTER SYSTEM RESET ALL
+
+URL: https://www.postgresql.org/docs/12/sql-altersystem.html
+</code></pre></div><h1 id="change-your-password-in-secure-way">Change your password in secure way</h1>
+<p>Setting <code>password_encryption</code> instruct psql to send password enrypted from client to database server.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">postgres<span style="color:#f92672">=</span><span style="color:#75715e"># SET password_encryption = &#39;scram-sha-256&#39;;</span>
+SET
+postgres<span style="color:#f92672">=</span><span style="color:#75715e"># \password</span>
+Enter new password:
+Enter it again:
+postgres<span style="color:#f92672">=</span>#
+</code></pre></div><h1 id="saving-passwords-in-your-os-user-account-with-pgpass">Saving passwords in your OS user account with .pgpass</h1>
+<p><code>.pgpass</code> file is used to keep passwords for easy of connection with PostgreSQL database servers.<br>
+By default client looks for <code>.pgpass</code> in your home directory.<br>
+This file should on Linux has got <code>0600</code> permissions.</p>
+<p>We can change location of <code>.pgpass</code> by setting shell variable <code>PGPASSFILE</code>.<br>
+Sample <code>.pgpass</code> can look like - of course we can add multiple lines in it for diffrent connections:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vi .pgpass
+postgres-lab:5432:*:postgres:postgres12345
+</code></pre></div><p>Below <code>.pgpass</code> sets password <code>postgres12345</code>, for user <code>postgres</code> to database <code>postgres</code> when connecting to host <code>postgres-lab</code> on port <code>5432</code>.<br>
+After saving <code>.pgpass</code> we can connect to our database without providing password:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>postgres@postgres-lab ~<span style="color:#f92672">]</span>$ psql -h postgres-lab -p <span style="color:#ae81ff">5432</span>
+psql <span style="color:#f92672">(</span>12.3<span style="color:#f92672">)</span>
+Type <span style="color:#e6db74">&#34;help&#34;</span> <span style="color:#66d9ef">for</span> help.
+
+postgres<span style="color:#f92672">=</span>#
+</code></pre></div><h1 id="service-file">Service file</h1>
+<p>Service files allows us to save connection descriptions and call them by simple name.<br>
+Service file can be on:</p>
+<ul>
+<li>system level - <code>/etc/pg_service.conf</code></li>
+<li>user level - <code>~/.pg_service.conf</code></li>
+</ul>
+<p>PostgreSQL client always look first for suer level service file, which overrides system level one.<br>
+Sample record in service file will look like:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vi .pg_service.conf
+
+<span style="color:#f92672">[</span>prod_db<span style="color:#f92672">]</span>
+host<span style="color:#f92672">=</span>postgres-lab
+port<span style="color:#f92672">=</span><span style="color:#ae81ff">5432</span>
+dbname<span style="color:#f92672">=</span>postgres
+</code></pre></div><p>After saving service file we can connect with <code>psql</code> like this(password will come from <code>.pgpass</code>):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>postgres@postgres-lab ~<span style="color:#f92672">]</span>$ psql service<span style="color:#f92672">=</span>prod_db user<span style="color:#f92672">=</span>postgres
+psql <span style="color:#f92672">(</span>12.3<span style="color:#f92672">)</span>
+Type <span style="color:#e6db74">&#34;help&#34;</span> <span style="color:#66d9ef">for</span> help.
+
+postgres<span style="color:#f92672">=</span>#
+</code></pre></div><h1 id="trubleshooting-connection">Trubleshooting connection</h1>
+<p><code>pg_isready</code> binary allows us to check status of PostgreSQL local or remote instance</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>postgres@postgres-lab ~<span style="color:#f92672">]</span>$ /usr/pgsql-12/bin/pg_isready -h postgres-lab -p <span style="color:#ae81ff">5432</span>
+postgres-lab:5432 - accepting connections
+</code></pre></div>
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='categories'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
+  
+</svg>
+<span class='screen-reader-text'>Categories: </span><a class='category' href='/categories/postgresql/'>postgresql</a></div>
+<div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/psql/'>psql</a>, <a class='tag' href='/tags/pg_hba/'>pg_hba</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/postgresql_installation/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>PostgreSQL installation on Linux - with database creation</a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='mailto:itknowledgepill@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='https://linkedin.com/in/lbartnicki92' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Open Linkedin account in new tab</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+  <rect x="2" y="9" width="4" height="12"/>
+  <circle cx="4" cy="4" r="2"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p> &copy; 2020 Łukasz Bartnicki </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script src='/js/custom.js'></script>
+
+</body>
+
+</html>
+
