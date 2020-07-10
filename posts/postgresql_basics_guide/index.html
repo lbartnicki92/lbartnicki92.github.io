@@ -654,10 +654,27 @@ psql <span style="color:#f92672">(</span>12.3<span style="color:#f92672">)</span
 Type <span style="color:#e6db74">&#34;help&#34;</span> <span style="color:#66d9ef">for</span> help.
 
 postgres<span style="color:#f92672">=</span>#
-</code></pre></div><h1 id="trubleshooting-connection">Trubleshooting connection</h1>
+</code></pre></div><h1 id="troubleshooting-connection">Troubleshooting connection</h1>
 <p><code>pg_isready</code> binary allows us to check status of PostgreSQL local or remote instance</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>postgres@postgres-lab ~<span style="color:#f92672">]</span>$ /usr/pgsql-12/bin/pg_isready -h postgres-lab -p <span style="color:#ae81ff">5432</span>
 postgres-lab:5432 - accepting connections
+</code></pre></div><p>You can also set in postgresql.conf parameters for logging connection debug info:</p>
+<ul>
+<li><code>log_connections = on</code></li>
+<li><code>log_disconnections = on</code></li>
+</ul>
+<p>After setting it remember to reload PostgreSQL server.<br>
+Logfile by default is located in <code>$PGDATA</code>/log directory - in our example configuration that will be:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>postgres@postgres-lab ~<span style="color:#f92672">]</span>$ ls -lah /postgresql/data/log/
+total 24K
+drwx------.  <span style="color:#ae81ff">2</span> postgres postgres  <span style="color:#ae81ff">162</span> Jul  <span style="color:#ae81ff">3</span> 00:00 .
+drwx------. <span style="color:#ae81ff">20</span> postgres postgres 4.0K Jul  <span style="color:#ae81ff">3</span> 00:00 ..
+-rw-------.  <span style="color:#ae81ff">1</span> postgres postgres  <span style="color:#ae81ff">153</span> Jul  <span style="color:#ae81ff">3</span> 10:07 postgresql-Fri.log
+-rw-------.  <span style="color:#ae81ff">1</span> postgres postgres    <span style="color:#ae81ff">0</span> Jun <span style="color:#ae81ff">29</span> 00:00 postgresql-Mon.log
+-rw-------.  <span style="color:#ae81ff">1</span> postgres postgres  <span style="color:#ae81ff">186</span> Jun <span style="color:#ae81ff">28</span> 21:46 postgresql-Sun.log
+-rw-------.  <span style="color:#ae81ff">1</span> postgres postgres 4.7K Jul  <span style="color:#ae81ff">2</span> 17:00 postgresql-Thu.log
+-rw-------.  <span style="color:#ae81ff">1</span> postgres postgres   <span style="color:#ae81ff">72</span> Jun <span style="color:#ae81ff">30</span> 19:46 postgresql-Tue.log
+-rw-------.  <span style="color:#ae81ff">1</span> postgres postgres    <span style="color:#ae81ff">0</span> Jul  <span style="color:#ae81ff">1</span> 00:00 postgresql-Wed.log
 </code></pre></div>
 </div>
 
@@ -694,6 +711,16 @@ postgres-lab:5432 - accepting connections
 </svg>
  Previous</span>
         <span class='screen-reader-text'>Previous post: </span>PostgreSQL installation on Linux - with database creation</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/posts/postgresql_database_info/'>
+        <span class='screen-reader-text'>Next post: </span>PostgreSQL - gathering info about database<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+  
+</svg>
+</span>
+      </a>
     </div></div>
 </nav>
 

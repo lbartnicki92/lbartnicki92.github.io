@@ -4,22 +4,37 @@
   
   <url>
     <loc>https://knowledgepill.it/authors/</loc>
-    <lastmod>2020-06-30T20:00:00+01:00</lastmod>
+    <lastmod>2020-07-03T00:00:00+01:00</lastmod>
   </url>
   
   <url>
     <loc>https://knowledgepill.it/categories/</loc>
-    <lastmod>2020-06-30T20:00:00+01:00</lastmod>
+    <lastmod>2020-07-03T00:00:00+01:00</lastmod>
   </url>
   
   <url>
     <loc>https://knowledgepill.it/</loc>
-    <lastmod>2020-06-30T20:00:00+01:00</lastmod>
+    <lastmod>2020-07-03T00:00:00+01:00</lastmod>
   </url>
   
   <url>
     <loc>https://knowledgepill.it/authors/lbartnicki/</loc>
-    <lastmod>2020-06-30T20:00:00+01:00</lastmod>
+    <lastmod>2020-07-03T00:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://knowledgepill.it/categories/postgresql/</loc>
+    <lastmod>2020-07-03T00:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://knowledgepill.it/posts/postgresql_database_info/</loc>
+    <lastmod>2020-07-03T00:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://knowledgepill.it/posts/</loc>
+    <lastmod>2020-07-03T00:00:00+01:00</lastmod>
   </url>
   
   <url>
@@ -28,17 +43,7 @@
   </url>
   
   <url>
-    <loc>https://knowledgepill.it/categories/postgresql/</loc>
-    <lastmod>2020-06-30T20:00:00+01:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://knowledgepill.it/posts/postgresql_basics_guide/</loc>
-    <lastmod>2020-06-30T20:00:00+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://knowledgepill.it/posts/</loc>
     <lastmod>2020-06-30T20:00:00+01:00</lastmod>
   </url>
   

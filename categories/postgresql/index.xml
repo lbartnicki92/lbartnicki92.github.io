@@ -5,10 +5,20 @@
     <link>https://knowledgepill.it/categories/postgresql/</link>
     <description>Recent content in postgresql on IT Knowledge Pill</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 30 Jun 2020 20:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 03 Jul 2020 00:00:00 +0100</lastBuildDate>
     
 	<atom:link href="https://knowledgepill.it/categories/postgresql/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>PostgreSQL - gathering info about database</title>
+      <link>https://knowledgepill.it/posts/postgresql_database_info/</link>
+      <pubDate>Fri, 03 Jul 2020 00:00:00 +0100</pubDate>
+      
+      <guid>https://knowledgepill.it/posts/postgresql_database_info/</guid>
+      <description>Check server version postgres=# select version(); version -------------------------------------------------------------------------------------------------------- PostgreSQL 12.3 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 8.3.1 20191121 (Red Hat 8.3.1-5), 64-bit (1 row) Check client version [postgres@postgres-lab ~]$ psql --version psql (PostgreSQL) 12.3 Check database version from PGDATA [postgres@postgres-lab ~]$ cat $PGDATA/PG_VERSION 12 PostgreSQL support table PostgreSQL Versioning Policy
+Check when database was started postgres=# select pg_postmaster_start_time(); pg_postmaster_start_time ------------------------------- 2020-07-02 09:05:37.153927+00 (1 row) </description>
+    </item>
     
     <item>
       <title>PostgreSQL beginner guide - connecting, remote access, psql CLI and troubleshooting connection</title>
