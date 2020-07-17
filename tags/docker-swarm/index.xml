@@ -12,10 +12,10 @@
     
     <item>
       <title>Docker swarm - setup and usage</title>
-      <link>https://knowledgepill.it/posts/docker_swarm_compendium/</link>
+      <link>https://knowledgepill.it/posts/docker-swarm-compendium/</link>
       <pubDate>Tue, 28 Apr 2020 10:00:00 +0100</pubDate>
       
-      <guid>https://knowledgepill.it/posts/docker_swarm_compendium/</guid>
+      <guid>https://knowledgepill.it/posts/docker-swarm-compendium/</guid>
       <description>For HA and easier management of our containers we can create swarm cluster.
 It is composed of couple nodes with docker engine installed.
 How to setup swarm and use it?

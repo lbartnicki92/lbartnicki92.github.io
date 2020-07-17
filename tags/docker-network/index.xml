@@ -12,10 +12,10 @@
     
     <item>
       <title>Docker network - complete guide</title>
-      <link>https://knowledgepill.it/posts/docker_network/</link>
+      <link>https://knowledgepill.it/posts/docker-network/</link>
       <pubDate>Thu, 07 May 2020 10:00:00 +0100</pubDate>
       
-      <guid>https://knowledgepill.it/posts/docker_network/</guid>
+      <guid>https://knowledgepill.it/posts/docker-network/</guid>
       <description>Containers need to communicate with each other and outside world.
 Docker has wide network capabilities.
 What we can do with docker network? How to use it?

@@ -12,10 +12,10 @@
     
     <item>
       <title>PostgreSQL beginner guide - connecting, remote access, psql CLI and troubleshooting connection</title>
-      <link>https://knowledgepill.it/posts/postgresql_basics_guide/</link>
+      <link>https://knowledgepill.it/posts/postgresql-basics-guide/</link>
       <pubDate>Tue, 30 Jun 2020 20:00:00 +0100</pubDate>
       
-      <guid>https://knowledgepill.it/posts/postgresql_basics_guide/</guid>
+      <guid>https://knowledgepill.it/posts/postgresql-basics-guide/</guid>
       <description>Configure remote access - listen address By default after instalation and creting database cluster PostgreSQL will listner only on localhost. No remote access will be allowed.
  PostgreSQL installation on Linux - with database creation
  [postgres@postgres-lab ~]$ netstat -lptnu | grep post (Not all processes could be identified, non-owned process info will not be shown, you would have to be root to see it all.) tcp 0 0 127.0.0.1:5432 0.</description>

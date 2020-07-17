@@ -12,10 +12,10 @@
     
     <item>
       <title>Docker logging driver configuration - json-file and journald</title>
-      <link>https://knowledgepill.it/posts/docker_logging_driver/</link>
+      <link>https://knowledgepill.it/posts/docker-logging-driver/</link>
       <pubDate>Tue, 05 May 2020 10:00:00 +0100</pubDate>
       
-      <guid>https://knowledgepill.it/posts/docker_logging_driver/</guid>
+      <guid>https://knowledgepill.it/posts/docker-logging-driver/</guid>
       <description>Docker allows us to stream logs to different places with plugins called logging drivers.
 How to change logging driver? What&amp;rsquo;s the most popular ones?
 What is logging driver? Docker has got two types of logging drivers:

@@ -12,10 +12,10 @@
     
     <item>
       <title>Docker container and image - export and save</title>
-      <link>https://knowledgepill.it/posts/docker_save_load_export_import/</link>
+      <link>https://knowledgepill.it/posts/docker-save-load-export-import/</link>
       <pubDate>Fri, 10 Apr 2020 12:00:00 +0100</pubDate>
       
-      <guid>https://knowledgepill.it/posts/docker_save_load_export_import/</guid>
+      <guid>https://knowledgepill.it/posts/docker-save-load-export-import/</guid>
       <description>From time to time we want export filesystem from container and make image from it.
 Also sometimes there is need for giving someone our container image in single file without repository usage - on for example pendrive.
 How to do this things?

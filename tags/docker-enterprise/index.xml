@@ -12,10 +12,10 @@
     
     <item>
       <title>Docker Production Environment - Enterprise Edition and security features</title>
-      <link>https://knowledgepill.it/posts/docker_enterprise_ucp_security/</link>
+      <link>https://knowledgepill.it/posts/docker-enterprise-ucp-security/</link>
       <pubDate>Thu, 14 May 2020 10:00:00 +0100</pubDate>
       
-      <guid>https://knowledgepill.it/posts/docker_enterprise_ucp_security/</guid>
+      <guid>https://knowledgepill.it/posts/docker-enterprise-ucp-security/</guid>
       <description>In production environment we should care about security, also we want easy of usage.
 So, it is good to know docker security options and Docker Enterprise Edition.
  This guide assume that we have got Docker Enterprise Edition installed on three node cluster. Most of features described here are paid ones, but we can get a trial of Docker Enterprise Edition for free - 30 day period.

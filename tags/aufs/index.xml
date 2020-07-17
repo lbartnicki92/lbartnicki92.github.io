@@ -12,10 +12,10 @@
     
     <item>
       <title>Docker storage driver - setup</title>
-      <link>https://knowledgepill.it/posts/docker_storage_drivers/</link>
+      <link>https://knowledgepill.it/posts/docker-storage-drivers/</link>
       <pubDate>Fri, 17 Apr 2020 10:00:00 +0100</pubDate>
       
-      <guid>https://knowledgepill.it/posts/docker_storage_drivers/</guid>
+      <guid>https://knowledgepill.it/posts/docker-storage-drivers/</guid>
       <description>Each container except read only image space, consume also some writable space from storage layer.
 This writable and none writable space are managed together by storage driver.
 What is storage driver? Storage driver is a plugin for docker which is responsible for creating and maintaining union filesystem used by containers - for example: creating proper directory layout on filesystem.

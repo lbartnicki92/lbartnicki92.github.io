@@ -12,10 +12,10 @@
     
     <item>
       <title>Docker volumes and bind mounts</title>
-      <link>https://knowledgepill.it/posts/docker_volume_bind_mounts/</link>
+      <link>https://knowledgepill.it/posts/docker-volume-bind-mounts/</link>
       <pubDate>Wed, 22 Apr 2020 10:00:00 +0100</pubDate>
       
-      <guid>https://knowledgepill.it/posts/docker_volume_bind_mounts/</guid>
+      <guid>https://knowledgepill.it/posts/docker-volume-bind-mounts/</guid>
       <description>Storing persistent data in containers needs special storage. There is two options - volumes or bind mounts.
 How to use them?
 Volume vs bind mounts Bind mounts:

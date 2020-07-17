@@ -12,20 +12,20 @@
     
     <item>
       <title>PostgreSQL - gathering info about database</title>
-      <link>https://knowledgepill.it/posts/postgresql_database_info/</link>
+      <link>https://knowledgepill.it/posts/postgresql-database-info/</link>
       <pubDate>Fri, 03 Jul 2020 00:00:00 +0100</pubDate>
       
-      <guid>https://knowledgepill.it/posts/postgresql_database_info/</guid>
+      <guid>https://knowledgepill.it/posts/postgresql-database-info/</guid>
       <description>Check server version postgres=# select version(); version -------------------------------------------------------------------------------------------------------- PostgreSQL 12.3 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 8.3.1 20191121 (Red Hat 8.3.1-5), 64-bit (1 row) Check client version [postgres@postgres-lab ~]$ psql --version psql (PostgreSQL) 12.3 Check database version from PGDATA [postgres@postgres-lab ~]$ cat $PGDATA/PG_VERSION 12 PostgreSQL support table PostgreSQL Versioning Policy
 Check when database was started postgres=# select pg_postmaster_start_time(); pg_postmaster_start_time ------------------------------- 2020-07-02 09:05:37.153927+00 (1 row) </description>
     </item>
     
     <item>
       <title>PostgreSQL beginner guide - connecting, remote access, psql CLI and troubleshooting connection</title>
-      <link>https://knowledgepill.it/posts/postgresql_basics_guide/</link>
+      <link>https://knowledgepill.it/posts/postgresql-basics-guide/</link>
       <pubDate>Tue, 30 Jun 2020 20:00:00 +0100</pubDate>
       
-      <guid>https://knowledgepill.it/posts/postgresql_basics_guide/</guid>
+      <guid>https://knowledgepill.it/posts/postgresql-basics-guide/</guid>
       <description>Configure remote access - listen address By default after instalation and creting database cluster PostgreSQL will listner only on localhost. No remote access will be allowed.
  PostgreSQL installation on Linux - with database creation
  [postgres@postgres-lab ~]$ netstat -lptnu | grep post (Not all processes could be identified, non-owned process info will not be shown, you would have to be root to see it all.) tcp 0 0 127.0.0.1:5432 0.</description>
@@ -33,10 +33,10 @@ Check when database was started postgres=# select pg_postmaster_start_time(); pg
     
     <item>
       <title>PostgreSQL installation on Linux - with database creation</title>
-      <link>https://knowledgepill.it/posts/postgresql_installation/</link>
+      <link>https://knowledgepill.it/posts/postgresql-installation/</link>
       <pubDate>Sun, 28 Jun 2020 21:00:00 +0100</pubDate>
       
-      <guid>https://knowledgepill.it/posts/postgresql_installation/</guid>
+      <guid>https://knowledgepill.it/posts/postgresql-installation/</guid>
       <description>PostgreSQL is open source software so we can install it wthout any limitation, including our personal code changes. It is distributed under own The PostgreSQL License(TPL).
 Installation of PostgreSQL is easy on Linux Distributions.
 For purpose of tutorial we use CentOS 8.

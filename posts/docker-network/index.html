@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang='en'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='All you have to know about docker networks - bridge, macvlan or overlay'>
+<meta name='theme-color' content='#2ab55a'>
+
+<meta property='og:title' content='Docker network - complete guide • Łukasz Bartnicki'>
+<meta property='og:description' content='All you have to know about docker networks - bridge, macvlan or overlay'>
+<meta property='og:url' content='https://knowledgepill.it/posts/docker-network/'>
+<meta property='og:site_name' content='IT Knowledge Pill'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://knowledgepill.it/images/docker_banner.jpg'><meta property='article:section' content='posts'><meta property='article:tag' content='docker network'><meta property='article:published_time' content='2020-05-07T10:00:00&#43;01:00'/><meta property='article:modified_time' content='2020-05-07T10:00:00&#43;01:00'/><meta name='twitter:card' content='summary_large_image'><meta property='twitter:image' content='https://knowledgepill.it/images/docker_banner.jpg'>
+
+<meta name="generator" content="Hugo 0.63.2" />
+
+  <title>Docker network - complete guide • Łukasz Bartnicki</title>
+  <link rel='canonical' href='https://knowledgepill.it/posts/docker-network/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/css/custom.css'><style>
+:root{--color-accent:#2ab55a;}
+</style>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-163565265-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  
+
+  <script data-ad-client="ca-pub-3316601029431032" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+</head>
+<body class='page type-posts has-cover has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/images/logo.png'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+      <a href='/'>
+      IT Knowledge Pill
+      </a>
+    </h2>
+    <div class='desc'>
+    Clear, practical and simple about IT technologies for DBA and DevOps
+    </div>
+  </header>
+
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v7.0" nonce="zvZkhAja"></script>
+<div class="fb-like" data-href="https://www.facebook.com/ITKnowledgePill-113441330420148/" data-width="" data-layout="button_count" data-action="like" data-size="large" data-share="false"></div>
+
+</section>
+<section class='widget widget-sidebar_menu sep-after'><header>
+    <h4 class='title widget-title'>Menu</h4>
+  </header><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/categories/docker'>Docker</a></li><li class='item'>
+  <a href='/categories/kubernetes'>Kubernetes</a></li><li class='item'>
+  <a href='/categories/oracle'>Oracle</a></li><li class='item'>
+  <a href='/categories/postgresql'>PostgreSQL</a></li><li class='item'>
+  <a href='/posts'>All posts</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-sidebar_menu_about sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/about'>About me</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-search sep-after'>
+  <header>
+    <h4 class='title widget-title'>Search</h4>
+  </header>
+
+  <form action='/search' id='search-form' class='search-form'>
+    <label>
+      <span class='screen-reader-text'>Search</span>
+      <input id='search-term' class='search-term' type='search' name='q' placeholder='Search&hellip;'>
+    </label></form>
+
+</section>
+<section class='widget widget-search sep-after'>
+
+<link href="//cdn-images.mailchimp.com/embedcode/slim-10_7.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+	#mc_embed_signup{background:#fff; clear:left; font:18px Helvetica,Arial,sans-serif; }
+	 
+</style>
+<div id="mc_embed_signup">
+<form style="border:2px solid #228B22;padding:5px;text-align:center;" action="https://knowledgepill.us10.list-manage.com/subscribe/post?u=4f81eae9982fbb2adb23e27fc&amp;id=e147e9888e" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+    <div id="mc_embed_signup_scroll">
+	<label for="mce-EMAIL">Subscribe to ITKnowledgePill Newsletter! </label><br>
+	<input type="email" style="text-align: center;width:160px;" value="" name="EMAIL"  id="mce-EMAIL" placeholder="email address" required><br><br>
+    
+    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_4f81eae9982fbb2adb23e27fc_e147e9888e" tabindex="-1" value=""></div>
+    <div class="clear"><input type="submit" style="background-color:darkgreen;color:white;"  value="Subscribe" name="subscribe" id="mc-embedded-subscribe"></div>
+    </div>
+</form>
+</div>
+
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/aufs/' style='font-size:1em'>aufs</a>
+      </li><li>
+        <a href='/tags/devicemapper/' style='font-size:2em'>devicemapper</a>
+      </li><li>
+        <a href='/tags/docker-bind-mount/' style='font-size:1em'>docker bind mount</a>
+      </li><li>
+        <a href='/tags/docker-build/' style='font-size:1em'>docker build</a>
+      </li><li>
+        <a href='/tags/docker-enterprise/' style='font-size:1em'>docker enterprise</a>
+      </li><li>
+        <a href='/tags/docker-export/' style='font-size:1em'>docker export</a>
+      </li><li>
+        <a href='/tags/docker-image/' style='font-size:2em'>docker image</a>
+      </li><li>
+        <a href='/tags/docker-import/' style='font-size:1em'>docker import</a>
+      </li><li>
+        <a href='/tags/docker-load/' style='font-size:1em'>docker load</a>
+      </li><li>
+        <a href='/tags/docker-login/' style='font-size:1em'>docker login</a>
+      </li><li>
+        <a href='/tags/docker-logs/' style='font-size:1em'>docker logs</a>
+      </li><li>
+        <a href='/tags/docker-network/' style='font-size:1em'>docker network</a>
+      </li><li>
+        <a href='/tags/docker-registry/' style='font-size:2em'>docker registry</a>
+      </li><li>
+        <a href='/tags/docker-save/' style='font-size:1em'>docker save</a>
+      </li><li>
+        <a href='/tags/docker-swarm/' style='font-size:1em'>docker swarm</a>
+      </li><li>
+        <a href='/tags/docker-volume/' style='font-size:1em'>docker volume</a>
+      </li><li>
+        <a href='/tags/dockerfile/' style='font-size:1em'>dockerfile</a>
+      </li><li>
+        <a href='/tags/graph-driver/' style='font-size:2em'>graph driver</a>
+      </li><li>
+        <a href='/tags/kubeconfig/' style='font-size:1em'>KUBECONFIG</a>
+      </li><li>
+        <a href='/tags/kubectl/' style='font-size:1em'>kubectl</a>
+      </li><li>
+        <a href='/tags/log-driver/' style='font-size:1em'>log-driver</a>
+      </li><li>
+        <a href='/tags/lvm/' style='font-size:1em'>lvm</a>
+      </li><li>
+        <a href='/tags/overlay2/' style='font-size:1em'>overlay2</a>
+      </li><li>
+        <a href='/tags/pg_hba/' style='font-size:1em'>pg_hba</a>
+      </li><li>
+        <a href='/tags/postgresql/' style='font-size:1em'>postgresql</a>
+      </li><li>
+        <a href='/tags/psql/' style='font-size:1em'>psql</a>
+      </li><li>
+        <a href='/tags/security/' style='font-size:1em'>security</a>
+      </li><li>
+        <a href='/tags/tls/' style='font-size:1em'>tls</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button><div class='header-widgets'>
+        <div class='container'>
+    
+    <style>.widget-breadcrumbs li:after{content:'\2f '}</style>
+  <section class='widget widget-breadcrumbs sep-after'>
+    <nav id='breadcrumbs'>
+      <ol><li><a href='/'>IT Knowledge Pill</a></li><li><a href='/posts/'>Posts</a></li><li><span>Docker network - complete guide</span></li></ol>
+    </nav>
+  </section></div>
+      </div>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>IT Knowledge Pill</p><p class='desc site-desc'>Clear, practical and simple about IT technologies for DBA and DevOps</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Docker network - complete guide</h1>
+      
+<p class='desc'>All you have to know about docker networks - bridge, macvlan or overlay</p>
+
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2020-05-07T10:00:00&#43;01:00'>07 May 2020</time>
+</span>
+
+  <span class='byline'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M21,21V20c0-2.76-4-5-9-5s-9,2.24-9,5v1"/>
+  <path d="M16,6.37A4,4,0,1,1,12.63,3,4,4,0,0,1,16,6.37Z"/>
+  
+</svg>
+<span class='screen-reader-text'> by </span><a href='/authors/lbartnicki'>Łukasz Bartnicki</a></span>
+  
+<span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/>
+  
+</svg>
+10 mins read
+</span>
+
+
+  <span class='entry-label'>
+  <span>Tested on: </span> Docker 19.03
+</span>
+</div>
+
+
+  </div>
+</header>
+
+  
+
+<style>
+#share-buttons {display: inline-block; vertical-align: middle; }
+#share-buttons:after {content: ""; display: block; clear: both;}
+#share-buttons > div {
+position: relative;
+text-align: left;
+height: 48px;
+width: 120px;
+float: left;
+text-align: center;
+}
+#share-buttons > div > svg {height: 16px; fill: #d5d5d5; margin-top: 10px;}
+#share-buttons > div:hover {cursor: pointer;}
+#share-buttons > div.facebook:hover > svg {fill: #3B5998;}
+#share-buttons > div.twitter:hover > svg {fill: #55ACEE;}
+#share-buttons > div.linkedin:hover > svg {fill: #0077b5;}
+#share-buttons > div.pinterest:hover > svg {fill: #CB2027;}
+#share-buttons > div.gplus:hover > svg {fill: #dd4b39;}
+#share-buttons > div.mail:hover > svg {fill: #7D7D7D;}
+#share-buttons > div.instagram:hover > svg {fill: #C73B92;}
+#share-buttons > div.hackernews:hover > svg {fill: #FF4500;}
+#share-buttons > div.reddit:hover > svg {fill: #FF4500;}
+#share-buttons > div.facebook > svg {height: 35px; margin-top: 10px;}
+#share-buttons > div.twitter > svg {height: 35px; margin-top: 10px;}
+#share-buttons > div.linkedin > svg {height: 35px; margin-top: 10px;}
+#share-buttons > div.pinterest > svg {height: 35px; margin-top: 10px;}
+#share-buttons > div.gplus > svg {height: 35px; margin-top: 10px; position: relative; left: 1px;}
+#share-buttons > div.mail > svg {height: 35px; margin-top: 10px;}
+#share-buttons > div.hackernews > svg {height: 35px; margin-top: 10px;}
+#share-buttons > div.reddit > svg {height: 35px; margin-top: 10px;}
+</style>
+
+<div id="share-buttons">
+<div style="color: green;margin-top: 12px;">Share on: </div>
+<div class="facebook" title="Share this on Facebook" onclick="window.open('http://www.facebook.com/share.php?u=https:\/\/knowledgepill.it\/posts\/docker-network\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+<div class="twitter" title="Share this on Twitter" onclick="window.open('https://twitter.com/intent/tweet?text=https:\/\/knowledgepill.it\/posts\/docker-network\/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+<div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https:\/\/knowledgepill.it\/posts\/docker-network\/&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+<div class="reddit" title="Share this on Reddit" onclick="window.open('http://www.reddit.com/submit?url=https:\/\/knowledgepill.it\/posts\/docker-network\/&title=Docker network - complete guide');"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 11.779c0-1.459-1.192-2.645-2.657-2.645-.715 0-1.363.286-1.84.746-1.81-1.191-4.259-1.949-6.971-2.046l1.483-4.669 4.016.941-.006.058c0 1.193.975 2.163 2.174 2.163 1.198 0 2.172-.97 2.172-2.163s-.975-2.164-2.172-2.164c-.92 0-1.704.574-2.021 1.379l-4.329-1.015c-.189-.046-.381.063-.44.249l-1.654 5.207c-2.838.034-5.409.798-7.3 2.025-.474-.438-1.103-.712-1.799-.712-1.465 0-2.656 1.187-2.656 2.646 0 .97.533 1.811 1.317 2.271-.052.282-.086.567-.086.857 0 3.911 4.808 7.093 10.719 7.093s10.72-3.182 10.72-7.093c0-.274-.029-.544-.075-.81.832-.447 1.405-1.312 1.405-2.318zm-17.224 1.816c0-.868.71-1.575 1.582-1.575.872 0 1.581.707 1.581 1.575s-.709 1.574-1.581 1.574-1.582-.706-1.582-1.574zm9.061 4.669c-.797.793-2.048 1.179-3.824 1.179l-.013-.003-.013.003c-1.777 0-3.028-.386-3.824-1.179-.145-.144-.145-.379 0-.523.145-.145.381-.145.526 0 .65.647 1.729.961 3.298.961l.013.003.013-.003c1.569 0 2.648-.315 3.298-.962.145-.145.381-.144.526 0 .145.145.145.379 0 .524zm-.189-3.095c-.872 0-1.581-.706-1.581-1.574 0-.868.709-1.575 1.581-1.575s1.581.707 1.581 1.575-.709 1.574-1.581 1.574z"/></svg></div>
+<div class="hackernews" title="Share this on Hacker News" onclick="window.open('https://news.ycombinator.com/submitlink?u=https:\/\/knowledgepill.it\/posts\/docker-network\/&t=Docker network - complete guide');"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zM21.2 229.2H21c.1-.1.2-.3.3-.4 0 .1 0 .3-.1.4zm218 53.9V384h-31.4V281.3L128 128h37.3c52.5 98.3 49.2 101.2 59.3 125.6 12.3-27 5.8-24.4 60.6-125.6H320l-80.8 155.1z"/></svg>
+</div>
+</div>
+
+  <div class='entry-cover'>
+  <figure class='container cover-normal'>
+    <img src='/images/docker_banner.jpg'/>
+    
+      
+    
+  </figure>
+</div>
+  
+
+  <div class='container entry-content'>
+  <p>Containers need to communicate with each other and outside world.<br>
+Docker has wide network capabilities.</p>
+<p>What we can do with docker network? How to use it?</p>
+<h1 id="docker-network-theory">Docker Network Theory</h1>
+<p>What elements we have in docker network?</p>
+<ul>
+<li>CNM</li>
+<li>libnetwork</li>
+<li>drivers</li>
+</ul>
+<p>Docker network concept is based on open-source design specification called Container Network Model(CNM). CNM assume that network drivers should be pluggable.<br>
+Docker CNM implementation is in <code>libnetwork</code> library.</p>
+<p>What we can do with docker CNM?</p>
+<ul>
+<li>single-host bridges</li>
+<li>multi-host overlay networks</li>
+<li>networks plugged into VLAN&rsquo;s</li>
+<li>ingress networks with load balancing
+Also we get auto service discovery for our containers.</li>
+</ul>
+<p>What elements we have in docker CNM implementation?</p>
+<ul>
+<li>sandboxes - container network stack - isolated - ethernet interfaces, ports, routing tables and DNS config</li>
+<li>endpoint - virtual interfaces in containers - veth</li>
+<li>networks - virtual switches(bridges) - connect endpoints</li>
+</ul>
+<p>What drivers are built-in by default into docker(Linux)?</p>
+<ul>
+<li>bridge</li>
+<li>overlay</li>
+<li>macvlan</li>
+</ul>
+<h1 id="single-host-network-bridge">Single-host network bridge</h1>
+<p>By default docker creates one brigde after instalation.</p>
+<p>All containers are by default connected to it unless we override it.<br>
+To set another non-default network we use <code>--network</code> flag for <code>docker run</code>.</p>
+<p>What is the diference between default bridge and user created one:</p>
+<ul>
+<li>Default brigde is less secure - provide less isolation - by default all containers will be connected to it</li>
+<li>We can connect/disconnect containers from user defined bridges without restarting containers</li>
+<li>Defualt bridge does not have DNS included - we must use IP in such network - on user defined bridge we get DNS(all containers added to bridge network automatically will be added also to DNS) - just connect container to bridge and you can talk with other containers in network by their names(works for named containers with <code>--name</code> at creation time)</li>
+</ul>
+<p>We can see that all default networks are local - what means that we can&rsquo;t connect with them containers on multiple docker hosts.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker network ls</span>
+NETWORK ID          NAME                DRIVER              SCOPE
+740857ece0a5        bridge              bridge              local
+13396ccbb663        host                host                local
+44424eae56f4        none                null                local
+</code></pre></div><p>We can check details about default bridge network</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker network inspect bridge</span>
+<span style="color:#f92672">[</span>
+    <span style="color:#f92672">{</span>
+        <span style="color:#e6db74">&#34;Name&#34;</span>: <span style="color:#e6db74">&#34;bridge&#34;</span>,
+        <span style="color:#e6db74">&#34;Id&#34;</span>: <span style="color:#e6db74">&#34;740857ece0a5fc38891b919d2f7506e32e699b4e79a449f8fef9824d0cde39b2&#34;</span>,
+        <span style="color:#e6db74">&#34;Created&#34;</span>: <span style="color:#e6db74">&#34;2020-05-07T21:07:19.137450998+02:00&#34;</span>,
+        <span style="color:#e6db74">&#34;Scope&#34;</span>: <span style="color:#e6db74">&#34;local&#34;</span>,
+        <span style="color:#e6db74">&#34;Driver&#34;</span>: <span style="color:#e6db74">&#34;bridge&#34;</span>,
+        <span style="color:#e6db74">&#34;EnableIPv6&#34;</span>: false,
+        <span style="color:#e6db74">&#34;IPAM&#34;</span>: <span style="color:#f92672">{</span>
+            <span style="color:#e6db74">&#34;Driver&#34;</span>: <span style="color:#e6db74">&#34;default&#34;</span>,
+            <span style="color:#e6db74">&#34;Options&#34;</span>: null,
+            <span style="color:#e6db74">&#34;Config&#34;</span>: <span style="color:#f92672">[</span>
+                <span style="color:#f92672">{</span>
+                    <span style="color:#e6db74">&#34;Subnet&#34;</span>: <span style="color:#e6db74">&#34;172.17.0.0/16&#34;</span>,
+                    <span style="color:#e6db74">&#34;Gateway&#34;</span>: <span style="color:#e6db74">&#34;172.17.0.1&#34;</span>
+                <span style="color:#f92672">}</span>
+            <span style="color:#f92672">]</span>
+        <span style="color:#f92672">}</span>,
+        <span style="color:#e6db74">&#34;Internal&#34;</span>: false,
+        <span style="color:#e6db74">&#34;Attachable&#34;</span>: false,
+        <span style="color:#e6db74">&#34;Ingress&#34;</span>: false,
+        <span style="color:#e6db74">&#34;ConfigFrom&#34;</span>: <span style="color:#f92672">{</span>
+            <span style="color:#e6db74">&#34;Network&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>
+        <span style="color:#f92672">}</span>,
+        <span style="color:#e6db74">&#34;ConfigOnly&#34;</span>: false,
+        <span style="color:#e6db74">&#34;Containers&#34;</span>: <span style="color:#f92672">{</span><span style="color:#f92672">}</span>,
+        <span style="color:#e6db74">&#34;Options&#34;</span>: <span style="color:#f92672">{</span>
+            <span style="color:#e6db74">&#34;com.docker.network.bridge.default_bridge&#34;</span>: <span style="color:#e6db74">&#34;true&#34;</span>,
+            <span style="color:#e6db74">&#34;com.docker.network.bridge.enable_icc&#34;</span>: <span style="color:#e6db74">&#34;true&#34;</span>,
+            <span style="color:#e6db74">&#34;com.docker.network.bridge.enable_ip_masquerade&#34;</span>: <span style="color:#e6db74">&#34;true&#34;</span>,
+            <span style="color:#e6db74">&#34;com.docker.network.bridge.host_binding_ipv4&#34;</span>: <span style="color:#e6db74">&#34;0.0.0.0&#34;</span>,
+            <span style="color:#e6db74">&#34;com.docker.network.bridge.name&#34;</span>: <span style="color:#e6db74">&#34;docker0&#34;</span>,
+            <span style="color:#e6db74">&#34;com.docker.network.driver.mtu&#34;</span>: <span style="color:#e6db74">&#34;1500&#34;</span>
+        <span style="color:#f92672">}</span>,
+        <span style="color:#e6db74">&#34;Labels&#34;</span>: <span style="color:#f92672">{</span><span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">]</span>
+</code></pre></div><p>As we see docker bridge is build on Linux bridge:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#e6db74">&#34;com.docker.network.bridge.name&#34;</span>: <span style="color:#e6db74">&#34;docker0&#34;</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># ip link show docker0</span>
+3: docker0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu <span style="color:#ae81ff">1500</span> qdisc noqueue state DOWN mode DEFAULT group default
+    link/ether 02:42:9d:73:fa:48 brd ff:ff:ff:ff:ff:ff
+</code></pre></div><h2 id="creating-network-bridge">Creating network bridge</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker network create -d bridge lukas-bridge</span>
+3836e34c6950d80e032e322f915935b51472059ea19cfd65c409263c74ba2b45
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># ip a</span>
+&lt;snip&gt;
+5: br-3836e34c6950: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu <span style="color:#ae81ff">1500</span> qdisc noqueue state DOWN group default
+    link/ether 02:42:0b:b8:19:54 brd ff:ff:ff:ff:ff:ff
+    inet 172.19.0.1/16 brd 172.19.255.255 scope global br-6c8ad698150b
+       valid_lft forever preferred_lft forever
+</code></pre></div><p>As we see there is new bridge at OS level with name coresponding to ID of our newly created docker bridge.</p>
+<h2 id="starting-container-connected-to-new-bridge">Starting container connected to new bridge</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker container run -d --name web_server --network lukas-bridge httpd</span>
+08e885099d0ebca6ab5b533bffd0245dccfaab79149657ad9161fe26c370b879
+</code></pre></div><h2 id="list-containers-connected-to-network">List containers connected to network</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker network inspect lukas-bridge --format &#34;{{json .Containers}}&#34;</span>
+<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;08e885099d0ebca6ab5b533bffd0245dccfaab79149657ad9161fe26c370b879&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;Name&#34;</span>:<span style="color:#e6db74">&#34;web_server&#34;</span>,<span style="color:#e6db74">&#34;EndpointID&#34;</span>:<span style="color:#e6db74">&#34;ade95c4b553f8cebfbf8f24338b6d0f9e7b2d41744c501816ac734d1bb8ccc1f&#34;</span>,<span style="color:#e6db74">&#34;MacAddress&#34;</span>:<span style="color:#e6db74">&#34;02:42:ac:14:00:02&#34;</span>,<span style="color:#e6db74">&#34;IPv4Address&#34;</span>:<span style="color:#e6db74">&#34;172.20.0.2/16&#34;</span>,<span style="color:#e6db74">&#34;IPv6Address&#34;</span>:<span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">}</span><span style="color:#f92672">}</span>
+</code></pre></div><h2 id="test-connection-between-containers-connected-to-bridge">Test connection between containers connected to bridge</h2>
+<p>If we use <code>--name</code> flag when creating container we can use docker built-in DNS feature.
+Containers automatically know hostname to ip mapping of other containers.</p>
+<p>Create second container:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker container run -d --name web_server2 --network lukas-bridge httpd</span>
+34bb16b0c43c64c935c8a44c0ed13fa2a7972f79700db290144eba54aa93336a
+</code></pre></div><p>Get into one of containers and ping other one</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker exec -it web_server2 /bin/bash</span>
+root@34bb16b0c43c:/usr/local/apache2# ping web_server
+
+PING web_server <span style="color:#f92672">(</span>172.20.0.2<span style="color:#f92672">)</span> 56<span style="color:#f92672">(</span>84<span style="color:#f92672">)</span> bytes of data.
+<span style="color:#ae81ff">64</span> bytes from web_server <span style="color:#f92672">(</span>172.20.0.2<span style="color:#f92672">)</span>: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">64</span> time<span style="color:#f92672">=</span>0.712 ms
+<span style="color:#ae81ff">64</span> bytes from web_server <span style="color:#f92672">(</span>172.20.0.2<span style="color:#f92672">)</span>: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">64</span> time<span style="color:#f92672">=</span>0.649 ms
+^C
+</code></pre></div><h1 id="changing-dns-in-container">Changing DNS in container</h1>
+<p>We can add DNS to container - this DNS will be queired when Docker built-in DNS won&rsquo;t be able to resolve request.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker run -d --dns 8.8.8.8 httpd</span>
+4bde944868b492a5cef84676de1cfb1a211069c67c494d4ab742115d4fc17ee9
+
+<span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker exec -it 4bde944868b492a5cef84676de1cfb1a211069c67c494d4ab742115d4fc17ee9 bash</span>
+root@4bde944868b4:/usr/local/apache2# cat /etc/resolv.conf
+search lukas.int
+nameserver 8.8.8.8
+</code></pre></div><h1 id="port-mapping">Port mapping</h1>
+<p>We can tell docker to expose port from container on docker host port that other server or clients can access service running in container.<br>
+We can achive this with <code>--publish</code> flag.</p>
+<h2 id="start-container-with-port-published">Start container with port published</h2>
+<p>We start container with <code>httpd</code> service which expose port 80 - to connect to this port in container we can connect to docker host on port 1234.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker run -d --name web_server --network lukas-bridge --publish published=1234,target=80  httpd</span>
+304ddf53a801763c769545eb91c6c5522fc2eedf7cf5f4d252bace1d5e0b8a37
+</code></pre></div><h2 id="check-what-ports-are-published-from-container">Check what ports are published from container</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker port web_server</span>
+80/tcp -&gt; 0.0.0.0:1234
+</code></pre></div><h1 id="connecting-container-directly-to-host-network-stack">Connecting container directly to host network stack</h1>
+<p>Docker gives us possibility to integrate container network stack into host stack.<br>
+In such situation container will not get his own IP address and MAC(neither externally from docker host network, neither internally from network created by docker engine) - he will be reachable as he will be normal software running on our host.</p>
+<p>This is good solution if we want to run some software that use network but we want to have full isolation of process(pid), mount(mnt), user and IPC namespaces.</p>
+<p>To active such mode we use <code>--network=host</code> parameter to <code>docker run</code>.<br>
+In this mode <code>--publish</code> doesn&rsquo;t work - if service in container listen on port 80 - port 80 on docker host will be taken.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker run -d --name web_server --network host httpd</span>
+dedc6c9e1c05ccb3621fa4272975036f7b9266371a20221f3ba9dbc237eff3b0
+</code></pre></div><p>If we inspect container we will see that there is no IP adress and network mode is set to host:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker container inspect web_server</span>
+<span style="color:#f92672">[</span>...<span style="color:#f92672">]</span>
+<span style="color:#e6db74">&#34;NetworkMode&#34;</span>: <span style="color:#e6db74">&#34;host&#34;</span>,
+            <span style="color:#e6db74">&#34;PortBindings&#34;</span>: <span style="color:#f92672">{</span>
+                <span style="color:#e6db74">&#34;80/tcp&#34;</span>: <span style="color:#f92672">[</span>
+                    <span style="color:#f92672">{</span>
+                        <span style="color:#e6db74">&#34;HostIp&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+                        <span style="color:#e6db74">&#34;HostPort&#34;</span>: <span style="color:#e6db74">&#34;1234&#34;</span>
+                    <span style="color:#f92672">}</span>
+<span style="color:#f92672">[</span>..<span style="color:#f92672">]</span>
+<span style="color:#e6db74">&#34;Networks&#34;</span>: <span style="color:#f92672">{</span>
+    <span style="color:#e6db74">&#34;host&#34;</span>: <span style="color:#f92672">{</span>
+        <span style="color:#e6db74">&#34;IPAMConfig&#34;</span>: null,
+        <span style="color:#e6db74">&#34;Links&#34;</span>: null,
+        <span style="color:#e6db74">&#34;Aliases&#34;</span>: null,
+        <span style="color:#e6db74">&#34;NetworkID&#34;</span>: <span style="color:#e6db74">&#34;13396ccbb6635016d4381588204f9724401cf7200b67cb8f44f065ebfbb8f069&#34;</span>,
+        <span style="color:#e6db74">&#34;EndpointID&#34;</span>: <span style="color:#e6db74">&#34;256edba4bd98f86e4a3af9331ff24aca958805ff5f0a3bb202fa67c0b8d4ab07&#34;</span>,
+        <span style="color:#e6db74">&#34;Gateway&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+        <span style="color:#e6db74">&#34;IPAddress&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+
+</code></pre></div><p>Apache server is listening correctly:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># curl -X GET 127.0.0.1:80</span>
+&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;
+</code></pre></div><h1 id="connecting-container-directly-to-host-network---macvlan">Connecting container directly to host network - MACVLAN</h1>
+<p>If we want to expose our container to world but it is important for us that container has got own IP and MAC adress from network where docker host is connected, we can use MACVLAN network driver. It allows also to connect to certain VLAN.</p>
+<p>It will create for us docker network - all containers connected to this network will be visible in docker host network as they were normal separate from docker host that host them machines.</p>
+<p>Remember that:</p>
+<ul>
+<li>with MACVLAN you can easily exhaust IP adresses in your network</li>
+<li>you have to set network card in promiscious mode</li>
+<li>this solution is created mainly for legacy apps or network monitoring apps</li>
+</ul>
+<hr>
+<h3 id="important">Important!</h3>
+<p>To use MACVLAN mode our network card has to be in promiscious mode!<br>
+Activiting promoscius mode in CentOS(ens18 is my main network card):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># ip link set ens18 promisc on</span>
+</code></pre></div><p>Check if mode was activeted - PROMISC flag:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># ip a</span>
+<span style="color:#f92672">[</span>..<span style="color:#f92672">]</span>
+2: ens18: &lt;BROADCAST,MULTICAST,PROMISC,UP,LOWER_UP&gt; mtu <span style="color:#ae81ff">1500</span> qdisc fq_codel state UP group default qlen <span style="color:#ae81ff">1000</span>
+    link/ether 62:ae:db:67:8c:08 brd ff:ff:ff:ff:ff:ff
+    inet 10.10.10.20/24 brd 10.10.10.255 scope global noprefixroute ens18
+       valid_lft forever preferred_lft forever
+    inet6 fe80::8f98:eb7:2724:a548/64 scope link noprefixroute
+       valid_lft forever preferred_lft forever
+<span style="color:#f92672">[</span>...<span style="color:#f92672">]</span>
+</code></pre></div><hr>
+<p>As my docker host is in <code>10.10.10.0/24</code> network connected by <code>ens18</code> network card, I will create proper network with macvlan driver.</p>
+<p>I also add <code>--ip-range</code> flag because I want that containers get IP&rsquo;s from second half of my network(in first half are my docker hosts so with this flag I will avoid IP collision)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker network create -d macvlan --subnet 10.10.10.0/24 --ip-range 10.10.10.128/25 --gateway 10.10.10.1 -o parent=ens18 lukas_macvlan</span>
+75a25e8867e6d2a6e91f3bfecfe70d5420b2049a474b4aeb97e792f23fce1ddf
+</code></pre></div><p>Let&rsquo;s create some container connected to macvlan network.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker run -d --network lukas_macvlan --name web_server httpd</span>
+f856de1521116a70632126d014ff1b14e61b8309d3e41cb593b8be78bb29693f
+</code></pre></div><p>Check connectivity from inside container IP configuration:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker exec -it web_server bash</span>
+root@f856de152111:/usr/local/apache2# ping 8.8.8.8
+PING 8.8.8.8 <span style="color:#f92672">(</span>8.8.8.8<span style="color:#f92672">)</span> 56<span style="color:#f92672">(</span>84<span style="color:#f92672">)</span> bytes of data.
+<span style="color:#ae81ff">64</span> bytes from 8.8.8.8: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">52</span> time<span style="color:#f92672">=</span>38.2 ms
+<span style="color:#ae81ff">64</span> bytes from 8.8.8.8: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">52</span> time<span style="color:#f92672">=</span>41.1 ms
+<span style="color:#ae81ff">64</span> bytes from 8.8.8.8: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">52</span> time<span style="color:#f92672">=</span>83.1 ms
+<span style="color:#ae81ff">64</span> bytes from 8.8.8.8: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">52</span> time<span style="color:#f92672">=</span><span style="color:#ae81ff">107</span> ms
+^C
+--- 8.8.8.8 ping statistics ---
+<span style="color:#ae81ff">4</span> packets transmitted, <span style="color:#ae81ff">4</span> received, 0% packet loss, time 8ms
+rtt min/avg/max/mdev <span style="color:#f92672">=</span> 38.157/67.276/106.762/28.910 ms
+
+root@f856de152111:/usr/local/apache2# ifconfig
+eth0: flags<span style="color:#f92672">=</span>4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu <span style="color:#ae81ff">1500</span>
+        inet 10.10.10.128  netmask 255.255.255.0  broadcast 10.10.10.255
+        ether 02:42:0a:0a:0a:80  txqueuelen <span style="color:#ae81ff">0</span>  <span style="color:#f92672">(</span>Ethernet<span style="color:#f92672">)</span>
+        RX packets <span style="color:#ae81ff">3714</span>  bytes <span style="color:#ae81ff">8949950</span> <span style="color:#f92672">(</span>8.5 MiB<span style="color:#f92672">)</span>
+        RX errors <span style="color:#ae81ff">0</span>  dropped <span style="color:#ae81ff">0</span>  overruns <span style="color:#ae81ff">0</span>  frame <span style="color:#ae81ff">0</span>
+        TX packets <span style="color:#ae81ff">2252</span>  bytes <span style="color:#ae81ff">159458</span> <span style="color:#f92672">(</span>155.7 KiB<span style="color:#f92672">)</span>
+        TX errors <span style="color:#ae81ff">0</span>  dropped <span style="color:#ae81ff">0</span> overruns <span style="color:#ae81ff">0</span>  carrier <span style="color:#ae81ff">0</span>  collisions <span style="color:#ae81ff">0</span>
+
+</code></pre></div><p>We can see that our container is now in docker host network directly.<br>
+Let&rsquo;s check if we can ping in from another docker host in network</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e"># ping 10.10.10.128</span>
+PING 10.10.10.128 <span style="color:#f92672">(</span>10.10.10.128<span style="color:#f92672">)</span> 56<span style="color:#f92672">(</span>84<span style="color:#f92672">)</span> bytes of data.
+<span style="color:#ae81ff">64</span> bytes from 10.10.10.128: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">64</span> time<span style="color:#f92672">=</span>0.703 ms
+<span style="color:#ae81ff">64</span> bytes from 10.10.10.128: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">64</span> time<span style="color:#f92672">=</span>0.514 ms
+^C
+--- 10.10.10.128 ping statistics ---
+<span style="color:#ae81ff">2</span> packets transmitted, <span style="color:#ae81ff">2</span> received, 0% packet loss, time 60ms
+rtt min/avg/max/mdev <span style="color:#f92672">=</span> 0.514/0.608/0.703/0.097 ms
+</code></pre></div><p>This feature gives us possibility to connect to multiple VLAN&rsquo;s - we can have our containers in diffrent external networks all trunking with single network card of our docker host.</p>
+<h1 id="overlay-network---multi-host---docker-swarm">Overlay network - multi-host - Docker Swarm</h1>
+<p>Overlay network allows us to set communication between containers deployed on multiple nodes. We use this type of network in Swarm Clusters.</p>
+<hr>
+<p>For more information about Docker Swarm look at:</p>
+<p><a href="/posts/docker_swarm_compendium/">Docker Swarm - complete guide</a></p>
+<hr>
+<p>Environment used - two host in diffrent networks connected by router:</p>
+<table>
+<thead>
+<tr>
+<th>Role in Swarm</th>
+<th>Server</th>
+<th>IP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Manager</td>
+<td>docker-host1.lukas.int</td>
+<td>10.10.10.20</td>
+</tr>
+<tr>
+<td>Worker1</td>
+<td>docker-host2.lukas.int</td>
+<td>192.168.1.100</td>
+</tr>
+</tbody>
+</table>
+<h2 id="create-overlay-network">Create overlay network</h2>
+<p>Creating new network - we optionally use <code>-o encrypted</code> to make data in network secure</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker network create -d overlay -o encrypted lukas-overnet</span>
+fyb4s4ydv3vnl6cjhq62ojdo6
+</code></pre></div><h2 id="check-overlay-network">Check overlay network</h2>
+<p>On manager node:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker network ls</span>
+NETWORK ID          NAME                DRIVER              SCOPE
+6b9cea7d8900        bridge              bridge              local
+5cbd99a08e42        docker_gwbridge     bridge              local
+13396ccbb663        host                host                local
+di48hsm4e4fw        ingress             overlay             swarm
+l4hcqght8ulh        lukas-overnet       overlay             swarm
+44424eae56f4        none                null                local
+</code></pre></div><p>On worker node:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker network ls</span>
+NETWORK ID          NAME                DRIVER              SCOPE
+7e16c6986b6c        bridge              bridge              local
+b905ff175794        docker_gwbridge     bridge              local
+1b02943d42e5        host                host                local
+di48hsm4e4fw        ingress             overlay             swarm
+cde72e9ea1c3        none                null                local
+</code></pre></div><p>As we see new custom overlay networks are always visible on manager.<br>
+Network will be visible on worker node as soon as there will be container attached to this network.<br>
+After creating service connected to <code>lukas-overnet</code> - network starts to be visilble on <code>docker-host2</code> worker</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker service create --name web_server --replicas 2 --network lukas-overnet httpd</span>
+jktxvf185ab8d52uw1g3f74gw
+overall progress: <span style="color:#ae81ff">2</span> out of <span style="color:#ae81ff">2</span> tasks
+1/2: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+2/2: running   <span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>
+verify: Service converged
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker network ls</span>
+NETWORK ID          NAME                DRIVER              SCOPE
+7e16c6986b6c        bridge              bridge              local
+b905ff175794        docker_gwbridge     bridge              local
+1b02943d42e5        host                host                local
+di48hsm4e4fw        ingress             overlay             swarm
+l4hcqght8ulh        lukas-overnet       overlay             swarm
+cde72e9ea1c3        none                null                local
+</code></pre></div><h2 id="inspect-overlay-network">Inspect overlay network</h2>
+<p>We can see that created network adressation not match any of docker host networks.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker network inspect lukas-overnet</span>
+<span style="color:#f92672">[</span>
+    <span style="color:#f92672">{</span>
+        <span style="color:#e6db74">&#34;Name&#34;</span>: <span style="color:#e6db74">&#34;lukas-overnet&#34;</span>,
+        <span style="color:#e6db74">&#34;Id&#34;</span>: <span style="color:#e6db74">&#34;l4hcqght8ulhxydypdnh9l45f&#34;</span>,
+        <span style="color:#e6db74">&#34;Created&#34;</span>: <span style="color:#e6db74">&#34;2020-05-11T20:39:30.261903606+02:00&#34;</span>,
+        <span style="color:#e6db74">&#34;Scope&#34;</span>: <span style="color:#e6db74">&#34;swarm&#34;</span>,
+        <span style="color:#e6db74">&#34;Driver&#34;</span>: <span style="color:#e6db74">&#34;overlay&#34;</span>,
+        <span style="color:#e6db74">&#34;EnableIPv6&#34;</span>: false,
+        <span style="color:#e6db74">&#34;IPAM&#34;</span>: <span style="color:#f92672">{</span>
+            <span style="color:#e6db74">&#34;Driver&#34;</span>: <span style="color:#e6db74">&#34;default&#34;</span>,
+            <span style="color:#e6db74">&#34;Options&#34;</span>: null,
+            <span style="color:#e6db74">&#34;Config&#34;</span>: <span style="color:#f92672">[</span>
+                <span style="color:#f92672">{</span>
+                    <span style="color:#e6db74">&#34;Subnet&#34;</span>: <span style="color:#e6db74">&#34;10.0.2.0/24&#34;</span>,
+                    <span style="color:#e6db74">&#34;Gateway&#34;</span>: <span style="color:#e6db74">&#34;10.0.2.1&#34;</span>
+                <span style="color:#f92672">}</span>
+  <span style="color:#f92672">[</span>...<span style="color:#f92672">]</span>
+</code></pre></div><h2 id="check-container-ip-address">Check container IP address</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker container inspect 71b279ce322b --format &#34;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}&#34;</span>
+10.0.2.3
+</code></pre></div><h2 id="test-connection-in-overlay-network">Test connection in overlay network</h2>
+<p>Connection works with IP and container name also:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">root@25d3dea663a0:/usr/local/apache2# ping 10.0.2.3
+PING 10.0.2.3 <span style="color:#f92672">(</span>10.0.2.3<span style="color:#f92672">)</span> 56<span style="color:#f92672">(</span>84<span style="color:#f92672">)</span> bytes of data.
+<span style="color:#ae81ff">64</span> bytes from 10.0.2.3: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">64</span> time<span style="color:#f92672">=</span>0.774 ms
+<span style="color:#ae81ff">64</span> bytes from 10.0.2.3: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">64</span> time<span style="color:#f92672">=</span>0.777 ms
+<span style="color:#ae81ff">64</span> bytes from 10.0.2.3: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">64</span> time<span style="color:#f92672">=</span>0.838 ms
+<span style="color:#ae81ff">64</span> bytes from 10.0.2.3: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">64</span> time<span style="color:#f92672">=</span>0.602 ms
+^C
+--- 10.0.2.3 ping statistics ---
+<span style="color:#ae81ff">4</span> packets transmitted, <span style="color:#ae81ff">4</span> received, 0% packet loss, time 84ms
+rtt min/avg/max/mdev <span style="color:#f92672">=</span> 0.602/0.747/0.838/0.094 ms
+
+root@25d3dea663a0:/usr/local/apache2# ping web_server.1.ptbr9gbf7ygzn4i4dgoww6ne5
+PING web_server.1.ptbr9gbf7ygzn4i4dgoww6ne5 <span style="color:#f92672">(</span>10.0.2.3<span style="color:#f92672">)</span> 56<span style="color:#f92672">(</span>84<span style="color:#f92672">)</span> bytes of data.
+<span style="color:#ae81ff">64</span> bytes from web_server.1.ptbr9gbf7ygzn4i4dgoww6ne5.lukas-overnet <span style="color:#f92672">(</span>10.0.2.3<span style="color:#f92672">)</span>: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">64</span> time<span style="color:#f92672">=</span>0.497 ms
+<span style="color:#ae81ff">64</span> bytes from web_server.1.ptbr9gbf7ygzn4i4dgoww6ne5.lukas-overnet <span style="color:#f92672">(</span>10.0.2.3<span style="color:#f92672">)</span>: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">64</span> time<span style="color:#f92672">=</span>0.568 ms
+<span style="color:#ae81ff">64</span> bytes from web_server.1.ptbr9gbf7ygzn4i4dgoww6ne5.lukas-overnet <span style="color:#f92672">(</span>10.0.2.3<span style="color:#f92672">)</span>: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">64</span> time<span style="color:#f92672">=</span>0.627 ms
+<span style="color:#ae81ff">64</span> bytes from web_server.1.ptbr9gbf7ygzn4i4dgoww6ne5.lukas-overnet <span style="color:#f92672">(</span>10.0.2.3<span style="color:#f92672">)</span>: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">64</span> time<span style="color:#f92672">=</span>0.687 ms
+<span style="color:#ae81ff">64</span> bytes from web_server.1.ptbr9gbf7ygzn4i4dgoww6ne5.lukas-overnet <span style="color:#f92672">(</span>10.0.2.3<span style="color:#f92672">)</span>: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">64</span> time<span style="color:#f92672">=</span>0.759 ms
+^C
+--- web_server.1.ptbr9gbf7ygzn4i4dgoww6ne5 ping statistics ---
+<span style="color:#ae81ff">5</span> packets transmitted, <span style="color:#ae81ff">5</span> received, 0% packet loss, time 65ms
+rtt min/avg/max/mdev <span style="color:#f92672">=</span> 0.497/0.627/0.759/0.095 ms
+</code></pre></div>
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='categories'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
+  
+</svg>
+<span class='screen-reader-text'>Categories: </span><a class='category' href='/categories/docker/'>docker</a></div>
+<div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/docker-network/'>docker network</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/docker-tls-secure-client-daemon/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Docker TLS - secure client and daemon</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/posts/docker-enterprise-ucp-security/'>
+        <span class='screen-reader-text'>Next post: </span>Docker Production Environment - Enterprise Edition and security features<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+  
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='mailto:itknowledgepill@gmail.com' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Contact via Email</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+  <polyline points="22,6 12,13 2,6"/>
+  
+</svg>
+</a>
+      </li><li>
+        <a href='https://linkedin.com/in/lbartnicki92' target='_blank' rel='noopener'>
+          <span class='screen-reader-text'>Open Linkedin account in new tab</span><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+  <rect x="2" y="9" width="4" height="12"/>
+  <circle cx="4" cy="4" r="2"/>
+  
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><div class='copyright'>
+  <p> &copy; 2020 Łukasz Bartnicki </p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script src='/js/custom.js'></script>
+
+</body>
+
+</html>
+
