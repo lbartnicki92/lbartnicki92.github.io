@@ -16,8 +16,8 @@
       <pubDate>Fri, 03 Jul 2020 00:00:00 +0100</pubDate>
       
       <guid>https://knowledgepill.it/posts/postgresql-database-info/</guid>
-      <description>Check server version postgres=# select version(); version -------------------------------------------------------------------------------------------------------- PostgreSQL 12.3 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 8.3.1 20191121 (Red Hat 8.3.1-5), 64-bit (1 row) Check client version [postgres@postgres-lab ~]$ psql --version psql (PostgreSQL) 12.3 Check database version from PGDATA [postgres@postgres-lab ~]$ cat $PGDATA/PG_VERSION 12 PostgreSQL support table PostgreSQL Versioning Policy
-Check when database was started postgres=# select pg_postmaster_start_time(); pg_postmaster_start_time ------------------------------- 2020-07-02 09:05:37.153927+00 (1 row) </description>
+      <description>Check server version postgres=## select version(); version -------------------------------------------------------------------------------------------------------- PostgreSQL 12.3 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 8.3.1 20191121 (Red Hat 8.3.1-5), 64-bit (1 row) Check client version [postgres@postgres-lab ~]$ psql --version psql (PostgreSQL) 12.3 Check database version from PGDATA [postgres@postgres-lab ~]$ cat $PGDATA/PG_VERSION 12 PostgreSQL support table PostgreSQL Versioning Policy
+Check when database was started postgres=## select pg_postmaster_start_time(); pg_postmaster_start_time ------------------------------- 2020-07-02 09:05:37.153927+00 (1 row) </description>
     </item>
     
     <item>
@@ -200,7 +200,7 @@ This command will create output file with whole container filesystem - if we man
       <description>Docker has got couple commands that allows us to manage images.
 List images Usage of docker image ls is described in another post: Docker image - list
 Remove images Let&amp;rsquo;s check what images we have locally:
-[lukas@docker-host ~]# docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE postgres latest 9907cacf0c01 8 days ago 314MB alpine latest a187dde48cd2 2 weeks ago 5.6MB ubuntu 18.04 4e5021d210f6 2 weeks ago 64.2MB ubuntu latest 4e5021d210f6 2 weeks ago 64.</description>
+[lukas@docker-host ~]## docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE postgres latest 9907cacf0c01 8 days ago 314MB alpine latest a187dde48cd2 2 weeks ago 5.6MB ubuntu 18.04 4e5021d210f6 2 weeks ago 64.2MB ubuntu latest 4e5021d210f6 2 weeks ago 64.</description>
     </item>
     
     <item>
@@ -213,7 +213,7 @@ Remove images Let&amp;rsquo;s check what images we have locally:
 Basic listing Basic images listing with command: docker image ls.
 Size is cumulative value from all layers needed for image.
 Below images are local images without repository specified.
-[lukas@docker-host ~]# docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE postgres latest 9907cacf0c01 6 days ago 314MB alpine latest a187dde48cd2 2 weeks ago 5.</description>
+[lukas@docker-host ~]## docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE postgres latest 9907cacf0c01 6 days ago 314MB alpine latest a187dde48cd2 2 weeks ago 5.</description>
     </item>
     
     <item>
@@ -234,9 +234,9 @@ Config files location for kubectl Main location for kubectl config files is $HOM
       
       <guid>https://knowledgepill.it/posts/docker-build-from-dockerfile/</guid>
       <description>All docker containers are started from an image.
-What&amp;rsquo;s an image? Image is a collection of read only layers with everything we need to run application. Commonly in image we have base layout of operating system we had choose and some necessary binaries to start our application.
+What&amp;rsquo;s an Docker image? Image is a collection of read only layers with everything we need to run application. Commonly in image we have base layout of operating system we had choose and some necessary binaries to start our application.
 For exaple, for PostgreSQL container image could contain CentOS base filesystem template, PostgreSQL binaries and some configuration files.
-How we build image? We build image by issuing command docker build, but before we use it we need to create a Docker file.</description>
+How we build Docker image?</description>
     </item>
     
     <item>

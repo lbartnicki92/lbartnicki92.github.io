@@ -204,7 +204,7 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/dockerfile/' style='font-size:1em'>dockerfile</a>
       </li><li>
-        <a href='/tags/graph-driver/' style='font-size:2em'>graph driver</a>
+        <a href='/tags/graph-driver/' style='font-size:1em'>graph driver</a>
       </li><li>
         <a href='/tags/kubeconfig/' style='font-size:1em'>KUBECONFIG</a>
       </li><li>
@@ -218,11 +218,11 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/pg_hba/' style='font-size:1em'>pg_hba</a>
       </li><li>
-        <a href='/tags/postgresql/' style='font-size:1em'>postgresql</a>
-      </li><li>
         <a href='/tags/psql/' style='font-size:1em'>psql</a>
       </li><li>
         <a href='/tags/security/' style='font-size:1em'>security</a>
+      </li><li>
+        <a href='/tags/storage-driver/' style='font-size:1em'>storage driver</a>
       </li><li>
         <a href='/tags/tls/' style='font-size:1em'>tls</a>
       </li></ul>
@@ -369,7 +369,7 @@ text-align: center;
 
   <div class='entry-cover'>
   <figure class='container cover-normal'>
-    <img src='/images/docker_banner.jpg'/>
+    <img src='/images/docker_banner.jpg' alt='docker storage driver'/>
     
       
     
@@ -380,11 +380,11 @@ text-align: center;
   <div class='container entry-content'>
   <p>Each container except read only image space, consume also some writable space from storage layer.<br>
 This writable and none writable space are managed together by storage driver.</p>
-<h1 id="what-is-storage-driver">What is storage driver?</h1>
+<h2 id="what-is-storage-driver">What is storage driver?</h2>
 <p>Storage driver is a plugin for docker which is responsible for creating and maintaining union filesystem used by containers - for example: creating proper directory layout on filesystem.<br>
 It is important to notice that under storage driver we always have got regular filesystem like ext4, zfs or vfs.</p>
 <p>Storage drivers in docker language are called graph drivers.</p>
-<h1 id="what-storage-driver-to-choose">What storage driver to choose?</h1>
+<h2 id="what-storage-driver-to-choose">What storage driver to choose?</h2>
 <p>For all currently supported Linux distributions preferred storage driver is overlay2. After installing docker it is set by default if kernel supports it.</p>
 <p>If we want use another driver it is good to follow bellow rules:</p>
 <ul>
@@ -396,7 +396,7 @@ It is important to notice that under storage driver we always have got regular f
 <li>btrfs or zfs as backing filesystem - btrfs or zfs</li>
 <li>no copy on write can be used - vfs</li>
 </ul>
-<h1 id="backing-filesystem---varlibdocker">Backing Filesystem - /var/lib/docker</h1>
+<h2 id="backing-filesystem---varlibdocker">Backing Filesystem - /var/lib/docker</h2>
 <ul>
 <li>overlay2, overlay -&gt; xfs with ftype=1, ext4</li>
 <li>aufs	-&gt; xfs, ext4</li>
@@ -405,7 +405,7 @@ It is important to notice that under storage driver we always have got regular f
 <li>zfs -&gt; zfs</li>
 <li>vfs -&gt; any filesystem</li>
 </ul>
-<h1 id="checking-currently-used-storage-driver">Checking currently used storage driver</h1>
+<h2 id="checking-currently-used-storage-driver">Checking currently used storage driver</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ docker system info
 Client:
  Debug Mode: false
@@ -421,9 +421,9 @@ Server:
   Backing Filesystem: xfs
   Supports d_type: true
   Native Overlay Diff: true
-</code></pre></div><h1 id="changing-storage-driver">Changing storage driver</h1>
+</code></pre></div><h2 id="changing-storage-driver">Changing storage driver</h2>
 <hr>
-<h5 id="important">Important!</h5>
+<h4 id="important">Important!</h4>
 <p>Best option is to set storage driver once when we setting up our docker host and not changing it later.<br>
 If we have to change it on used for a while host, we should remember that:</p>
 <ul>
@@ -437,23 +437,23 @@ If we have to change it on used for a while host, we should remember that:</p>
 <ul>
 <li>Stop docker engine</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># systemctl stop docker</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e">## systemctl stop docker</span>
 </code></pre></div><ul>
 <li>Optionally if you want change filesystem in <code>/var/lib/docker</code> format it and remount</li>
 <li>Set in docker config file storage-driver. In example I will change default overlay2 to older(and not recommended!) overlay.</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># vi /etc/docker/daemon.json</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e">## vi /etc/docker/daemon.json</span>
 <span style="color:#f92672">{</span>
   <span style="color:#e6db74">&#34;storage-driver&#34;</span>: <span style="color:#e6db74">&#34;overlay&#34;</span>
 <span style="color:#f92672">}</span>
 </code></pre></div><ul>
 <li>Start docker</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># systemctl start docker</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e">## systemctl start docker</span>
 </code></pre></div><ul>
 <li>Check that change comes into life</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker system info</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e">## docker system info</span>
 Client:
 Debug Mode: false
 
@@ -468,7 +468,7 @@ Storage Driver: overlay
  Backing Filesystem: xfs
  Supports d_type: true
 </code></pre></div><p>As we mentioned in important section, new storage driver directory is empty:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># ls -lah /var/lib/docker/overlay2/</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e">## ls -lah /var/lib/docker/overlay2/</span>
 total 8.0K
 drwx------. <span style="color:#ae81ff">33</span> root root   4.0K Apr <span style="color:#ae81ff">17</span> 13:47 .
 drwx--x--x. <span style="color:#ae81ff">16</span> root root    <span style="color:#ae81ff">215</span> Apr <span style="color:#ae81ff">17</span> 15:50 ..
@@ -480,21 +480,21 @@ drwx------.  <span style="color:#ae81ff">4</span> root root     <span style="col
 drwx------.  <span style="color:#ae81ff">3</span> root root     <span style="color:#ae81ff">30</span> Apr <span style="color:#ae81ff">14</span> 13:49 46cfa83c2c666559583cb58886f0ee6d6da0d6c70e49464e76857b7dcb264008
 drwx------.  <span style="color:#ae81ff">4</span> root root     <span style="color:#ae81ff">55</span> Apr <span style="color:#ae81ff">14</span> 13:49 4c0e521c6b4c7e98798a31fe5d4b5a6247319c97371c0ff10adf78b2adcf15d2
 
-<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># ls -lah /var/lib/docker/overlay/</span>
+<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e">## ls -lah /var/lib/docker/overlay/</span>
 total <span style="color:#ae81ff">0</span>
 drwx------.  <span style="color:#ae81ff">2</span> root root   <span style="color:#ae81ff">6</span> Apr <span style="color:#ae81ff">17</span> 15:50 .
 drwx--x--x. <span style="color:#ae81ff">16</span> root root <span style="color:#ae81ff">215</span> Apr <span style="color:#ae81ff">17</span> 15:50 ..
 </code></pre></div><p>We also not seeing our images and containers:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e">## docker image ls</span>
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-</code></pre></div><h1 id="revert-back-to-default-overlay2">Revert back to default overlay2</h1>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># systemctl stop docker</span>
+</code></pre></div><h2 id="revert-back-to-default-overlay2">Revert back to default overlay2</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e">## systemctl stop docker</span>
 
-<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># rm -rf /etc/docker/daemon.json</span>
+<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e">## rm -rf /etc/docker/daemon.json</span>
 
-<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># systemctl start docker</span>
+<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e">## systemctl start docker</span>
 
-<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker image ls</span>
+<span style="color:#f92672">[</span>root@docker-host ~<span style="color:#f92672">]</span><span style="color:#75715e">## docker image ls</span>
 REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE
 alpine                  latest              a187dde48cd2        <span style="color:#ae81ff">3</span> weeks ago         5.6MB
 localhost:443/alpine    latest              a187dde48cd2        <span style="color:#ae81ff">3</span> weeks ago         5.6MB

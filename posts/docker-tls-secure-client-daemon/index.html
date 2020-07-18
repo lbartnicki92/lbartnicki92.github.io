@@ -204,7 +204,7 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/dockerfile/' style='font-size:1em'>dockerfile</a>
       </li><li>
-        <a href='/tags/graph-driver/' style='font-size:2em'>graph driver</a>
+        <a href='/tags/graph-driver/' style='font-size:1em'>graph driver</a>
       </li><li>
         <a href='/tags/kubeconfig/' style='font-size:1em'>KUBECONFIG</a>
       </li><li>
@@ -218,11 +218,11 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/pg_hba/' style='font-size:1em'>pg_hba</a>
       </li><li>
-        <a href='/tags/postgresql/' style='font-size:1em'>postgresql</a>
-      </li><li>
         <a href='/tags/psql/' style='font-size:1em'>psql</a>
       </li><li>
         <a href='/tags/security/' style='font-size:1em'>security</a>
+      </li><li>
+        <a href='/tags/storage-driver/' style='font-size:1em'>storage driver</a>
       </li><li>
         <a href='/tags/tls/' style='font-size:1em'>tls</a>
       </li></ul>
@@ -369,7 +369,7 @@ text-align: center;
 
   <div class='entry-cover'>
   <figure class='container cover-normal'>
-    <img src='/images/docker_banner.jpg'/>
+    <img src='/images/docker_banner.jpg' alt='docker tls secure client server'/>
     
       
     
@@ -380,7 +380,7 @@ text-align: center;
   <div class='container entry-content'>
   <p>By default after installing docker on our host we have client and server(daemon) locally speaking to each other by IPC socket. On Linux - <code>/var/run/docker.sock</code>.</p>
 <p>So what we should do when our daemon is in remote location? How to make connection secure?</p>
-<h2 id="example-environment">Example environment</h2>
+<h3 id="example-environment">Example environment</h3>
 <table>
 <thead>
 <tr>
@@ -408,18 +408,18 @@ text-align: center;
 </tbody>
 </table>
 <p>All hosts can reach each other by hostname.</p>
-<h1 id="tls">TLS</h1>
+<h2 id="tls">TLS</h2>
 <p>Docker uses TLS for securing connection over network between client and daemon.<br>
 We will set this from both sides:</p>
 <ul>
 <li>Daemon will want to talk only to clients with proper certificate</li>
 <li>Client will want to talk only to daemon with proper certificate also</li>
 </ul>
-<h1 id="self-signed-cert---if-we-dont-have-cert-from-ca">Self-signed cert - if we don&rsquo;t have cert from CA</h1>
+<h2 id="self-signed-cert---if-we-dont-have-cert-from-ca">Self-signed cert - if we don&rsquo;t have cert from CA</h2>
 <ul>
 <li>Private key for CA</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e"># openssl genrsa -aes256 -out ca-key.pem 4096</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e">## openssl genrsa -aes256 -out ca-key.pem 4096</span>
 Generating RSA private key, <span style="color:#ae81ff">4096</span> bit long modulus <span style="color:#f92672">(</span><span style="color:#ae81ff">2</span> primes<span style="color:#f92672">)</span>
 ...............................................................................................++++
 ..............................................................................++++
@@ -429,7 +429,7 @@ Verifying - Enter pass phrase <span style="color:#66d9ef">for</span> ca-key.pem:
 </code></pre></div><ul>
 <li>Public key</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e"># openssl  req -new -x509 -days 730 -key ca-key.pem -sha256 -out ca.pem</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e">## openssl  req -new -x509 -days 730 -key ca-key.pem -sha256 -out ca.pem</span>
 Enter pass phrase <span style="color:#66d9ef">for</span> ca-key.pem:
 You are about to be asked to enter information that will be incorporated
 into your certificate request.
@@ -445,11 +445,11 @@ Organization Name <span style="color:#f92672">(</span>eg, company<span style="co
 Organizational Unit Name <span style="color:#f92672">(</span>eg, section<span style="color:#f92672">)</span> <span style="color:#f92672">[</span><span style="color:#f92672">]</span>:BlogSite
 Common Name <span style="color:#f92672">(</span>eg, your name or your server<span style="color:#960050;background-color:#1e0010">&#39;</span>s hostname<span style="color:#f92672">)</span> <span style="color:#f92672">[</span><span style="color:#f92672">]</span>:docker-host2.lukas.int
 
-</code></pre></div><h2 id="generate-key-and-certificate-for-daemon">Generate key and certificate for daemon</h2>
+</code></pre></div><h3 id="generate-key-and-certificate-for-daemon">Generate key and certificate for daemon</h3>
 <ul>
 <li>Generate private key for daemon</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e"># openssl genrsa -out daemon-key.pem 4096</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e">## openssl genrsa -out daemon-key.pem 4096</span>
 Generating RSA private key, <span style="color:#ae81ff">4096</span> bit long modulus <span style="color:#f92672">(</span><span style="color:#ae81ff">2</span> primes<span style="color:#f92672">)</span>
 ...................................................................................................++++
 ........................................................++++
@@ -457,27 +457,27 @@ e is <span style="color:#ae81ff">65537</span> <span style="color:#f92672">(</spa
 </code></pre></div><ul>
 <li>Request CA to sign certificate for daemon</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e"># openssl req -subj &#34;/CN=docker-host3&#34; -sha256 -new -key daemon-key.pem -out daemon.csr</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e">## openssl req -subj &#34;/CN=docker-host3&#34; -sha256 -new -key daemon-key.pem -out daemon.csr</span>
 </code></pre></div><ul>
 <li>Add info to cert</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e"># vi extfile.cnf</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e">## vi extfile.cnf</span>
 
 subjectAltName <span style="color:#f92672">=</span> DNS:docker-host3,IP:10.10.10.22
 extendedKeyUsage <span style="color:#f92672">=</span> serverAuth
 </code></pre></div><ul>
 <li>Generate daemon certificate</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e"># openssl x509 -req -days 730 -sha256 -in daemon.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out daemon-cert.pem -extfile extfile.cnf</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e">## openssl x509 -req -days 730 -sha256 -in daemon.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out daemon-cert.pem -extfile extfile.cnf</span>
 Signature ok
 subject<span style="color:#f92672">=</span>CN <span style="color:#f92672">=</span> docker-host3
 Getting CA Private Key
 Enter pass phrase <span style="color:#66d9ef">for</span> ca-key.pem:
-</code></pre></div><h2 id="generate-key-and-cert-for-client">Generate key and cert for client</h2>
+</code></pre></div><h3 id="generate-key-and-cert-for-client">Generate key and cert for client</h3>
 <ul>
 <li>Generate private key for client</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e"># openssl genrsa -out client-key.pem 4096</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e">## openssl genrsa -out client-key.pem 4096</span>
 Generating RSA private key, <span style="color:#ae81ff">4096</span> bit long modulus <span style="color:#f92672">(</span><span style="color:#ae81ff">2</span> primes<span style="color:#f92672">)</span>
 ......................++++
 ....++++
@@ -485,22 +485,22 @@ e is <span style="color:#ae81ff">65537</span> <span style="color:#f92672">(</spa
 </code></pre></div><ul>
 <li>Request CA to sign certificate for client</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e"># openssl req -subj &#34;/CN=docker-host1&#34; -sha256 -new -key client-key.pem -out client.csr</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e">## openssl req -subj &#34;/CN=docker-host1&#34; -sha256 -new -key client-key.pem -out client.csr</span>
 </code></pre></div><ul>
 <li>Add info to cert</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e"># vi extfile.cnf</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e">## vi extfile.cnf</span>
 
 extendedKeyUsage <span style="color:#f92672">=</span> clientAuth
 </code></pre></div><ul>
 <li>Generate client certificate</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e"># openssl x509 -req -days 730 -sha256 -in client.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out client-cert.pem -extfile extfile.cnf</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host2 ~<span style="color:#f92672">]</span><span style="color:#75715e">## openssl x509 -req -days 730 -sha256 -in client.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out client-cert.pem -extfile extfile.cnf</span>
 Signature ok
 subject<span style="color:#f92672">=</span>CN <span style="color:#f92672">=</span> docker-host1
 Getting CA Private Key
 Enter pass phrase <span style="color:#66d9ef">for</span> ca-key.pem:
-</code></pre></div><h2 id="send-generated-keys-and-certificates">Send generated keys and certificates</h2>
+</code></pre></div><h3 id="send-generated-keys-and-certificates">Send generated keys and certificates</h3>
 <p>I moved generated files to correct machines:</p>
 <ul>
 <li>client - docker-host1
@@ -519,10 +519,10 @@ Enter pass phrase <span style="color:#66d9ef">for</span> ca-key.pem:
 </li>
 </ul>
 <p>It is important to change names properly as shown above.</p>
-<h1 id="configure-tls">Configure TLS</h1>
-<h2 id="daemon">Daemon</h2>
+<h2 id="configure-tls">Configure TLS</h2>
+<h3 id="daemon">Daemon</h3>
 <p>On <code>docker-host3</code> that will be daemon host - set TLS parameters in <code>/etc/docker/daemon.json</code> config file</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host3 ~<span style="color:#f92672">]</span><span style="color:#75715e"># vi /etc/docker/daemon.json</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host3 ~<span style="color:#f92672">]</span><span style="color:#75715e">## vi /etc/docker/daemon.json</span>
 
 <span style="color:#f92672">{</span>
     <span style="color:#e6db74">&#34;hosts&#34;</span>: <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;tcp://docker-host3:2376&#34;</span><span style="color:#f92672">]</span>,
@@ -533,7 +533,7 @@ Enter pass phrase <span style="color:#66d9ef">for</span> ca-key.pem:
     <span style="color:#e6db74">&#34;tlskey&#34;</span>: <span style="color:#e6db74">&#34;/home/lukas/.docker/key.pem&#34;</span>
 <span style="color:#f92672">}</span>
 </code></pre></div><hr>
-<h3 id="important">Important!</h3>
+<h4 id="important">Important!</h4>
 <p><code>hosts</code> tells docker daemon to listen on IP <code>docker-host3</code> on port 2376.<br>
 This option cant&rsquo;t be use in docker config file if we have on host <code>systemd</code>.<br>
 If so, we have to edit <code>docker.service</code> with command: <code>systemctl edit docker</code></p>
@@ -543,14 +543,14 @@ ExecStart<span style="color:#f92672">=</span>
 ExecStart<span style="color:#f92672">=</span>/usr/bin/dockerd -H tcp://docker-host3:2376
 </code></pre></div><hr>
 <p>Restart Docker</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host3 ~<span style="color:#f92672">]</span><span style="color:#75715e"># systemctl restart docker</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host3 ~<span style="color:#f92672">]</span><span style="color:#75715e">## systemctl restart docker</span>
 </code></pre></div><p>Check that docker listen on correct IP:Port</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host3 ~<span style="color:#f92672">]</span><span style="color:#75715e"># ps aux | grep docker</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host3 ~<span style="color:#f92672">]</span><span style="color:#75715e">## ps aux | grep docker</span>
 root      <span style="color:#ae81ff">1729</span>  0.7  4.6 <span style="color:#ae81ff">922864</span> <span style="color:#ae81ff">87940</span> ?        Ssl  22:38   0:00 /usr/bin/dockerd -H tcp://docker-host3:2376
 root      <span style="color:#ae81ff">1895</span>  0.0  0.0   <span style="color:#ae81ff">9180</span>   <span style="color:#ae81ff">968</span> pts/0    S+   22:39   0:00 grep --color<span style="color:#f92672">=</span>auto docker
 </code></pre></div><p>From now at <code>docker-host3</code> we can&rsquo;t just use docker cli - IPC communication is now forbidden.<br>
 We can communicate by tcp - daemon insist on using TLS at client side:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host3 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker -H tcp://docker-host3:2376 version</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host3 ~<span style="color:#f92672">]</span><span style="color:#75715e">## docker -H tcp://docker-host3:2376 version</span>
 Client: Docker Engine - Community
  Version:           19.03.8
  API version:       1.40
@@ -560,9 +560,9 @@ Client: Docker Engine - Community
  OS/Arch:           linux/amd64
  Experimental:      false
 Error response from daemon: Client sent an HTTP request to an HTTPS server.
-</code></pre></div><h2 id="client">Client</h2>
+</code></pre></div><h3 id="client">Client</h3>
 <p>Set remote daemon location and check that without TLS we can&rsquo;t connect</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># export DOCKER_HOST=tcp://docker-host3:2376</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e">## export DOCKER_HOST=tcp://docker-host3:2376</span>
 
 <span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker version
 Client: Docker Engine - Community
@@ -575,7 +575,7 @@ Client: Docker Engine - Community
  Experimental:      false
 Error response from daemon: Client sent an HTTP request to an HTTPS server.
 </code></pre></div><p>Activate TLS verification and check again that now we can connect securely</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># export DOCKER_TLS_VERIFY=1</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e">## export DOCKER_TLS_VERIFY=1</span>
 
 <span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker version
 Client: Docker Engine - Community

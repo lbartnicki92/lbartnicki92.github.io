@@ -204,7 +204,7 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/dockerfile/' style='font-size:1em'>dockerfile</a>
       </li><li>
-        <a href='/tags/graph-driver/' style='font-size:2em'>graph driver</a>
+        <a href='/tags/graph-driver/' style='font-size:1em'>graph driver</a>
       </li><li>
         <a href='/tags/kubeconfig/' style='font-size:1em'>KUBECONFIG</a>
       </li><li>
@@ -218,11 +218,11 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/pg_hba/' style='font-size:1em'>pg_hba</a>
       </li><li>
-        <a href='/tags/postgresql/' style='font-size:1em'>postgresql</a>
-      </li><li>
         <a href='/tags/psql/' style='font-size:1em'>psql</a>
       </li><li>
         <a href='/tags/security/' style='font-size:1em'>security</a>
+      </li><li>
+        <a href='/tags/storage-driver/' style='font-size:1em'>storage driver</a>
       </li><li>
         <a href='/tags/tls/' style='font-size:1em'>tls</a>
       </li></ul>
@@ -369,7 +369,7 @@ text-align: center;
 
   <div class='entry-cover'>
   <figure class='container cover-normal'>
-    <img src='/images/postgresql_banner.jpg'/>
+    <img src='/images/postgresql_banner.jpg' alt='postgresql database info'/>
     
       
     
@@ -378,22 +378,22 @@ text-align: center;
   
 
   <div class='container entry-content'>
-  <h1 id="check-server-version">Check server version</h1>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">postgres<span style="color:#f92672">=</span><span style="color:#75715e"># select version();</span>
+  <h2 id="check-server-version">Check server version</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">postgres<span style="color:#f92672">=</span><span style="color:#75715e">## select version();</span>
                                                 version                                                 
 --------------------------------------------------------------------------------------------------------
  PostgreSQL 12.3 on x86_64-pc-linux-gnu, compiled by gcc <span style="color:#f92672">(</span>GCC<span style="color:#f92672">)</span> 8.3.1 <span style="color:#ae81ff">20191121</span> <span style="color:#f92672">(</span>Red Hat 8.3.1-5<span style="color:#f92672">)</span>, 64-bit
 <span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> row<span style="color:#f92672">)</span>
-</code></pre></div><h1 id="check-client-version">Check client version</h1>
+</code></pre></div><h2 id="check-client-version">Check client version</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>postgres@postgres-lab ~<span style="color:#f92672">]</span>$ psql --version
 psql <span style="color:#f92672">(</span>PostgreSQL<span style="color:#f92672">)</span> 12.3
-</code></pre></div><h1 id="check-database-version-from-pgdata">Check database version from PGDATA</h1>
+</code></pre></div><h2 id="check-database-version-from-pgdata">Check database version from PGDATA</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>postgres@postgres-lab ~<span style="color:#f92672">]</span>$ cat $PGDATA/PG_VERSION
 <span style="color:#ae81ff">12</span>
-</code></pre></div><h1 id="postgresql-support-table">PostgreSQL support table</h1>
+</code></pre></div><h2 id="postgresql-support-table">PostgreSQL support table</h2>
 <p><a href="https://www.postgresql.org/support/versioning/">PostgreSQL Versioning Policy</a></p>
-<h1 id="check-when-database-was-started">Check when database was started</h1>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">postgres<span style="color:#f92672">=</span><span style="color:#75715e"># select pg_postmaster_start_time();</span>
+<h2 id="check-when-database-was-started">Check when database was started</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">postgres<span style="color:#f92672">=</span><span style="color:#75715e">## select pg_postmaster_start_time();</span>
    pg_postmaster_start_time    
 -------------------------------
  2020-07-02 09:05:37.153927+00

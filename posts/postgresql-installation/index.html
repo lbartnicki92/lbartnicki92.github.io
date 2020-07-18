@@ -204,7 +204,7 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/dockerfile/' style='font-size:1em'>dockerfile</a>
       </li><li>
-        <a href='/tags/graph-driver/' style='font-size:2em'>graph driver</a>
+        <a href='/tags/graph-driver/' style='font-size:1em'>graph driver</a>
       </li><li>
         <a href='/tags/kubeconfig/' style='font-size:1em'>KUBECONFIG</a>
       </li><li>
@@ -218,11 +218,11 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/pg_hba/' style='font-size:1em'>pg_hba</a>
       </li><li>
-        <a href='/tags/postgresql/' style='font-size:1em'>postgresql</a>
-      </li><li>
         <a href='/tags/psql/' style='font-size:1em'>psql</a>
       </li><li>
         <a href='/tags/security/' style='font-size:1em'>security</a>
+      </li><li>
+        <a href='/tags/storage-driver/' style='font-size:1em'>storage driver</a>
       </li><li>
         <a href='/tags/tls/' style='font-size:1em'>tls</a>
       </li></ul>
@@ -369,7 +369,7 @@ text-align: center;
 
   <div class='entry-cover'>
   <figure class='container cover-normal'>
-    <img src='/images/postgresql_banner.jpg'/>
+    <img src='/images/postgresql_banner.jpg' alt='postgresql installation database creation'/>
     
       
     
@@ -382,12 +382,12 @@ text-align: center;
 <p>Installation of PostgreSQL is easy on Linux Distributions.<br>
 For purpose of tutorial we use CentOS 8.</p>
 <p>We shuold get newest PostgreSQL from official repo - version in OS repos are mostly old - like for now when we get with CentOS 8 PostgreSQL 9.6 :)</p>
-<h1 id="install-postgresql-rpm-repo">Install PostgreSQL RPM repo</h1>
+<h2 id="install-postgresql-rpm-repo">Install PostgreSQL RPM repo</h2>
 <hr>
 <p>Newest links for repos:
 <a href="https://www.postgresql.org/download/">PostgreSQL Official Repos</a></p>
 <hr>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@postgres-lab ~<span style="color:#f92672">]</span><span style="color:#75715e"># dnf install https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@postgres-lab ~<span style="color:#f92672">]</span><span style="color:#75715e">## dnf install https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm</span>
 Last metadata expiration check: 0:27:00 ago on Sun <span style="color:#ae81ff">28</span> Jun <span style="color:#ae81ff">2020</span> 09:01:23 PM UTC.
 pgdg-redhat-repo-latest.noarch.rpm                                                                                             <span style="color:#ae81ff">15</span> kB/s |  <span style="color:#ae81ff">11</span> kB     00:00    
 Dependencies resolved.
@@ -418,12 +418,12 @@ Installed:
   pgdg-redhat-repo-42.0-11.noarch                                                                                                                             
 
 Complete!
-<span style="color:#f92672">[</span>root@postgres-lab ~<span style="color:#f92672">]</span>#
-</code></pre></div><h1 id="disable-postgresql-os-module">Disable PostgreSQL OS module</h1>
+<span style="color:#f92672">[</span>root@postgres-lab ~<span style="color:#f92672">]</span><span style="color:#75715e">##</span>
+</code></pre></div><h2 id="disable-postgresql-os-module">Disable PostgreSQL OS module</h2>
 <p>As mentioned earlier CentOS 8 has got build in module for PostgreSQL easy install. Despite that version of RDBMS is too old so we will disable it.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@postgres-lab ~<span style="color:#f92672">]</span><span style="color:#75715e"># dnf -qy module disable postgresql</span>
-</code></pre></div><h1 id="install-postgresql-12-with-client-tools">Install PostgreSQL 12 with client tools</h1>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@postgres-lab ~<span style="color:#f92672">]</span><span style="color:#75715e"># dnf install postgresql12-server postgresql12</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@postgres-lab ~<span style="color:#f92672">]</span><span style="color:#75715e">## dnf -qy module disable postgresql</span>
+</code></pre></div><h2 id="install-postgresql-12-with-client-tools">Install PostgreSQL 12 with client tools</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@postgres-lab ~<span style="color:#f92672">]</span><span style="color:#75715e">## dnf install postgresql12-server postgresql12</span>
 Last metadata expiration check: 0:02:58 ago on Sun <span style="color:#ae81ff">28</span> Jun <span style="color:#ae81ff">2020</span> 09:30:47 PM UTC.
 Dependencies resolved.
 <span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>
@@ -469,12 +469,12 @@ Installed:
   postgresql12-12.3-5PGDG.rhel8.x86_64            postgresql12-server-12.3-5PGDG.rhel8.x86_64            postgresql12-libs-12.3-5PGDG.rhel8.x86_64           
 
 Complete!
-<span style="color:#f92672">[</span>root@postgres-lab ~<span style="color:#f92672">]</span>#
-</code></pre></div><h1 id="initialize-first-postgresql-cluster">Initialize first PostgreSQL Cluster</h1>
+<span style="color:#f92672">[</span>root@postgres-lab ~<span style="color:#f92672">]</span><span style="color:#75715e">##</span>
+</code></pre></div><h2 id="initialize-first-postgresql-cluster">Initialize first PostgreSQL Cluster</h2>
 <p>We will create sample data cluster.<br>
 First we create directory for all PostgreSQL data:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@postgres-lab ~<span style="color:#f92672">]</span><span style="color:#75715e"># mkdir -p /postgresql/data</span>
-<span style="color:#f92672">[</span>root@postgres-lab ~<span style="color:#f92672">]</span><span style="color:#75715e"># chown postgres:postgres /postgresql -R</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@postgres-lab ~<span style="color:#f92672">]</span><span style="color:#75715e">## mkdir -p /postgresql/data</span>
+<span style="color:#f92672">[</span>root@postgres-lab ~<span style="color:#f92672">]</span><span style="color:#75715e">## chown postgres:postgres /postgresql -R</span>
 </code></pre></div><p>Now from <code>postgres</code> OS user we can create data cluster:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>postgres@postgres-lab ~<span style="color:#f92672">]</span>$ /usr/pgsql-12/bin/initdb -D /postgresql/data
 The files belonging to this database system will be owned by user <span style="color:#e6db74">&#34;postgres&#34;</span>.
@@ -504,12 +504,12 @@ You can change this by editing pg_hba.conf or using the option -A, or
 Success. You can now start the database server using:
 
     /usr/pgsql-12/bin/pg_ctl -D /postgresql/data -l logfile start
-</code></pre></div><h1 id="create-systemd-service">Create systemd service</h1>
+</code></pre></div><h2 id="create-systemd-service">Create systemd service</h2>
 <p>Firt we will enable PostgreSQL service:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@postgres-lab ~<span style="color:#f92672">]</span><span style="color:#75715e"># systemctl enable postgresql-12</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@postgres-lab ~<span style="color:#f92672">]</span><span style="color:#75715e">## systemctl enable postgresql-12</span>
 Created symlink /etc/systemd/system/multi-user.target.wants/postgresql-12.service → /usr/lib/systemd/system/postgresql-12.service
 </code></pre></div><p>Now we have to modify service to reflect our PostgreSQL directory:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@postgres-lab ~<span style="color:#f92672">]</span><span style="color:#75715e"># vi /usr/lib/systemd/system/postgresql-12.service</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@postgres-lab ~<span style="color:#f92672">]</span><span style="color:#75715e">## vi /usr/lib/systemd/system/postgresql-12.service</span>
 <span style="color:#f92672">[</span>...<span style="color:#f92672">]</span>
 <span style="color:#f92672">[</span>Service<span style="color:#f92672">]</span>
 Type<span style="color:#f92672">=</span>notify
@@ -522,10 +522,10 @@ Environment<span style="color:#f92672">=</span>PGDATA<span style="color:#f92672"
 
 <span style="color:#f92672">[</span>...<span style="color:#f92672">]</span>
 </code></pre></div><p>Reload daemon after service chnages:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@postgres-lab ~<span style="color:#f92672">]</span><span style="color:#75715e"># systemctl daemon-reload</span>
-</code></pre></div><h1 id="start-postgresql-from-service">Start PostgreSQL from service</h1>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@postgres-lab ~<span style="color:#f92672">]</span><span style="color:#75715e"># systemctl start postgresql-12</span>
-<span style="color:#f92672">[</span>root@postgres-lab ~<span style="color:#f92672">]</span><span style="color:#75715e"># systemctl status postgresql-12</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@postgres-lab ~<span style="color:#f92672">]</span><span style="color:#75715e">## systemctl daemon-reload</span>
+</code></pre></div><h2 id="start-postgresql-from-service">Start PostgreSQL from service</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@postgres-lab ~<span style="color:#f92672">]</span><span style="color:#75715e">## systemctl start postgresql-12</span>
+<span style="color:#f92672">[</span>root@postgres-lab ~<span style="color:#f92672">]</span><span style="color:#75715e">## systemctl status postgresql-12</span>
 ● postgresql-12.service - PostgreSQL <span style="color:#ae81ff">12</span> database server
    Loaded: loaded <span style="color:#f92672">(</span>/usr/lib/systemd/system/postgresql-12.service; enabled; vendor preset: disabled<span style="color:#f92672">)</span>
    Active: active <span style="color:#f92672">(</span>running<span style="color:#f92672">)</span> since Sun 2020-06-28 21:46:29 UTC; 47s ago

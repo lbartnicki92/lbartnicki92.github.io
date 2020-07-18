@@ -204,7 +204,7 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/dockerfile/' style='font-size:1em'>dockerfile</a>
       </li><li>
-        <a href='/tags/graph-driver/' style='font-size:2em'>graph driver</a>
+        <a href='/tags/graph-driver/' style='font-size:1em'>graph driver</a>
       </li><li>
         <a href='/tags/kubeconfig/' style='font-size:1em'>KUBECONFIG</a>
       </li><li>
@@ -218,11 +218,11 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/pg_hba/' style='font-size:1em'>pg_hba</a>
       </li><li>
-        <a href='/tags/postgresql/' style='font-size:1em'>postgresql</a>
-      </li><li>
         <a href='/tags/psql/' style='font-size:1em'>psql</a>
       </li><li>
         <a href='/tags/security/' style='font-size:1em'>security</a>
+      </li><li>
+        <a href='/tags/storage-driver/' style='font-size:1em'>storage driver</a>
       </li><li>
         <a href='/tags/tls/' style='font-size:1em'>tls</a>
       </li></ul>
@@ -369,7 +369,7 @@ text-align: center;
 
   <div class='entry-cover'>
   <figure class='container cover-normal'>
-    <img src='/images/kubernetes_banner.jpg'/>
+    <img src='/images/kubernetes_banner.jpg' alt='kubernetes kubectl context configuration'/>
     
       
     
@@ -379,7 +379,7 @@ text-align: center;
 
   <div class='container entry-content'>
   <p>Kubectl client gives us possibility to configure and switch easy between multiple K8s clusters.</p>
-<h1 id="config-files-location-for-kubectl">Config files location for kubectl</h1>
+<h2 id="config-files-location-for-kubectl">Config files location for kubectl</h2>
 <p>Main location for <code>kubectl</code> config files is <code>$HOME/.kube</code>, by default we have single config file named config:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>node1 ~<span style="color:#f92672">]</span>$ cd $HOME/.kube
 <span style="color:#f92672">[</span>node1 .kube<span style="color:#f92672">]</span>$ ls -lah
@@ -389,11 +389,11 @@ dr-xr-x--- <span style="color:#ae81ff">1</span> root root   <span style="color:#
 drwxr-x--- <span style="color:#ae81ff">3</span> root root   <span style="color:#ae81ff">23</span> Mar <span style="color:#ae81ff">12</span> 20:48 cache
 lrwxrwxrwx <span style="color:#ae81ff">1</span> root root   <span style="color:#ae81ff">26</span> Nov <span style="color:#ae81ff">29</span> 11:46 config -&gt; /etc/kubernetes/admin.conf
 drwxr-x--- <span style="color:#ae81ff">3</span> root root 4.0K Mar <span style="color:#ae81ff">12</span> 20:48 http-cache
-</code></pre></div><h1 id="multiple-config-files-and-kubeconfig-variable">Multiple config files and KUBECONFIG variable</h1>
+</code></pre></div><h2 id="multiple-config-files-and-kubeconfig-variable">Multiple config files and KUBECONFIG variable</h2>
 <p>We can have multiple config files by setting proper <code>KUBECONFIG</code> shell variable.<br>
 For example:</p>
 <p><code>export KUBECONFIG=$KUBECONFIG:/root/.kube/additional_config</code></p>
-<h1 id="check-config-from-kubectl">Check config from kubectl</h1>
+<h2 id="check-config-from-kubectl">Check config from kubectl</h2>
 <p>We can check current config(it will be empty because I don&rsquo;t have anything in additional_config file - we&rsquo;ll add something later - and this is only file in my <code>KUBECONFIG</code> variable):</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">[node1 ~]$ kubectl config view
 <span style="color:#66d9ef">apiVersion</span>: v1
@@ -425,34 +425,34 @@ For example:</p>
     <span style="color:#66d9ef">client-certificate-data</span>: REDACTED
     <span style="color:#66d9ef">client-key-data</span>: REDACTED
 </code></pre></div><p>If you don&rsquo;t set <code>KUBECONFIG</code> variable all configuration will be taken from <code>$HOME/.kube/config</code></p>
-<h1 id="objects-in-kubectl-config">Objects in kubectl config</h1>
+<h2 id="objects-in-kubectl-config">Objects in kubectl config</h2>
 <p><code>kubectl</code> has in his config files following object types:</p>
 <ul>
 <li>clusters - info about K8s cluster - contain cluster name and connection parameters</li>
 <li>users - info about users by which you want connect to K8s clusters</li>
 <li>contexts - triple of cluster/user/namespace</li>
 </ul>
-<h1 id="modifying-config-from-kubectl">Modifying config from kubectl</h1>
-<h2 id="add-cluster">Add cluster</h2>
+<h2 id="modifying-config-from-kubectl">Modifying config from kubectl</h2>
+<h3 id="add-cluster">Add cluster</h3>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>node1 ~<span style="color:#f92672">]</span>$ kubectl config --kubeconfig<span style="color:#f92672">=</span>.kube/additional_config set-cluster dev --server<span style="color:#f92672">=</span>https://192.168.1.100 --certificate-authority<span style="color:#f92672">=</span>fake-ca
 Cluster <span style="color:#e6db74">&#34;dev&#34;</span> set.
 <span style="color:#f92672">[</span>node1 ~<span style="color:#f92672">]</span>$ kubectl config --kubeconfig<span style="color:#f92672">=</span>.kube/additional_config set-cluster prod --server<span style="color:#f92672">=</span>https://10.1.1.100 --certificate-authority<span style="color:#f92672">=</span>fake-ca
 Cluster <span style="color:#e6db74">&#34;prod&#34;</span> set.
-</code></pre></div><h2 id="add-users">Add users</h2>
+</code></pre></div><h3 id="add-users">Add users</h3>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>node1 ~<span style="color:#f92672">]</span>$ kubectl config --kubeconfig<span style="color:#f92672">=</span>.kube/additional_config set-credentials developer --client-certificate<span style="color:#f92672">=</span>fake-cert-file --client-key<span style="color:#f92672">=</span>fake-key-seefile
 User <span style="color:#e6db74">&#34;developer&#34;</span> set.
 <span style="color:#f92672">[</span>node1 ~<span style="color:#f92672">]</span>$ kubectl config --kubeconfig<span style="color:#f92672">=</span>.kube/additional_config set-credentials prod_admin --client-certificate<span style="color:#f92672">=</span>fake-cert-file --client-key<span style="color:#f92672">=</span>fake-key-seefile
 User <span style="color:#e6db74">&#34;prod_admin&#34;</span> set.
-</code></pre></div><h2 id="add-contexts">Add contexts</h2>
+</code></pre></div><h3 id="add-contexts">Add contexts</h3>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>node1 ~<span style="color:#f92672">]</span>$ kubectl config --kubeconfig<span style="color:#f92672">=</span>.kube/additional_config set-context simple_app_development --cluster<span style="color:#f92672">=</span>dev --namespace<span style="color:#f92672">=</span>simple_app_dev --user<span style="color:#f92672">=</span>developer
 Context <span style="color:#e6db74">&#34;simple_app_development&#34;</span> created.
 <span style="color:#f92672">[</span>node1 ~<span style="color:#f92672">]</span>$ kubectl config --kubeconfig<span style="color:#f92672">=</span>.kube/additional_config set-context simple_app_production --cluster<span style="color:#f92672">=</span>prod --namespace<span style="color:#f92672">=</span>simple_app_prod --user<span style="color:#f92672">=</span>prod_admin
 Context <span style="color:#e6db74">&#34;simple_app_production&#34;</span> created.
-</code></pre></div><h2 id="delete-clusterusercontext-from-config">Delete cluster/user/context from config</h2>
+</code></pre></div><h3 id="delete-clusterusercontext-from-config">Delete cluster/user/context from config</h3>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl --kubeconfig<span style="color:#f92672">=</span>.kube/additional_config config unset users.&lt;name&gt;
 kubectl --kubeconfig<span style="color:#f92672">=</span>.kube/additional_config config unset clusters.&lt;name&gt;
 kubectl --kubeconfig<span style="color:#f92672">=</span>.kube/additional_config config unset contexts.&lt;name&gt;
-</code></pre></div><h2 id="sample-config">Sample config</h2>
+</code></pre></div><h3 id="sample-config">Sample config</h3>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">[node1 ~]$ kubectl config --kubeconfig=.kube/additional_config view
 <span style="color:#66d9ef">apiVersion</span>: v1
 <span style="color:#66d9ef">clusters</span>:

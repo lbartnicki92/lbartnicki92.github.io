@@ -17,9 +17,9 @@
       
       <guid>https://knowledgepill.it/posts/docker-build-from-dockerfile/</guid>
       <description>All docker containers are started from an image.
-What&amp;rsquo;s an image? Image is a collection of read only layers with everything we need to run application. Commonly in image we have base layout of operating system we had choose and some necessary binaries to start our application.
+What&amp;rsquo;s an Docker image? Image is a collection of read only layers with everything we need to run application. Commonly in image we have base layout of operating system we had choose and some necessary binaries to start our application.
 For exaple, for PostgreSQL container image could contain CentOS base filesystem template, PostgreSQL binaries and some configuration files.
-How we build image? We build image by issuing command docker build, but before we use it we need to create a Docker file.</description>
+How we build Docker image?</description>
     </item>
     
   </channel>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>storage driver on IT Knowledge Pill</title>
+    <link>https://knowledgepill.it/tags/storage-driver/</link>
+    <description>Recent content in storage driver on IT Knowledge Pill</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 17 Apr 2020 14:00:00 +0100</lastBuildDate>
+    
+	<atom:link href="https://knowledgepill.it/tags/storage-driver/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Docker devicemapper - setup</title>
+      <link>https://knowledgepill.it/posts/docker-configure-devicemapper/</link>
+      <pubDate>Fri, 17 Apr 2020 14:00:00 +0100</pubDate>
+      
+      <guid>https://knowledgepill.it/posts/docker-configure-devicemapper/</guid>
+      <description>If you are searching for better manageability of storage layer under your docker images and container you should consider devicemapper storage driver.
+It gives you ability to use block device instead of standard file based storage.
+Configure devicemapper with lvm as storage driver  Important! If you creating fresh docker installation and want to use only one block device as storage - from docker 17.06 you can use autoconfigure feature, simply by adding to /etc/docker/daemon.</description>
+    </item>
+    
+  </channel>
+</rss>

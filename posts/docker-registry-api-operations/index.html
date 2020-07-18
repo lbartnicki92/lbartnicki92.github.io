@@ -204,7 +204,7 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/dockerfile/' style='font-size:1em'>dockerfile</a>
       </li><li>
-        <a href='/tags/graph-driver/' style='font-size:2em'>graph driver</a>
+        <a href='/tags/graph-driver/' style='font-size:1em'>graph driver</a>
       </li><li>
         <a href='/tags/kubeconfig/' style='font-size:1em'>KUBECONFIG</a>
       </li><li>
@@ -218,11 +218,11 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/pg_hba/' style='font-size:1em'>pg_hba</a>
       </li><li>
-        <a href='/tags/postgresql/' style='font-size:1em'>postgresql</a>
-      </li><li>
         <a href='/tags/psql/' style='font-size:1em'>psql</a>
       </li><li>
         <a href='/tags/security/' style='font-size:1em'>security</a>
+      </li><li>
+        <a href='/tags/storage-driver/' style='font-size:1em'>storage driver</a>
       </li><li>
         <a href='/tags/tls/' style='font-size:1em'>tls</a>
       </li></ul>
@@ -369,7 +369,7 @@ text-align: center;
 
   <div class='entry-cover'>
   <figure class='container cover-normal'>
-    <img src='/images/docker_banner.jpg'/>
+    <img src='/images/docker_banner.jpg' alt='docker registry api'/>
     
       
     
@@ -380,18 +380,18 @@ text-align: center;
   <div class='container entry-content'>
   <p>Instead of using Docker CLI commands - we can communicate with Docker registry with GET/POST methods of Docker Registry HTTP API.<br>
 Post include information for V2 of API.</p>
-<h1 id="example-setup">Example setup</h1>
+<h2 id="example-setup">Example setup</h2>
 <p>For our examples we use docker private registry in container. Currently we have got alpine image and couple of ubuntu images loaded in it.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ docker container ls
 CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS                    NAMES
 f628491a985a        registry:2          <span style="color:#e6db74">&#34;/entrypoint.sh /etc…&#34;</span>   About a minute ago   Up About a minute   0.0.0.0:5000-&gt;5000/tcp   registry
 </code></pre></div><p>If you want to use secure connections - look at <code>curl --help</code> and use parameters associated with CA and certificates like <code>--cacert</code>.</p>
-<h1 id="check-connection-with-repository">Check connection with repository</h1>
+<h2 id="check-connection-with-repository">Check connection with repository</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ curl  -X GET http://localhost:5000/v2/ -v
 Note: Unnecessary use of -X or --request, GET is already inferred.
 *   Trying ::1...
 * TCP_NODELAY set
-* Connected to localhost <span style="color:#f92672">(</span>::1<span style="color:#f92672">)</span> port <span style="color:#ae81ff">5000</span> <span style="color:#f92672">(</span><span style="color:#75715e">#0)</span>
+* Connected to localhost <span style="color:#f92672">(</span>::1<span style="color:#f92672">)</span> port <span style="color:#ae81ff">5000</span> <span style="color:#f92672">(</span><span style="color:#75715e">##0)</span>
 &gt; GET /v2/ HTTP/1.1
 &gt; Host: localhost:5000
 &gt; User-Agent: curl/7.61.1
@@ -404,16 +404,16 @@ Note: Unnecessary use of -X or --request, GET is already inferred.
 &lt; X-Content-Type-Options: nosniff
 &lt; Date: Wed, <span style="color:#ae81ff">15</span> Apr <span style="color:#ae81ff">2020</span> 13:34:39 GMT
 &lt;
-* Connection <span style="color:#75715e">#0 to host localhost left intact</span>
+* Connection <span style="color:#75715e">##0 to host localhost left intact</span>
 <span style="color:#f92672">{</span><span style="color:#f92672">}</span><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$
-</code></pre></div><h1 id="list-images-in-registry">List images in registry</h1>
+</code></pre></div><h2 id="list-images-in-registry">List images in registry</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ curl  -X GET http://localhost:5000/v2/_catalog
 <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;repositories&#34;</span>:<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;alpine&#34;</span>,<span style="color:#e6db74">&#34;ubuntu&#34;</span><span style="color:#f92672">]</span><span style="color:#f92672">}</span>
-</code></pre></div><h1 id="get-available-tags-for-image">Get available tags for image</h1>
+</code></pre></div><h2 id="get-available-tags-for-image">Get available tags for image</h2>
 <p>Check tags for ubuntu image:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ curl  -X GET http://localhost:5000/v2/ubuntu/tags/list
 <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;ubuntu&#34;</span>,<span style="color:#e6db74">&#34;tags&#34;</span>:<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;latest&#34;</span>,<span style="color:#e6db74">&#34;19.10&#34;</span>,<span style="color:#e6db74">&#34;19.04&#34;</span>,<span style="color:#e6db74">&#34;18.10&#34;</span><span style="color:#f92672">]</span><span style="color:#f92672">}</span>
-</code></pre></div><h1 id="check-if-manifest-exists">Check if manifest exists</h1>
+</code></pre></div><h2 id="check-if-manifest-exists">Check if manifest exists</h2>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ubuntu-19.10<span style="color:#f92672">]</span>$ curl -I  http://localhost:5000/v2/ubuntu/manifests/19.10
 HTTP/1.1 <span style="color:#ae81ff">200</span> OK
 Content-Length: <span style="color:#ae81ff">5568</span>
@@ -423,7 +423,7 @@ Docker-Distribution-Api-Version: registry/2.0
 Etag: <span style="color:#e6db74">&#34;sha256:84328f1bc9d8105cb4e5f014cac3eeafda161b58128fb87ea7541f0ec1710669&#34;</span>
 X-Content-Type-Options: nosniff
 Date: Wed, <span style="color:#ae81ff">15</span> Apr <span style="color:#ae81ff">2020</span> 14:30:43 GMT
-</code></pre></div><h1 id="pull-image-manifest">Pull image manifest</h1>
+</code></pre></div><h2 id="pull-image-manifest">Pull image manifest</h2>
 <p>Get metadata for Ubuntu 19.10 image:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ~<span style="color:#f92672">]</span>$ curl  -X GET http://localhost:5000/v2/ubuntu/manifests/19.10
 <span style="color:#f92672">{</span>
@@ -450,19 +450,19 @@ Date: Wed, <span style="color:#ae81ff">15</span> Apr <span style="color:#ae81ff"
    <span style="color:#f92672">]</span>,
    <span style="color:#e6db74">&#34;history&#34;</span>: <span style="color:#f92672">[</span>
       <span style="color:#f92672">{</span>
-         <span style="color:#e6db74">&#34;v1Compatibility&#34;</span>: <span style="color:#e6db74">&#34;{\&#34;architecture\&#34;:\&#34;amd64\&#34;,\&#34;config\&#34;:{\&#34;Hostname\&#34;:\&#34;\&#34;,\&#34;Domainname\&#34;:\&#34;\&#34;,\&#34;User\&#34;:\&#34;\&#34;,\&#34;AttachStdin\&#34;:false,\&#34;AttachStdout\&#34;:false,\&#34;AttachStderr\&#34;:false,\&#34;Tty\&#34;:false,\&#34;OpenStdin\&#34;:false,\&#34;StdinOnce\&#34;:false,\&#34;Env\&#34;:[\&#34;PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\&#34;],\&#34;Cmd\&#34;:[\&#34;/bin/bash\&#34;],\&#34;ArgsEscaped\&#34;:true,\&#34;Image\&#34;:\&#34;sha256:c50c27e497214ed2e11462fe012e6f03516e8c22a96da7c8d43b66ee3d419754\&#34;,\&#34;Volumes\&#34;:null,\&#34;WorkingDir\&#34;:\&#34;\&#34;,\&#34;Entrypoint\&#34;:null,\&#34;OnBuild\&#34;:null,\&#34;Labels\&#34;:null},\&#34;container\&#34;:\&#34;245856bcc226438a902b39d236a66777383561c260605f12ca83a4b9bb429a21\&#34;,\&#34;container_config\&#34;:{\&#34;Hostname\&#34;:\&#34;245856bcc226\&#34;,\&#34;Domainname\&#34;:\&#34;\&#34;,\&#34;User\&#34;:\&#34;\&#34;,\&#34;AttachStdin\&#34;:false,\&#34;AttachStdout\&#34;:false,\&#34;AttachStderr\&#34;:false,\&#34;Tty\&#34;:false,\&#34;OpenStdin\&#34;:false,\&#34;StdinOnce\&#34;:false,\&#34;Env\&#34;:[\&#34;PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\&#34;],\&#34;Cmd\&#34;:[\&#34;/bin/sh\&#34;,\&#34;-c\&#34;,\&#34;#(nop) \&#34;,\&#34;CMD [\\\&#34;/bin/bash\\\&#34;]\&#34;],\&#34;ArgsEscaped\&#34;:true,\&#34;Image\&#34;:\&#34;sha256:c50c27e497214ed2e11462fe012e6f03516e8c22a96da7c8d43b66ee3d419754\&#34;,\&#34;Volumes\&#34;:null,\&#34;WorkingDir\&#34;:\&#34;\&#34;,\&#34;Entrypoint\&#34;:null,\&#34;OnBuild\&#34;:null,\&#34;Labels\&#34;:{}},\&#34;created\&#34;:\&#34;2020-03-20T19:20:36.847728128Z\&#34;,\&#34;docker_version\&#34;:\&#34;18.09.7\&#34;,\&#34;id\&#34;:\&#34;72c4b1dbff9f650f052e3e8d842d1f9a1c8d5a9a56372450cc655bcfbb51eafc\&#34;,\&#34;os\&#34;:\&#34;linux\&#34;,\&#34;parent\&#34;:\&#34;1865fab8daaf362fa003da426809977138cf316781c927ee927b560663ad8899\&#34;,\&#34;throwaway\&#34;:true}&#34;</span>
+         <span style="color:#e6db74">&#34;v1Compatibility&#34;</span>: <span style="color:#e6db74">&#34;{\&#34;architecture\&#34;:\&#34;amd64\&#34;,\&#34;config\&#34;:{\&#34;Hostname\&#34;:\&#34;\&#34;,\&#34;Domainname\&#34;:\&#34;\&#34;,\&#34;User\&#34;:\&#34;\&#34;,\&#34;AttachStdin\&#34;:false,\&#34;AttachStdout\&#34;:false,\&#34;AttachStderr\&#34;:false,\&#34;Tty\&#34;:false,\&#34;OpenStdin\&#34;:false,\&#34;StdinOnce\&#34;:false,\&#34;Env\&#34;:[\&#34;PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\&#34;],\&#34;Cmd\&#34;:[\&#34;/bin/bash\&#34;],\&#34;ArgsEscaped\&#34;:true,\&#34;Image\&#34;:\&#34;sha256:c50c27e497214ed2e11462fe012e6f03516e8c22a96da7c8d43b66ee3d419754\&#34;,\&#34;Volumes\&#34;:null,\&#34;WorkingDir\&#34;:\&#34;\&#34;,\&#34;Entrypoint\&#34;:null,\&#34;OnBuild\&#34;:null,\&#34;Labels\&#34;:null},\&#34;container\&#34;:\&#34;245856bcc226438a902b39d236a66777383561c260605f12ca83a4b9bb429a21\&#34;,\&#34;container_config\&#34;:{\&#34;Hostname\&#34;:\&#34;245856bcc226\&#34;,\&#34;Domainname\&#34;:\&#34;\&#34;,\&#34;User\&#34;:\&#34;\&#34;,\&#34;AttachStdin\&#34;:false,\&#34;AttachStdout\&#34;:false,\&#34;AttachStderr\&#34;:false,\&#34;Tty\&#34;:false,\&#34;OpenStdin\&#34;:false,\&#34;StdinOnce\&#34;:false,\&#34;Env\&#34;:[\&#34;PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\&#34;],\&#34;Cmd\&#34;:[\&#34;/bin/sh\&#34;,\&#34;-c\&#34;,\&#34;##(nop) \&#34;,\&#34;CMD [\\\&#34;/bin/bash\\\&#34;]\&#34;],\&#34;ArgsEscaped\&#34;:true,\&#34;Image\&#34;:\&#34;sha256:c50c27e497214ed2e11462fe012e6f03516e8c22a96da7c8d43b66ee3d419754\&#34;,\&#34;Volumes\&#34;:null,\&#34;WorkingDir\&#34;:\&#34;\&#34;,\&#34;Entrypoint\&#34;:null,\&#34;OnBuild\&#34;:null,\&#34;Labels\&#34;:{}},\&#34;created\&#34;:\&#34;2020-03-20T19:20:36.847728128Z\&#34;,\&#34;docker_version\&#34;:\&#34;18.09.7\&#34;,\&#34;id\&#34;:\&#34;72c4b1dbff9f650f052e3e8d842d1f9a1c8d5a9a56372450cc655bcfbb51eafc\&#34;,\&#34;os\&#34;:\&#34;linux\&#34;,\&#34;parent\&#34;:\&#34;1865fab8daaf362fa003da426809977138cf316781c927ee927b560663ad8899\&#34;,\&#34;throwaway\&#34;:true}&#34;</span>
       <span style="color:#f92672">}</span>,
       <span style="color:#f92672">{</span>
          <span style="color:#e6db74">&#34;v1Compatibility&#34;</span>: <span style="color:#e6db74">&#34;{\&#34;id\&#34;:\&#34;1865fab8daaf362fa003da426809977138cf316781c927ee927b560663ad8899\&#34;,\&#34;parent\&#34;:\&#34;a66a208f5a6d08af66e96314881c2a43adbcc381950cb0dc23b6e6361cac674b\&#34;,\&#34;created\&#34;:\&#34;2020-03-20T19:20:36.666791568Z\&#34;,\&#34;container_config\&#34;:{\&#34;Cmd\&#34;:[\&#34;/bin/sh -c mkdir -p /run/systemd \\u0026\\u0026 echo &#39;docker&#39; \\u003e /run/systemd/container\&#34;]}}&#34;</span>
       <span style="color:#f92672">}</span>,
       <span style="color:#f92672">{</span>
-         <span style="color:#e6db74">&#34;v1Compatibility&#34;</span>: <span style="color:#e6db74">&#34;{\&#34;id\&#34;:\&#34;a66a208f5a6d08af66e96314881c2a43adbcc381950cb0dc23b6e6361cac674b\&#34;,\&#34;parent\&#34;:\&#34;27fd7159a11d0bb84f765b89ad037900f915d2cdd72bdbc67e8af983b778f7f7\&#34;,\&#34;created\&#34;:\&#34;2020-03-20T19:20:35.896375229Z\&#34;,\&#34;container_config\&#34;:{\&#34;Cmd\&#34;:[\&#34;/bin/sh -c set -xe \\t\\t\\u0026\\u0026 echo &#39;#!/bin/sh&#39; \\u003e /usr/sbin/policy-rc.d \\t\\u0026\\u0026 echo &#39;exit 101&#39; \\u003e\\u003e /usr/sbin/policy-rc.d \\t\\u0026\\u0026 chmod +x /usr/sbin/policy-rc.d \\t\\t\\u0026\\u0026 dpkg-divert --local --rename --add /sbin/initctl \\t\\u0026\\u0026 cp -a /usr/sbin/policy-rc.d /sbin/initctl \\t\\u0026\\u0026 sed -i &#39;s/^exit.*/exit 0/&#39; /sbin/initctl \\t\\t\\u0026\\u0026 echo &#39;force-unsafe-io&#39; \\u003e /etc/dpkg/dpkg.cfg.d/docker-apt-speedup \\t\\t\\u0026\\u0026 echo &#39;DPkg::Post-Invoke { \\\&#34;rm -f /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin || true\\\&#34;; };&#39; \\u003e /etc/apt/apt.conf.d/docker-clean \\t\\u0026\\u0026 echo &#39;APT::Update::Post-Invoke { \\\&#34;rm -f /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin || true\\\&#34;; };&#39; \\u003e\\u003e /etc/apt/apt.conf.d/docker-clean \\t\\u0026\\u0026 echo &#39;Dir::Cache::pkgcache \\\&#34;\\\&#34;; Dir::Cache::srcpkgcache \\\&#34;\\\&#34;;&#39; \\u003e\\u003e /etc/apt/apt.conf.d/docker-clean \\t\\t\\u0026\\u0026 echo &#39;Acquire::Languages \\\&#34;none\\\&#34;;&#39; \\u003e /etc/apt/apt.conf.d/docker-no-languages \\t\\t\\u0026\\u0026 echo &#39;Acquire::GzipIndexes \\\&#34;true\\\&#34;; Acquire::CompressionTypes::Order:: \\\&#34;gz\\\&#34;;&#39; \\u003e /etc/apt/apt.conf.d/docker-gzip-indexes \\t\\t\\u0026\\u0026 echo &#39;Apt::AutoRemove::SuggestsImportant \\\&#34;false\\\&#34;;&#39; \\u003e /etc/apt/apt.conf.d/docker-autoremove-suggests\&#34;]}}&#34;</span>
+         <span style="color:#e6db74">&#34;v1Compatibility&#34;</span>: <span style="color:#e6db74">&#34;{\&#34;id\&#34;:\&#34;a66a208f5a6d08af66e96314881c2a43adbcc381950cb0dc23b6e6361cac674b\&#34;,\&#34;parent\&#34;:\&#34;27fd7159a11d0bb84f765b89ad037900f915d2cdd72bdbc67e8af983b778f7f7\&#34;,\&#34;created\&#34;:\&#34;2020-03-20T19:20:35.896375229Z\&#34;,\&#34;container_config\&#34;:{\&#34;Cmd\&#34;:[\&#34;/bin/sh -c set -xe \\t\\t\\u0026\\u0026 echo &#39;##!/bin/sh&#39; \\u003e /usr/sbin/policy-rc.d \\t\\u0026\\u0026 echo &#39;exit 101&#39; \\u003e\\u003e /usr/sbin/policy-rc.d \\t\\u0026\\u0026 chmod +x /usr/sbin/policy-rc.d \\t\\t\\u0026\\u0026 dpkg-divert --local --rename --add /sbin/initctl \\t\\u0026\\u0026 cp -a /usr/sbin/policy-rc.d /sbin/initctl \\t\\u0026\\u0026 sed -i &#39;s/^exit.*/exit 0/&#39; /sbin/initctl \\t\\t\\u0026\\u0026 echo &#39;force-unsafe-io&#39; \\u003e /etc/dpkg/dpkg.cfg.d/docker-apt-speedup \\t\\t\\u0026\\u0026 echo &#39;DPkg::Post-Invoke { \\\&#34;rm -f /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin || true\\\&#34;; };&#39; \\u003e /etc/apt/apt.conf.d/docker-clean \\t\\u0026\\u0026 echo &#39;APT::Update::Post-Invoke { \\\&#34;rm -f /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin || true\\\&#34;; };&#39; \\u003e\\u003e /etc/apt/apt.conf.d/docker-clean \\t\\u0026\\u0026 echo &#39;Dir::Cache::pkgcache \\\&#34;\\\&#34;; Dir::Cache::srcpkgcache \\\&#34;\\\&#34;;&#39; \\u003e\\u003e /etc/apt/apt.conf.d/docker-clean \\t\\t\\u0026\\u0026 echo &#39;Acquire::Languages \\\&#34;none\\\&#34;;&#39; \\u003e /etc/apt/apt.conf.d/docker-no-languages \\t\\t\\u0026\\u0026 echo &#39;Acquire::GzipIndexes \\\&#34;true\\\&#34;; Acquire::CompressionTypes::Order:: \\\&#34;gz\\\&#34;;&#39; \\u003e /etc/apt/apt.conf.d/docker-gzip-indexes \\t\\t\\u0026\\u0026 echo &#39;Apt::AutoRemove::SuggestsImportant \\\&#34;false\\\&#34;;&#39; \\u003e /etc/apt/apt.conf.d/docker-autoremove-suggests\&#34;]}}&#34;</span>
       <span style="color:#f92672">}</span>,
       <span style="color:#f92672">{</span>
          <span style="color:#e6db74">&#34;v1Compatibility&#34;</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{\&#34;id\&#34;:\&#34;27fd7159a11d0bb84f765b89ad037900f915d2cdd72bdbc67e8af983b778f7f7\&#34;,\&#34;parent\&#34;:\&#34;b14defeb827d49a068f1d1bb280e312add99650430b71e881f1f6f304d81aefe\&#34;,\&#34;created\&#34;:\&#34;2020-03-20T19:20:35.087356956Z\&#34;,\&#34;container_config\&#34;:{\&#34;Cmd\&#34;:[\&#34;/bin/sh -c [ -z \\\&#34;</span><span style="color:#66d9ef">$(</span>apt-get indextargets<span style="color:#66d9ef">)</span><span style="color:#e6db74">\\\&#34; ]\&#34;]}}</span><span style="color:#e6db74">&#34;</span>
       <span style="color:#f92672">}</span>,
       <span style="color:#f92672">{</span>
-         <span style="color:#e6db74">&#34;v1Compatibility&#34;</span>: <span style="color:#e6db74">&#34;{\&#34;id\&#34;:\&#34;b14defeb827d49a068f1d1bb280e312add99650430b71e881f1f6f304d81aefe\&#34;,\&#34;created\&#34;:\&#34;2020-03-20T19:20:34.200290542Z\&#34;,\&#34;container_config\&#34;:{\&#34;Cmd\&#34;:[\&#34;/bin/sh -c #(nop) ADD file:537f9883fb90d19383082b8ac20c17b581db9045a48fa28b83cab73fe317047d in / \&#34;]}}&#34;</span>
+         <span style="color:#e6db74">&#34;v1Compatibility&#34;</span>: <span style="color:#e6db74">&#34;{\&#34;id\&#34;:\&#34;b14defeb827d49a068f1d1bb280e312add99650430b71e881f1f6f304d81aefe\&#34;,\&#34;created\&#34;:\&#34;2020-03-20T19:20:34.200290542Z\&#34;,\&#34;container_config\&#34;:{\&#34;Cmd\&#34;:[\&#34;/bin/sh -c ##(nop) ADD file:537f9883fb90d19383082b8ac20c17b581db9045a48fa28b83cab73fe317047d in / \&#34;]}}&#34;</span>
       <span style="color:#f92672">}</span>
    <span style="color:#f92672">]</span>,
    <span style="color:#e6db74">&#34;signatures&#34;</span>: <span style="color:#f92672">[</span>
@@ -482,7 +482,7 @@ Date: Wed, <span style="color:#ae81ff">15</span> Apr <span style="color:#ae81ff"
       <span style="color:#f92672">}</span>
    <span style="color:#f92672">]</span>
 <span style="color:#f92672">}</span>
-</code></pre></div><h1 id="download-image-layer-via-api">Download image layer via API</h1>
+</code></pre></div><h2 id="download-image-layer-via-api">Download image layer via API</h2>
 <p>From manifest file we get list of layers - <code>fsLayers</code> section - with sha256 hashes we can download each layers of image:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host ubuntu-19.10<span style="color:#f92672">]</span>$ curl  -X GET http://localhost:5000/v2/ubuntu/blobs/sha256:eeacba527962683a1b026af611fe162d35281159762b699172caa48c69480f79 --output sha256:eeacba527962683a1b026af611fe162d35281159762b699172caa48c69480f79
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
@@ -496,7 +496,7 @@ total <span style="color:#ae81ff">27660</span>
 -rw-rw-r--. <span style="color:#ae81ff">1</span> lukas lukas      <span style="color:#ae81ff">163</span> Apr <span style="color:#ae81ff">15</span> 16:07 sha256:9460de83957c509dd234ede9ea96d4d03b7f9cd252ef1497844f8450dedb6570
 -rw-rw-r--. <span style="color:#ae81ff">1</span> lukas lukas       <span style="color:#ae81ff">32</span> Apr <span style="color:#ae81ff">15</span> 16:07 sha256:a3ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4
 -rw-rw-r--. <span style="color:#ae81ff">1</span> lukas lukas <span style="color:#ae81ff">28276050</span> Apr <span style="color:#ae81ff">15</span> 16:08 sha256:eeacba527962683a1b026af611fe162d35281159762b699172caa48c69480f79
-</code></pre></div><h1 id="delete-image-via-api">Delete image via API</h1>
+</code></pre></div><h2 id="delete-image-via-api">Delete image via API</h2>
 <p>By default deleting images is not allowed.<br>
 If you want allow deleting start registry container with variable <code>-e REGISTRY_STORAGE_DELETE_ENABLED=true</code></p>
 <p>Delete command only accepts digest hash as reference to image - tags are not supported - we get this digest when we uploading image into repository:</p>

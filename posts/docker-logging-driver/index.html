@@ -204,7 +204,7 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/dockerfile/' style='font-size:1em'>dockerfile</a>
       </li><li>
-        <a href='/tags/graph-driver/' style='font-size:2em'>graph driver</a>
+        <a href='/tags/graph-driver/' style='font-size:1em'>graph driver</a>
       </li><li>
         <a href='/tags/kubeconfig/' style='font-size:1em'>KUBECONFIG</a>
       </li><li>
@@ -218,11 +218,11 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/pg_hba/' style='font-size:1em'>pg_hba</a>
       </li><li>
-        <a href='/tags/postgresql/' style='font-size:1em'>postgresql</a>
-      </li><li>
         <a href='/tags/psql/' style='font-size:1em'>psql</a>
       </li><li>
         <a href='/tags/security/' style='font-size:1em'>security</a>
+      </li><li>
+        <a href='/tags/storage-driver/' style='font-size:1em'>storage driver</a>
       </li><li>
         <a href='/tags/tls/' style='font-size:1em'>tls</a>
       </li></ul>
@@ -369,7 +369,7 @@ text-align: center;
 
   <div class='entry-cover'>
   <figure class='container cover-normal'>
-    <img src='/images/docker_banner.jpg'/>
+    <img src='/images/docker_banner.jpg' alt='docker logging'/>
     
       
     
@@ -380,7 +380,7 @@ text-align: center;
   <div class='container entry-content'>
   <p>Docker allows us to stream logs to different places with plugins called logging drivers.</p>
 <p>How to change logging driver? What&rsquo;s the most popular ones?</p>
-<h1 id="what-is-logging-driver">What is logging driver?</h1>
+<h2 id="what-is-logging-driver">What is logging driver?</h2>
 <p>Docker has got two types of logging drivers:</p>
 <ul>
 <li>built-in like:
@@ -402,28 +402,28 @@ text-align: center;
 <p>Logging driver is used to forward logs from containers to specific log aggregators, widely known rsyslog or fluentd for example.</p>
 <p>Default logging driver after installation is <code>json-file</code>.</p>
 <p>It is important to test non default logging drivers before using on production - problems with logging can cause crash/hang or startup problems with containers.</p>
-<h2 id="check-default-logging-driver">Check default logging driver</h2>
+<h4 id="check-default-logging-driver">Check default logging driver</h4>
 <p>This is driver that docker daemon will use for itself and containers that won&rsquo;t have set explicit another driver at start</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker info --format <span style="color:#e6db74">&#39;{{.LoggingDriver}}&#39;</span>
 json-file
-</code></pre></div><h1 id="check-logging-driver-for-running-container">Check logging driver for running container</h1>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 docker<span style="color:#f92672">]</span><span style="color:#75715e"># docker container ls</span>
+</code></pre></div><h2 id="check-logging-driver-for-running-container">Check logging driver for running container</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 docker<span style="color:#f92672">]</span><span style="color:#75715e">## docker container ls</span>
 CONTAINER ID        IMAGE               COMMAND              CREATED              STATUS              PORTS               NAMES
 7e0f1ab24716        httpd               <span style="color:#e6db74">&#34;httpd-foreground&#34;</span>   About a minute ago   Up About a minute   80/tcp              web_server_httpd
 
-<span style="color:#f92672">[</span>lukas@docker-host1 docker<span style="color:#f92672">]</span><span style="color:#75715e"># docker inspect -f &#39;{{.HostConfig.LogConfig.Type}}&#39; web_server_httpd</span>
+<span style="color:#f92672">[</span>lukas@docker-host1 docker<span style="color:#f92672">]</span><span style="color:#75715e">## docker inspect -f &#39;{{.HostConfig.LogConfig.Type}}&#39; web_server_httpd</span>
 json-file
-</code></pre></div><h1 id="log-location---container-with-json-file-driver">Log location - container with <code>json-file</code> driver</h1>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 docker<span style="color:#f92672">]</span><span style="color:#75715e"># docker container inspect web_server_httpd --format &#34;{{.LogPath}}&#34;</span>
+</code></pre></div><h2 id="log-location---container-with-json-file-driver">Log location - container with <code>json-file</code> driver</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 docker<span style="color:#f92672">]</span><span style="color:#75715e">## docker container inspect web_server_httpd --format &#34;{{.LogPath}}&#34;</span>
 /var/lib/docker/containers/7e0f1ab2471674b020f39a03e6c1cc49f8c70378acb5ca94d4323dc2cbeecb68/7e0f1ab2471674b020f39a03e6c1cc49f8c70378acb5ca94d4323dc2cbeecb68-json.log
-</code></pre></div><h2 id="logs-from-docker-cli-command">Logs from docker cli command</h2>
+</code></pre></div><h3 id="logs-from-docker-cli-command">Logs from docker cli command</h3>
 <p>This command will work fine with default &lsquo;json-log&rsquo; driver, can fail with non default ones</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 docker<span style="color:#f92672">]</span><span style="color:#75715e"># docker logs web_server_httpd</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 docker<span style="color:#f92672">]</span><span style="color:#75715e">## docker logs web_server_httpd</span>
 AH00558: httpd: Could not reliably determine the server<span style="color:#e6db74">&#39;s fully qualified domain name, using 172.17.0.3. Set the &#39;</span>ServerName<span style="color:#e6db74">&#39; directive globally to suppress this message
 </span><span style="color:#e6db74">AH00558: httpd: Could not reliably determine the server&#39;</span>s fully qualified domain name, using 172.17.0.3. Set the <span style="color:#e6db74">&#39;ServerName&#39;</span> directive globally to suppress this message
 <span style="color:#f92672">[</span>Tue May <span style="color:#ae81ff">05</span> 13:28:43.383499 2020<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>mpm_event:notice<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>pid 1:tid 140713807934592<span style="color:#f92672">]</span> AH00489: Apache/2.4.43 <span style="color:#f92672">(</span>Unix<span style="color:#f92672">)</span> configured -- resuming normal operations
 <span style="color:#f92672">[</span>Tue May <span style="color:#ae81ff">05</span> 13:28:43.405939 2020<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>core:notice<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>pid 1:tid 140713807934592<span style="color:#f92672">]</span> AH00094: Command line: <span style="color:#e6db74">&#39;httpd -D FOREGROUND&#39;</span>
-</code></pre></div><h1 id="set-default-logging-driver">Set default logging driver</h1>
+</code></pre></div><h2 id="set-default-logging-driver">Set default logging driver</h2>
 <p>We can set default log-driver in <code>/etc/docker/daemon.json</code>.
 Format:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">{</span>
@@ -434,7 +434,7 @@ Format:</p>
   <span style="color:#f92672">}</span>
 <span style="color:#f92672">}</span>
 </code></pre></div><hr>
-<h3 id="log_opts-for-json-file"><code>log_opts</code> for <code>json-file</code></h3>
+<h4 id="log_opts-for-json-file"><code>log_opts</code> for <code>json-file</code></h4>
 <ul>
 <li>max-size - max file size</li>
 <li>max-file - max number of files</li>
@@ -442,8 +442,8 @@ Format:</p>
 <li>env - list of variables that should be in log - if container has them set</li>
 </ul>
 <hr>
-<h1 id="change-logging-driver-to-journald">Change logging driver to <code>journald</code></h1>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># vi /etc/docker/daemon.json</span>
+<h2 id="change-logging-driver-to-journald">Change logging driver to <code>journald</code></h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e">## vi /etc/docker/daemon.json</span>
 <span style="color:#f92672">{</span>
     <span style="color:#e6db74">&#34;log-driver&#34;</span>: <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">journald
 </span><span style="color:#e6db74">}
@@ -454,18 +454,18 @@ Format:</p>
 <li>env	-	list of variables that should be in log - if container has them set</li>
 </ul>
 <p>After configuration change we should restart docker daemon:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># systemctl restart docker</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>root@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e">## systemctl restart docker</span>
 </code></pre></div><p>After starting container we can check his logs with <code>journalctl</code> command</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># docker run -d --name web_server_httpd httpd</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e">## docker run -d --name web_server_httpd httpd</span>
 
-<span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e"># journalctl CONTAINER_NAME=web_server_httpd</span>
+<span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span><span style="color:#75715e">## journalctl CONTAINER_NAME=web_server_httpd</span>
 -- Logs begin at Tue 2020-05-05 16:08:42 CEST, end at Tue 2020-05-05 16:12:28 CEST. --
 May <span style="color:#ae81ff">05</span> 16:12:28 docker-host1.lukas.int 5c331ed1a91b<span style="color:#f92672">[</span>1752<span style="color:#f92672">]</span>: AH00558: httpd: Could not reliably determine the server<span style="color:#e6db74">&#39;s fully qualified domain name, using 172.17.0.2. Set the &gt;
 </span><span style="color:#e6db74">May 05 16:12:28 docker-host1.lukas.int 5c331ed1a91b[1752]: AH00558: httpd: Could not reliably determine the server&#39;</span>s fully qualified domain name, using 172.17.0.2. Set the &gt;
 May <span style="color:#ae81ff">05</span> 16:12:28 docker-host1.lukas.int 5c331ed1a91b<span style="color:#f92672">[</span>1752<span style="color:#f92672">]</span>: <span style="color:#f92672">[</span>Tue May <span style="color:#ae81ff">05</span> 14:12:28.492926 2020<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>mpm_event:notice<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>pid 1:tid 140110908605568<span style="color:#f92672">]</span> AH00489: Apache/2.4.43 <span style="color:#f92672">(</span>Unix<span style="color:#f92672">)</span> co&gt;
 May <span style="color:#ae81ff">05</span> 16:12:28 docker-host1.lukas.int 5c331ed1a91b<span style="color:#f92672">[</span>1752<span style="color:#f92672">]</span>: <span style="color:#f92672">[</span>Tue May <span style="color:#ae81ff">05</span> 14:12:28.517394 2020<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>core:notice<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>pid 1:tid 140110908605568<span style="color:#f92672">]</span> AH00094: Command line: <span style="color:#960050;background-color:#1e0010">&#39;</span>httpd -D FORE&gt;
 </code></pre></div><p>Your non priliged user should be in <code>systemd-journal</code> OS group to use <code>journalctl</code> command</p>
-<h1 id="set-logging-driver-at-container-level">Set logging driver at container level</h1>
+<h2 id="set-logging-driver-at-container-level">Set logging driver at container level</h2>
 <p>We have now as default configured <code>journald</code> - but we can override this when starting container</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>lukas@docker-host1 ~<span style="color:#f92672">]</span>$ docker run -d --name web_server --log-driver json-file httpd
 9427635d3943c2cf7fa48f0fe82f00b06bd5026619151437858ec9d40bc1b7ad

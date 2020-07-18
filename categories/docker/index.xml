@@ -167,7 +167,7 @@ This command will create output file with whole container filesystem - if we man
       <description>Docker has got couple commands that allows us to manage images.
 List images Usage of docker image ls is described in another post: Docker image - list
 Remove images Let&amp;rsquo;s check what images we have locally:
-[lukas@docker-host ~]# docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE postgres latest 9907cacf0c01 8 days ago 314MB alpine latest a187dde48cd2 2 weeks ago 5.6MB ubuntu 18.04 4e5021d210f6 2 weeks ago 64.2MB ubuntu latest 4e5021d210f6 2 weeks ago 64.</description>
+[lukas@docker-host ~]## docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE postgres latest 9907cacf0c01 8 days ago 314MB alpine latest a187dde48cd2 2 weeks ago 5.6MB ubuntu 18.04 4e5021d210f6 2 weeks ago 64.2MB ubuntu latest 4e5021d210f6 2 weeks ago 64.</description>
     </item>
     
     <item>
@@ -180,7 +180,7 @@ Remove images Let&amp;rsquo;s check what images we have locally:
 Basic listing Basic images listing with command: docker image ls.
 Size is cumulative value from all layers needed for image.
 Below images are local images without repository specified.
-[lukas@docker-host ~]# docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE postgres latest 9907cacf0c01 6 days ago 314MB alpine latest a187dde48cd2 2 weeks ago 5.</description>
+[lukas@docker-host ~]## docker image ls REPOSITORY TAG IMAGE ID CREATED SIZE postgres latest 9907cacf0c01 6 days ago 314MB alpine latest a187dde48cd2 2 weeks ago 5.</description>
     </item>
     
     <item>
@@ -190,9 +190,9 @@ Below images are local images without repository specified.
       
       <guid>https://knowledgepill.it/posts/docker-build-from-dockerfile/</guid>
       <description>All docker containers are started from an image.
-What&amp;rsquo;s an image? Image is a collection of read only layers with everything we need to run application. Commonly in image we have base layout of operating system we had choose and some necessary binaries to start our application.
+What&amp;rsquo;s an Docker image? Image is a collection of read only layers with everything we need to run application. Commonly in image we have base layout of operating system we had choose and some necessary binaries to start our application.
 For exaple, for PostgreSQL container image could contain CentOS base filesystem template, PostgreSQL binaries and some configuration files.
-How we build image? We build image by issuing command docker build, but before we use it we need to create a Docker file.</description>
+How we build Docker image?</description>
     </item>
     
   </channel>
