@@ -58,6 +58,16 @@
   </url>
   
   <url>
+    <loc>https://knowledgepill.it/tags/postgresql-initdb/</loc>
+    <lastmod>2020-06-28T21:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://knowledgepill.it/tags/postgresql-installation/</loc>
+    <lastmod>2020-06-28T21:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://knowledgepill.it/posts/postgresql-installation/</loc>
     <lastmod>2020-06-28T21:00:00+01:00</lastmod>
   </url>
@@ -118,6 +128,11 @@
   </url>
   
   <url>
+    <loc>https://knowledgepill.it/tags/docker-install/</loc>
+    <lastmod>2020-05-04T10:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://knowledgepill.it/posts/docker-install-upgrade/</loc>
     <lastmod>2020-05-04T10:00:00+01:00</lastmod>
   </url>
@@ -165,11 +180,6 @@
   <url>
     <loc>https://knowledgepill.it/tags/storage-driver/</loc>
     <lastmod>2020-04-17T14:00:00+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://knowledgepill.it/tags/aufs/</loc>
-    <lastmod>2020-04-17T10:00:00+01:00</lastmod>
   </url>
   
   <url>
@@ -244,6 +254,11 @@
   
   <url>
     <loc>https://knowledgepill.it/posts/docker-image-listing/</loc>
+    <lastmod>2020-04-06T19:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://knowledgepill.it/tags/docker-image-ls/</loc>
     <lastmod>2020-04-06T19:00:00+01:00</lastmod>
   </url>
   

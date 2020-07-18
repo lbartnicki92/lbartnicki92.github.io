@@ -29,6 +29,24 @@
     </item>
     
     <item>
+      <title>postgresql initdb</title>
+      <link>https://knowledgepill.it/tags/postgresql-initdb/</link>
+      <pubDate>Sun, 28 Jun 2020 21:00:00 +0100</pubDate>
+      
+      <guid>https://knowledgepill.it/tags/postgresql-initdb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>postgresql installation</title>
+      <link>https://knowledgepill.it/tags/postgresql-installation/</link>
+      <pubDate>Sun, 28 Jun 2020 21:00:00 +0100</pubDate>
+      
+      <guid>https://knowledgepill.it/tags/postgresql-installation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>docker enterprise</title>
       <link>https://knowledgepill.it/tags/docker-enterprise/</link>
       <pubDate>Thu, 14 May 2020 10:00:00 +0100</pubDate>
@@ -83,6 +101,15 @@
     </item>
     
     <item>
+      <title>docker install</title>
+      <link>https://knowledgepill.it/tags/docker-install/</link>
+      <pubDate>Mon, 04 May 2020 10:00:00 +0100</pubDate>
+      
+      <guid>https://knowledgepill.it/tags/docker-install/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>docker swarm</title>
       <link>https://knowledgepill.it/tags/docker-swarm/</link>
       <pubDate>Tue, 28 Apr 2020 10:00:00 +0100</pubDate>
@@ -133,15 +160,6 @@
       <pubDate>Fri, 17 Apr 2020 14:00:00 +0100</pubDate>
       
       <guid>https://knowledgepill.it/tags/storage-driver/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>aufs</title>
-      <link>https://knowledgepill.it/tags/aufs/</link>
-      <pubDate>Fri, 17 Apr 2020 10:00:00 +0100</pubDate>
-      
-      <guid>https://knowledgepill.it/tags/aufs/</guid>
       <description></description>
     </item>
     
@@ -223,6 +241,15 @@
       <pubDate>Wed, 08 Apr 2020 12:00:00 +0100</pubDate>
       
       <guid>https://knowledgepill.it/tags/docker-image/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker image ls</title>
+      <link>https://knowledgepill.it/tags/docker-image-ls/</link>
+      <pubDate>Mon, 06 Apr 2020 19:00:00 +0100</pubDate>
+      
+      <guid>https://knowledgepill.it/tags/docker-image-ls/</guid>
       <description></description>
     </item>
     

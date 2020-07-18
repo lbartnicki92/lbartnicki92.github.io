@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>docker install on IT Knowledge Pill</title>
+    <link>https://knowledgepill.it/tags/docker-install/</link>
+    <description>Recent content in docker install on IT Knowledge Pill</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 04 May 2020 10:00:00 +0100</lastBuildDate>
+    
+	<atom:link href="https://knowledgepill.it/tags/docker-install/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Docker install and upgrade guide - CentOS and Ubuntu</title>
+      <link>https://knowledgepill.it/posts/docker-install-upgrade/</link>
+      <pubDate>Mon, 04 May 2020 10:00:00 +0100</pubDate>
+      
+      <guid>https://knowledgepill.it/posts/docker-install-upgrade/</guid>
+      <description>Install and upgrade of Docker Engine is simple and straightforward process.
+In this post I will cover all important information in one place.
+Docker install requirements Minimum requirements
+ 8GB RAM per manager node 4GB RAM per worker node 3GB of free disk space  Recommended production requirements
+ 16GB RAM per manager node 4 vCPUs per manager node 25-100GB of free disk space on each node  Also you must have one of the following OS:</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>postgresql initdb on IT Knowledge Pill</title>
+    <link>https://knowledgepill.it/tags/postgresql-initdb/</link>
+    <description>Recent content in postgresql initdb on IT Knowledge Pill</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 28 Jun 2020 21:00:00 +0100</lastBuildDate>
+    
+	<atom:link href="https://knowledgepill.it/tags/postgresql-initdb/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>PostgreSQL installation on Linux - with database creation</title>
+      <link>https://knowledgepill.it/posts/postgresql-installation/</link>
+      <pubDate>Sun, 28 Jun 2020 21:00:00 +0100</pubDate>
+      
+      <guid>https://knowledgepill.it/posts/postgresql-installation/</guid>
+      <description>PostgreSQL is open source software so we can install it wthout any limitation, including our personal code changes. It is distributed under own The PostgreSQL License(TPL).
+Installation of PostgreSQL is easy on Linux Distributions.
+For purpose of tutorial we use CentOS 8.
+We shuold get newest PostgreSQL from official repo - version in OS repos are mostly old - like for now when we get with CentOS 8 PostgreSQL 9.6 :)</description>
+    </item>
+    
+  </channel>
+</rss>
