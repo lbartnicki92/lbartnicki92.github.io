@@ -1,298 +1,298 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-
+  
   <url>
     <loc>https://knowledgepill.it/authors/</loc>
-    <lastmod>2020-07-17T00:00:00+01:00</lastmod>
+    <lastmod>2020-07-03T00:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/categories/</loc>
-    <lastmod>2020-07-17T00:00:00+01:00</lastmod>
+    <lastmod>2020-07-03T00:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/</loc>
     <lastmod>2020-07-03T00:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/authors/lbartnicki/</loc>
     <lastmod>2020-07-03T00:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/categories/postgresql/</loc>
     <lastmod>2020-07-03T00:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/posts/postgresql-database-info/</loc>
-    <lastmod>2020-07-17T00:00:00+01:00</lastmod>
+    <lastmod>2020-07-03T00:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/posts/</loc>
-    <lastmod>2020-07-17T00:00:00+01:00</lastmod>
+    <lastmod>2020-07-03T00:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/pg_hba/</loc>
     <lastmod>2020-06-30T20:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/posts/postgresql-basics-guide/</loc>
-    <lastmod>2020-07-17T20:00:00+01:00</lastmod>
+    <lastmod>2020-06-30T20:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/psql/</loc>
     <lastmod>2020-06-30T20:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/</loc>
     <lastmod>2020-06-30T20:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/posts/postgresql-installation/</loc>
-    <lastmod>2020-07-17T21:00:00+01:00</lastmod>
+    <lastmod>2020-06-28T21:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/categories/docker/</loc>
     <lastmod>2020-05-14T10:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/docker-enterprise/</loc>
-    <lastmod>2020-07-17T10:00:00+01:00</lastmod>
+    <lastmod>2020-05-14T10:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/posts/docker-enterprise-ucp-security/</loc>
-    <lastmod>2020-07-17T10:00:00+01:00</lastmod>
+    <lastmod>2020-05-14T10:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/docker-network/</loc>
-    <lastmod>2020-07-17T10:00:00+01:00</lastmod>
+    <lastmod>2020-05-07T10:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/posts/docker-network/</loc>
-    <lastmod>2020-07-17T10:00:00+01:00</lastmod>
+    <lastmod>2020-05-07T10:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/posts/docker-tls-secure-client-daemon/</loc>
-    <lastmod>2020-07-17T10:00:00+01:00</lastmod>
+    <lastmod>2020-05-06T10:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/security/</loc>
     <lastmod>2020-05-06T10:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/tls/</loc>
     <lastmod>2020-05-06T10:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/posts/docker-logging-driver/</loc>
-    <lastmod>2020-07-17T10:00:00+01:00</lastmod>
+    <lastmod>2020-05-05T10:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/docker-logs/</loc>
     <lastmod>2020-05-05T10:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/log-driver/</loc>
     <lastmod>2020-05-05T10:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/posts/docker-install-upgrade/</loc>
-    <lastmod>2020-07-17T10:00:00+01:00</lastmod>
+    <lastmod>2020-05-04T10:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/docker-swarm/</loc>
     <lastmod>2020-04-28T10:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/posts/docker-swarm-compendium/</loc>
-    <lastmod>2020-07-17T10:00:00+01:00</lastmod>
+    <lastmod>2020-04-28T10:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/docker-bind-mount/</loc>
     <lastmod>2020-04-22T10:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/docker-volume/</loc>
     <lastmod>2020-04-22T10:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/posts/docker-volume-bind-mounts/</loc>
-    <lastmod>2020-07-17T10:00:00+01:00</lastmod>
+    <lastmod>2020-04-22T10:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/devicemapper/</loc>
     <lastmod>2020-04-17T14:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/posts/docker-configure-devicemapper/</loc>
-    <lastmod>2020-07-17T14:00:00+01:00</lastmod>
+    <lastmod>2020-04-17T14:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/graph-driver/</loc>
     <lastmod>2020-04-17T14:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/lvm/</loc>
     <lastmod>2020-04-17T14:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/aufs/</loc>
     <lastmod>2020-04-17T10:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/posts/docker-storage-drivers/</loc>
-    <lastmod>2020-07-17T10:00:00+01:00</lastmod>
+    <lastmod>2020-04-17T10:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/overlay2/</loc>
     <lastmod>2020-04-17T10:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/docker-registry/</loc>
-    <lastmod>2020-04-17T10:00:00+01:00</lastmod>
+    <lastmod>2020-04-15T10:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/posts/docker-registry-api-operations/</loc>
-    <lastmod>2020-07-17T10:00:00+01:00</lastmod>
+    <lastmod>2020-04-15T10:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/docker-login/</loc>
     <lastmod>2020-04-14T10:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/posts/docker-private-registry-setup/</loc>
-    <lastmod>2020-07-17T10:00:00+01:00</lastmod>
+    <lastmod>2020-04-14T10:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/posts/docker-save-load-export-import/</loc>
-    <lastmod>2020-07-17T12:00:00+01:00</lastmod>
+    <lastmod>2020-04-10T12:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/docker-export/</loc>
     <lastmod>2020-04-10T12:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/docker-import/</loc>
     <lastmod>2020-04-10T12:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/docker-load/</loc>
     <lastmod>2020-04-10T12:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/docker-save/</loc>
     <lastmod>2020-04-10T12:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/docker-image/</loc>
     <lastmod>2020-04-08T12:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/posts/docker-image-commands/</loc>
-    <lastmod>2020-07-17T12:00:00+01:00</lastmod>
+    <lastmod>2020-04-08T12:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/posts/docker-image-listing/</loc>
-    <lastmod>2020-07-17T19:00:00+01:00</lastmod>
+    <lastmod>2020-04-06T19:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/kubeconfig/</loc>
     <lastmod>2020-03-12T21:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/kubectl/</loc>
     <lastmod>2020-03-12T21:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/posts/kubernetes-kubectl-client-config/</loc>
-    <lastmod>2020-07-17T21:00:00+01:00</lastmod>
+    <lastmod>2020-03-12T21:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/categories/kubernetes/</loc>
     <lastmod>2020-03-12T21:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/docker-build/</loc>
     <lastmod>2020-02-28T17:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/posts/docker-build-from-dockerfile/</loc>
-    <lastmod>2020-07-17T17:00:00+01:00</lastmod>
+    <lastmod>2020-02-28T17:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/dockerfile/</loc>
     <lastmod>2020-02-28T17:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/tags/postgresql/</loc>
     <lastmod>2020-02-28T17:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/about/</loc>
     <lastmod>2020-02-20T17:00:00+01:00</lastmod>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/search/</loc>
   </url>
-
+  
   <url>
     <loc>https://knowledgepill.it/series/</loc>
   </url>
-
+  
 </urlset>
