@@ -385,7 +385,7 @@ text-align: center;
   
 
   <div class='container entry-content'>
-  <p>Kubectl client gives us possibility to configure and switch easy between multiple K8s clusters.</p>
+  <p>Kubectl client gives us possibility to configure and switch easily between multiple K8s clusters.</p>
 <h2 id="config-files-location-for-kubectl">Config files location for kubectl</h2>
 <p>Main location for <code>kubectl</code> config files is <code>$HOME/.kube</code>, by default we have single config file named config:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>node1 ~<span style="color:#f92672">]</span>$ cd $HOME/.kube
@@ -433,7 +433,7 @@ For example:</p>
     <span style="color:#66d9ef">client-key-data</span>: REDACTED
 </code></pre></div><p>If you don&rsquo;t set <code>KUBECONFIG</code> variable all configuration will be taken from <code>$HOME/.kube/config</code></p>
 <h2 id="objects-in-kubectl-config">Objects in kubectl config</h2>
-<p><code>kubectl</code> has in his config files following object types:</p>
+<p><code>kubectl</code> has in its config files following object types:</p>
 <ul>
 <li>clusters - info about K8s cluster - contain cluster name and connection parameters</li>
 <li>users - info about users by which you want connect to K8s clusters</li>
@@ -494,7 +494,7 @@ kubectl --kubeconfig<span style="color:#f92672">=</span>.kube/additional_config 
   <span style="color:#66d9ef">user</span>:
     <span style="color:#66d9ef">client-certificate</span>: /root/fake-cert-file
     <span style="color:#66d9ef">client-key</span>: /root/fake-key-seefile
-</code></pre></div><h3 id="changing-context-we-working-with">Changing context we working with</h3>
+</code></pre></div><h3 id="changing-context-to-work-with">Changing context to work with</h3>
 <p>To get list of contexts(no need for <code>--kubeconfig</code> because we have our <code>additional_config</code> added to <code>KUBECONFIG</code> variable):</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>node1 ~<span style="color:#f92672">]</span>$ kubectl config get-contexts
 CURRENT   NAME                     CLUSTER   AUTHINFO     NAMESPACE
@@ -507,7 +507,7 @@ Switched to context <span style="color:#e6db74">&#34;simple_app_development&#34;
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>node1 ~<span style="color:#f92672">]</span>$ kubectl config current-context
 simple_app_development
 </code></pre></div><hr>
-<h3 id="for-those-that-want-to-know-even-more-worth-to-read">For those that want to know even more&hellip; Worth to read!</h3>
+<h3 id="for-those-who-want-to-know-even-more-worth-to-read">For those who want to know even more&hellip; Worth to read!</h3>
 <p><a href="https://gardener.cloud/documentation/guides/client_tools/bash_kubeconfig/">Kubeconfig context as bash prompt - Georgi from Gardener</a> - shell tricks and Windows CLI aproach</p>
 <hr>
 

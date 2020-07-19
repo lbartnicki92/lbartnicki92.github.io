@@ -222,7 +222,7 @@ Below images are local images without repository specified.
       <pubDate>Thu, 12 Mar 2020 21:00:00 +0100</pubDate>
       
       <guid>https://knowledgepill.it/posts/kubernetes-kubectl-client-config/</guid>
-      <description>Kubectl client gives us possibility to configure and switch easy between multiple K8s clusters.
+      <description>Kubectl client gives us possibility to configure and switch easily between multiple K8s clusters.
 Config files location for kubectl Main location for kubectl config files is $HOME/.kube, by default we have single config file named config:
 [node1 ~]$ cd $HOME/.kube [node1 .kube]$ ls -lah total 4.0K drwxr-xr-x 1 root root 37 Mar 12 20:48 . dr-xr-x--- 1 root root 19 Nov 29 11:46 .. drwxr-x--- 3 root root 23 Mar 12 20:48 cache lrwxrwxrwx 1 root root 26 Nov 29 11:46 config -&amp;gt; /etc/kubernetes/admin.</description>
     </item>
