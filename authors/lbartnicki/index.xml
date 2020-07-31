@@ -17,7 +17,7 @@
       
       <guid>https://knowledgepill.it/posts/postgresql-database-info/</guid>
       <description>Check server version postgres=## select version(); version -------------------------------------------------------------------------------------------------------- PostgreSQL 12.3 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 8.3.1 20191121 (Red Hat 8.3.1-5), 64-bit (1 row) Check client version [postgres@postgres-lab ~]$ psql --version psql (PostgreSQL) 12.3 Check database version from PGDATA [postgres@postgres-lab ~]$ cat $PGDATA/PG_VERSION 12 PostgreSQL support table PostgreSQL Versioning Policy
-Check when database was started postgres=## select pg_postmaster_start_time(); pg_postmaster_start_time ------------------------------- 2020-07-02 09:05:37.153927+00 (1 row) </description>
+Check when database was started postgres=## select pg_postmaster_start_time(); pg_postmaster_start_time ------------------------------- 2020-07-02 09:05:37.153927+00 (1 row) Check location of PDGATA - data files From instance:</description>
     </item>
     
     <item>

@@ -75,7 +75,7 @@ if (!doNotTrack) {
     "datePublished": "2020-07-03 00:00:00",
     "dateModified" : "2020-07-03 00:00:00",
     "url" : "https:\/\/knowledgepill.it\/posts\/postgresql-database-info\/",
-    "wordCount" : "64",
+    "wordCount" : "272",
     "keywords" : [ "Blog" ]
 }
 </script>
@@ -317,7 +317,7 @@ if (!doNotTrack) {
   <polyline points="12 6 12 12 15 15"/>
   
 </svg>
-One min read
+2 mins read
 </span>
 
 
@@ -405,6 +405,28 @@ psql <span style="color:#f92672">(</span>PostgreSQL<span style="color:#f92672">)
 -------------------------------
  2020-07-02 09:05:37.153927+00
 <span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> row<span style="color:#f92672">)</span>
+</code></pre></div><h2 id="check-location-of-pdgata---data-files">Check location of PDGATA - data files</h2>
+<p>From instance:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">postgres<span style="color:#f92672">=</span><span style="color:#75715e"># show data_directory;</span>
+  data_directory  
+------------------
+ /postgresql/data
+<span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> row<span style="color:#f92672">)</span>
+</code></pre></div><p>From OS - look at postmaster which is main PostgreSQL server process after <code>-D</code> parameter we have <code>PGDATA</code> location:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>postgres@postgres-lab ~<span style="color:#f92672">]</span>$ ps aux | grep postgre
+root     <span style="color:#ae81ff">15916</span>  0.0  1.2 <span style="color:#ae81ff">136144</span>  <span style="color:#ae81ff">7380</span> pts/0    S    19:47   0:00 sudo su - postgres
+root     <span style="color:#ae81ff">15918</span>  0.0  1.0 <span style="color:#ae81ff">124148</span>  <span style="color:#ae81ff">6036</span> pts/0    S    19:47   0:00 su - postgres
+postgres <span style="color:#ae81ff">15919</span>  0.0  0.6  <span style="color:#ae81ff">23256</span>  <span style="color:#ae81ff">3856</span> pts/0    S    19:47   0:00 -bash
+postgres <span style="color:#ae81ff">16007</span>  0.0  0.6  <span style="color:#ae81ff">57184</span>  <span style="color:#ae81ff">3896</span> pts/0    R+   19:49   0:00 ps aux
+postgres <span style="color:#ae81ff">16008</span>  0.0  0.1  <span style="color:#ae81ff">12108</span>   <span style="color:#ae81ff">976</span> pts/0    R+   19:49   0:00 grep --color<span style="color:#f92672">=</span>auto postgre
+postgres <span style="color:#ae81ff">30161</span>  0.0  2.5 <span style="color:#ae81ff">286388</span> <span style="color:#ae81ff">14800</span> ?        Ss   Jul02   0:17 /usr/pgsql-12/bin/postmaster -D /postgresql/data
+postgres <span style="color:#ae81ff">30163</span>  0.0  0.2 <span style="color:#ae81ff">138648</span>  <span style="color:#ae81ff">1368</span> ?        Ss   Jul02   0:00 postgres: logger   
+postgres <span style="color:#ae81ff">30165</span>  0.0  0.5 <span style="color:#ae81ff">286504</span>  <span style="color:#ae81ff">3336</span> ?        Ss   Jul02   0:00 postgres: checkpointer   
+postgres <span style="color:#ae81ff">30166</span>  0.0  0.5 <span style="color:#ae81ff">286508</span>  <span style="color:#ae81ff">3332</span> ?        Ss   Jul02   0:27 postgres: background writer   
+postgres <span style="color:#ae81ff">30167</span>  0.0  0.9 <span style="color:#ae81ff">286388</span>  <span style="color:#ae81ff">5804</span> ?        Ss   Jul02   0:27 postgres: walwriter   
+postgres <span style="color:#ae81ff">30168</span>  0.0  0.4 <span style="color:#ae81ff">287036</span>  <span style="color:#ae81ff">2656</span> ?        Ss   Jul02   0:13 postgres: autovacuum launcher   
+postgres <span style="color:#ae81ff">30169</span>  0.0  0.4 <span style="color:#ae81ff">140884</span>  <span style="color:#ae81ff">2836</span> ?        Ss   Jul02   0:20 postgres: stats collector   
+postgres <span style="color:#ae81ff">30170</span>  0.0  0.3 <span style="color:#ae81ff">286928</span>  <span style="color:#ae81ff">2228</span> ?        Ss   Jul02   0:03 postgres: logical replication launcher   
 </code></pre></div>
 </div>
 
